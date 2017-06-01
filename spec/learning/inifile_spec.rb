@@ -14,6 +14,9 @@ is matt cool = false
 [yes]
 matt = heck of cool
 ;is matt cool = false
+
+[alternative-booleans]
+lightbulb = on
 "
 
 RSpec::describe IniFile, " # learning" do
@@ -37,5 +40,9 @@ RSpec::describe IniFile, " # learning" do
   it "has a [yes] section which lacks the boolean" do
     expect(@ini['yes']['matt']).to eq('heck of cool')
     expect(@ini['yes']).not_to include('is matt cool')
+  end
+
+  it "doesn't recognize 'on' as true" do
+    expect(@ini['alternative-booleans']['lightbulb']).to eq("on")
   end
 end
