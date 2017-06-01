@@ -1,6 +1,7 @@
 .PHONY: spec test
 
-spec: test
+spec:
+	bundle exec rspec -f documentation spec
 
 test:
-	@echo no testing framework yet
+	bundle exec rspec spec
