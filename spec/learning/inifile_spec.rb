@@ -32,4 +32,9 @@ RSpec::describe IniFile do
     expect(@ini['wrong']['matt']).to eq('not cool')
     expect(@ini['wrong']['is matt cool']).to eq(false)
   end
+
+  it "has a [yes] section which lacks the boolean" do
+    expect(@ini['yes']['matt']).to eq('heck of cool')
+    expect(@ini['yes']).not_to include('is matt cool')
+  end
 end
