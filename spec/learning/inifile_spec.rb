@@ -15,7 +15,7 @@ is matt cool = false
 matt = heck of cool
 "
 
-RSpec::describe IniFile do
+RSpec::describe IniFile, " # learning" do
   before :each do
     @ini = IniFile.new(:content => ExampleConfig)
   end
