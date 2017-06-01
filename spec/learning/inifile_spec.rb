@@ -13,6 +13,7 @@ is matt cool = false
 
 [yes]
 matt = heck of cool
+;is matt cool = false
 "
 
 RSpec::describe IniFile, " # learning" do
