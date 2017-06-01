@@ -17,6 +17,7 @@ matt = heck of cool
 
 [alternative-booleans]
 lightbulb = on
+danger = off
 "
 
 RSpec::describe IniFile, " # learning" do
@@ -44,5 +45,9 @@ RSpec::describe IniFile, " # learning" do
 
   it "doesn't recognize 'on' as true" do
     expect(@ini['alternative-booleans']['lightbulb']).to eq("on")
+  end
+
+  it "doesn't recognize 'off' as false" do
+    expect(@ini['alternative-booleans']['danger']).to eq("off")
   end
 end
