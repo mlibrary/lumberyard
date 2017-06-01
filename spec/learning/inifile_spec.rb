@@ -3,7 +3,7 @@
 # BSD License. See LICENSE.txt for details.
 require 'inifile'
 
-ExampleConfig = "[global]
+ExampleConfig = "\
 matt = pretty cool
 is matt cool = true
 
