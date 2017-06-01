@@ -27,4 +27,9 @@ RSpec::describe IniFile do
   it "converts 'true' to a boolean" do
     expect(@ini['global']['is matt cool']).to eq(true)
   end
+
+  it "overrides its globals with [wrong]" do
+    expect(@ini['wrong']['matt']).to eq('not cool')
+    expect(@ini['wrong']['is matt cool']).to eq(false)
+  end
 end
