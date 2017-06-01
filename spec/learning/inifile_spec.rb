@@ -23,4 +23,8 @@ RSpec::describe IniFile do
   it "globally knows that matt is pretty cool" do
     expect(@ini['global']['matt']).to eq('pretty cool')
   end
+
+  it "converts 'true' to a boolean" do
+    expect(@ini['global']['is matt cool']).to eq(true)
+  end
 end
