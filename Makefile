@@ -1,7 +1,7 @@
 .PHONY: spec test
 
 spec:
-	bundle exec rspec -f documentation spec
+	jasmine-node --verbose .
 
 test:
-	bundle exec rspec spec
+	jasmine-node .
