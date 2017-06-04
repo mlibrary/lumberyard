@@ -4,4 +4,4 @@ spec:
 	jasmine-node --verbose .
 
 test:
-	jasmine-node .
+	npm test

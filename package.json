@@ -1,0 +1,19 @@
+{
+  "name": "awful-mess",
+  "version": "1.0.0",
+  "description": "sorry",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine-node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daaang/awful-mess.git"
+  },
+  "author": "Matthew Alexander LaChance",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/daaang/awful-mess/issues"
+  },
+  "homepage": "https://github.com/daaang/awful-mess#readme"
+}
