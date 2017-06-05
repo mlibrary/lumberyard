@@ -33,6 +33,11 @@ describe("a log_tree object", function() {
       expect(tree.length).toBe(0);
     });
 
+    it("accepts alternative is_complete values", function() {
+      tree.is_complete = true;
+      expect(tree.is_complete).toBe(true);
+    });
+
     describe("when its name is set to 'matt'", function() {
       beforeEach(function() {
         tree.name = "matt";
