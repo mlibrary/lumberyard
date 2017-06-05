@@ -32,8 +32,11 @@ describe("a log_tree object", function() {
   });
 
   describe("when created with a name", function() {
-    it("remembers its name", function() {
+    beforeEach(function() {
       tree = log_tree("name");
+    });
+
+    it("remembers its name", function() {
       expect(tree.name).toBe("name");
     });
   });
