@@ -35,7 +35,7 @@ describe("a log_tree object", function() {
     });
   });
 
-  describe("when created with a name", function() {
+  describe("when created with 'name'", function() {
     beforeEach(function() {
       tree = log_tree("name");
     });
@@ -51,6 +51,10 @@ describe("a log_tree object", function() {
     it("remembers a name change", function() {
       tree.name = "beremy";
       expect(tree.name).toBe("beremy");
+    });
+
+    it("exports to {name:'name',children:[]}", function() {
+      expect(tree.export()).toEqual({name: "name", children: []});
     });
   });
 });
