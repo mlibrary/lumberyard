@@ -24,6 +24,11 @@ describe("a log_tree object", function() {
       tree.name = "matt";
       expect(tree.name).toBe("matt");
     });
+
+    it("doesn't remember a length change", function() {
+      tree.length = 1;
+      expect(tree.length).toBe(0);
+    });
   });
 
   it("can be created with a name", function() {
