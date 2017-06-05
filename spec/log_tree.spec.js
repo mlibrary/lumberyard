@@ -8,4 +8,8 @@ describe("a log_tree object", function() {
   it("can be created from nothing", function() {
     var tree = log_tree();
   });
+
+  it("can be created with a name", function() {
+    var tree = log_tree("name");
+  });
 });
