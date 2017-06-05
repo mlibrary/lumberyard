@@ -29,6 +29,10 @@ describe("a log_tree object", function() {
       tree.length = 1;
       expect(tree.length).toBe(0);
     });
+
+    it("exports to {name:'',children:[]}", function() {
+      expect(tree.export()).toEqual({name: "", children: []});
+    });
   });
 
   describe("when created with a name", function() {
