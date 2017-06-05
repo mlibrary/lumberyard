@@ -30,8 +30,11 @@ describe("a log_tree object", function() {
     });
 
     describe("when its name is set to 'matt'", function() {
-      it("has a name of 'matt'", function() {
+      beforeEach(function() {
         tree.name = "matt";
+      });
+
+      it("has a name of 'matt'", function() {
         expect(tree.name).toBe("matt");
       });
     });
