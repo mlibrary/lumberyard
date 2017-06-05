@@ -39,5 +39,9 @@ describe("a log_tree object", function() {
     it("remembers its name", function() {
       expect(tree.name).toBe("name");
     });
+
+    it("has a length of 0", function() {
+      expect(tree.length).toBe(0);
+    });
   });
 });
