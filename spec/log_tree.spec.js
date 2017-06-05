@@ -16,6 +16,10 @@ describe("a log_tree object", function() {
       expect(tree.length).toBe(0);
     });
 
+    it("is not complete", function() {
+      expect(tree.is_complete).toBe(false);
+    });
+
     it("has a name of ''", function() {
       expect(tree.name).toBe("");
     });
