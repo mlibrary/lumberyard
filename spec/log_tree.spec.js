@@ -20,11 +20,8 @@ describe("a log_tree object", function() {
       expect(tree.name).toBe("");
     });
 
-    describe("when its name is set to 'matt'", function() {
-      it("has a name of 'matt'", function() {
-        tree.name = "matt";
-        expect(tree.name).toBe("matt");
-      });
+    it("exports to {name:'',children:[]}", function() {
+      expect(tree.export()).toEqual({name: "", children: []});
     });
 
     it("doesn't remember a length change", function() {
@@ -32,8 +29,11 @@ describe("a log_tree object", function() {
       expect(tree.length).toBe(0);
     });
 
-    it("exports to {name:'',children:[]}", function() {
-      expect(tree.export()).toEqual({name: "", children: []});
+    describe("when its name is set to 'matt'", function() {
+      it("has a name of 'matt'", function() {
+        tree.name = "matt";
+        expect(tree.name).toBe("matt");
+      });
     });
   });
 
@@ -50,13 +50,13 @@ describe("a log_tree object", function() {
       expect(tree.length).toBe(0);
     });
 
+    it("exports to {name:'name',children:[]}", function() {
+      expect(tree.export()).toEqual({name: "name", children: []});
+    });
+
     it("remembers a name change", function() {
       tree.name = "beremy";
       expect(tree.name).toBe("beremy");
-    });
-
-    it("exports to {name:'name',children:[]}", function() {
-      expect(tree.export()).toEqual({name: "name", children: []});
     });
   });
 });
