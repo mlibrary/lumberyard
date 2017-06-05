@@ -37,6 +37,10 @@ describe("a log_tree object", function() {
       it("has a name of 'matt'", function() {
         expect(tree.name).toBe("matt");
       });
+
+      it("exports to {name:'matt',children:[]}", function() {
+        expect(tree.export()).toEqual({name: "matt", children: []});
+      });
     });
   });
 
