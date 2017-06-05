@@ -8,8 +8,11 @@ describe("a log_tree object", function() {
   var tree;
 
   describe("when created from nothing", function() {
-    it("has a length of 0", function() {
+    beforeEach(function() {
       tree = log_tree();
+    });
+
+    it("has a length of 0", function() {
       expect(tree.length()).toBe(0);
     });
   });
