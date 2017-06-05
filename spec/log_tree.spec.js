@@ -23,6 +23,11 @@ describe("a log_tree object", function() {
     it("allows a name change", function() {
       tree.name = "matt";
     });
+
+    it("remembers a name change", function() {
+      tree.name = "matt";
+      expect(tree.name).toBe("matt");
+    });
   });
 
   it("can be created with a name", function() {
