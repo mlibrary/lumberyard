@@ -13,7 +13,7 @@ describe("a log_tree object", function() {
     });
 
     it("has a length of 0", function() {
-      expect(tree.length()).toBe(0);
+      expect(tree.length).toBe(0);
     });
   });
 
