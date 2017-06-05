@@ -20,9 +20,11 @@ describe("a log_tree object", function() {
       expect(tree.name).toBe("");
     });
 
-    it("remembers a name change", function() {
-      tree.name = "matt";
-      expect(tree.name).toBe("matt");
+    describe("when its name is set to 'matt'", function() {
+      it("has a name of 'matt'", function() {
+        tree.name = "matt";
+        expect(tree.name).toBe("matt");
+      });
     });
 
     it("doesn't remember a length change", function() {
