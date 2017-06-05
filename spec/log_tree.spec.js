@@ -31,8 +31,10 @@ describe("a log_tree object", function() {
     });
   });
 
-  it("can be created with a name", function() {
-    tree = log_tree("name");
-    expect(tree.name).toBe("name");
+  describe("when created with a name", function() {
+    it("remembers its name", function() {
+      tree = log_tree("name");
+      expect(tree.name).toBe("name");
+    });
   });
 });
