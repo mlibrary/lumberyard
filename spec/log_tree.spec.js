@@ -33,5 +33,6 @@ describe("a log_tree object", function() {
 
   it("can be created with a name", function() {
     tree = log_tree("name");
+    expect(tree.name).toBe("name");
   });
 });
