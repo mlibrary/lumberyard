@@ -71,4 +71,14 @@ describe("a log_tree with two children and a grandchild", function() {
   it("has a numerator of 0", function() {
     expect(tree.num()).toBe(0);
   });
+
+  describe("when told that [0] is complete", function() {
+    beforeEach(function() {
+      tree.complete('[1496756029, true, 0, "it finished"]');
+    });
+
+    it("has a numerator of 1", function() {
+      expect(tree.num()).toBe(1);
+    });
+  });
 });
