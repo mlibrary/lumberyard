@@ -31,6 +31,8 @@ describe("a log_tree with no description and no children", function() {
       tree.complete('[1496756029, true, "it finished"]');
     });
 
-    it("throws no error", function() {});
+    it("has a numerator of 1", function() {
+      expect(tree.num()).toBe(1);
+    });
   });
 });
