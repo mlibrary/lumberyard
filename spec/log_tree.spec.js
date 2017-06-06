@@ -63,4 +63,8 @@ describe("a log_tree with two children and a grandchild", function() {
   it("expands into a two-item array", function() {
     expect([...tree].length).toBe(2);
   });
+
+  it("can reach its grandchild", function() {
+    expect([...[...tree][1]].length).toBe(1);
+  });
 });
