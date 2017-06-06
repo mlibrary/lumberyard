@@ -21,4 +21,8 @@ describe("a log_tree with no description and no children", function() {
   it("has a numerator of 0", function() {
     expect(tree.num()).toBe(0);
   });
+
+  it("expands into an empty array", function() {
+    expect([...tree]).toEqual([]);
+  });
 });
