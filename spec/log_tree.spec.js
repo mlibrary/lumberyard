@@ -42,7 +42,7 @@ describe("a log_tree with two children", function() {
     tree = log_tree({c:[{}, {}]});
   });
 
-  xit("has a denominator of 3", function() {
+  it("has a denominator of 3", function() {
     expect(tree.den()).toBe(3);
   });
 });
