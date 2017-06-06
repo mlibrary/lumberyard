@@ -17,4 +17,8 @@ describe("a log_tree with no description and no children", function() {
   it("has a denominator of 1", function() {
     expect(tree.den()).toBe(1);
   });
+
+  it("has a numerator of 0", function() {
+    expect(tree.num()).toBe(0);
+  });
 });
