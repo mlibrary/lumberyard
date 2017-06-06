@@ -25,4 +25,12 @@ describe("a log_tree with no description and no children", function() {
   it("expands into an empty array", function() {
     expect([...tree]).toEqual([]);
   });
+
+  describe("when told that [] is complete", function() {
+    beforeEach(function() {
+      tree.complete('[1496756029, true, "it finished"]');
+    });
+
+    it("throws no error", function() {});
+  });
 });
