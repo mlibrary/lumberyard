@@ -67,4 +67,8 @@ describe("a log_tree with two children and a grandchild", function() {
   it("can reach its grandchild", function() {
     expect([...[...tree][1]].length).toBe(1);
   });
+
+  it("has a numerator of 0", function() {
+    expect(tree.num()).toBe(0);
+  });
 });
