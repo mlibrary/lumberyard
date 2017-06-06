@@ -59,4 +59,8 @@ describe("a log_tree with two children and a grandchild", function() {
   it("has a denominator of 4", function() {
     expect(tree.den()).toBe(4);
   });
+
+  it("expands into a two-item array", function() {
+    expect([...tree].length).toBe(2);
+  });
 });
