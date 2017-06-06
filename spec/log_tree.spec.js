@@ -46,3 +46,13 @@ describe("a log_tree with two children", function() {
     expect(tree.den()).toBe(3);
   });
 });
+
+describe("a log_tree with two children and a grandchild", function() {
+  beforeEach(function() {
+    tree = log_tree({c:[{}, {c:[{}]}]});
+  });
+
+  it("has a denominator of 4", function() {
+    expect(tree.den()).toBe(4);
+  });
+});
