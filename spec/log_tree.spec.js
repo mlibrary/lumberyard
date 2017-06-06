@@ -13,4 +13,8 @@ describe("a log_tree with no description and no children", function() {
   it("has a description of ''", function() {
     expect(tree.description).toBe("");
   });
+
+  it("has a denominator of 1", function() {
+    expect(tree.den()).toBe(1);
+  });
 });
