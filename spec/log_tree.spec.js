@@ -28,7 +28,7 @@ describe("a log_tree with no description and no children", function() {
 
   describe("when told that [] is complete", function() {
     beforeEach(function() {
-      tree.complete('[1496756029, true, "it finished"]');
+      tree.complete('[1496756029, "done", "it finished"]');
     });
 
     it("has a numerator of 1", function() {
@@ -76,7 +76,7 @@ describe("a log_tree with two children and a grandchild", function() {
     var children;
 
     beforeEach(function() {
-      tree.complete('[1496756029, true, 0, "it finished"]');
+      tree.complete('[1496756029, "done", 0, "it finished"]');
       children = [...tree];
     });
 
