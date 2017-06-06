@@ -3,85 +3,89 @@
 // BSD License. See LICENSE.txt for details.
 
 const log_tree = require("../lib/log_tree");
+var tree;
 
-describe("a log_tree object", function() {
-  var tree;
-
-  describe("when created from nothing", function() {
-    beforeEach(function() {
-      tree = log_tree();
-    });
-
-    it("has a length of 0", function() {
-      expect(tree.length).toBe(0);
-    });
-
-    it("is not complete", function() {
-      expect(tree.is_complete).toBe(false);
-    });
-
-    it("has a name of ''", function() {
-      expect(tree.name).toBe("");
-    });
-
-    it("exports to {name:'',children:[]}", function() {
-      expect(tree.export()).toEqual({name: "", children: []});
-    });
-
-    it("doesn't remember a length change", function() {
-      tree.length = 1;
-      expect(tree.length).toBe(0);
-    });
-
-    it("accepts alternative is_complete values", function() {
-      tree.is_complete = true;
-      expect(tree.is_complete).toBe(true);
-    });
-
-    it("can also be marked as complete by method", function() {
-      tree.complete();
-      expect(tree.is_complete).toBe(true);
-    });
-
-    describe("when its name is set to 'matt'", function() {
-      beforeEach(function() {
-        tree.name = "matt";
-      });
-
-      it("has a name of 'matt'", function() {
-        expect(tree.name).toBe("matt");
-      });
-
-      it("exports to {name:'matt',children:[]}", function() {
-        expect(tree.export()).toEqual({name: "matt", children: []});
-      });
-    });
+describe("a log_tree with no description and no children", function() {
+  beforeEach(function() {
+    tree = log_tree({});
   });
 
-  describe("when created with 'name'", function() {
+  it("has a description of ''", function() {
+    expect(tree.description).toBe("");
+  });
+
+  it("has a denominator of 1", function() {
+    expect(tree.den()).toBe(1);
+  });
+
+  it("has a numerator of 0", function() {
+    expect(tree.num()).toBe(0);
+  });
+
+  it("expands into an empty array", function() {
+    expect([...tree]).toEqual([]);
+  });
+
+  describe("when told that [] is complete", function() {
     beforeEach(function() {
-      tree = log_tree("name");
+      tree.complete('[1496756029, "done", "it finished"]');
     });
 
-    it("remembers its name", function() {
-      expect(tree.name).toBe("name");
+    it("has a numerator of 1", function() {
+      expect(tree.num()).toBe(1);
+    });
+  });
+});
+
+describe("a log_tree with two children", function() {
+  beforeEach(function() {
+    tree = log_tree({c:[{}, {}]});
+  });
+
+  it("has a denominator of 3", function() {
+    expect(tree.den()).toBe(3);
+  });
+
+  it("expands into a two-item array", function() {
+    expect([...tree].length).toBe(2);
+  });
+});
+
+describe("a log_tree with two children and a grandchild", function() {
+  beforeEach(function() {
+    tree = log_tree({c:[{}, {c:[{}]}]});
+  });
+
+  it("has a denominator of 4", function() {
+    expect(tree.den()).toBe(4);
+  });
+
+  it("expands into a two-item array", function() {
+    expect([...tree].length).toBe(2);
+  });
+
+  it("can reach its grandchild", function() {
+    expect([...[...tree][1]].length).toBe(1);
+  });
+
+  it("has a numerator of 0", function() {
+    expect(tree.num()).toBe(0);
+  });
+
+  describe("when told that [0] is complete", function() {
+    var children;
+
+    beforeEach(function() {
+      tree.complete('[1496756029, "done", 0, "it finished"]');
+      children = [...tree];
     });
 
-    it("has a length of 0", function() {
-      expect(tree.length).toBe(0);
+    it("has a numerator of 1", function() {
+      expect(tree.num()).toBe(1);
     });
 
-    it("is not complete", function() {
-      expect(tree.is_complete).toBe(false);
-    });
-
-    it("exports to {name:'name',children:[]}", function() {
-      expect(tree.export()).toEqual({name: "name", children: []});
-    });
-
-    it("remembers a name change", function() {
-      tree.name = "beremy";
-      expect(tree.name).toBe("beremy");
+    it("has a first child with a numerator of 1", function() {
+      expect(children[0].num()).toBe(1);
     });
   });
 });
