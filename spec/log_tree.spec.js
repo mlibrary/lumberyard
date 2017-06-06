@@ -11,4 +11,8 @@ describe("a log_tree with no description and no children", function() {
   });
 
   it("can be created", function() {});
+
+  it("has a description of ''", function() {
+    expect(tree.description).toBe("");
+  });
 });
