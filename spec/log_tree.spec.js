@@ -4,3 +4,11 @@
 
 const log_tree = require("../lib/log_tree");
 var tree;
+
+describe("a log_tree with no description and no children", function() {
+  beforeEach(function() {
+    tree = log_tree({});
+  });
+
+  it("can be created", function() {});
+});
