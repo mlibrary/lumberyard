@@ -89,3 +89,13 @@ describe("a log_tree with two children and a grandchild", function() {
     });
   });
 });
+
+describe("a log_tree with a description and no children", function() {
+  beforeEach(function() {
+    tree = log_tree({d:"specification process"});
+  });
+
+  it("stores its description", function() {
+    expect(tree.description).toBe("specification process");
+  });
+});
