@@ -191,4 +191,20 @@ describe("a complicated log_tree with great-grandchildren", () => {
   it("has no description", () => {
     expect(tree.description).toBe("");
   });
+
+  describe("the tree's first child", () => {
+    var child;
+
+    beforeEach(() => {
+      child = [...tree][0];
+    });
+
+    it("has a description of Shipment_2017123", () => {
+      expect(child.description).toBe("Shipment_2017123");
+    });
+
+    it("has a denominator of 11", () => {
+      expect(child.den()).toBe(11);
+    });
+  });
 });
