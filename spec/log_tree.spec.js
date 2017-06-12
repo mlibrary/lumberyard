@@ -68,6 +68,10 @@ describe("a log_tree with two children and a grandchild", () => {
     expect(tree.den()).toBe(4);
   });
 
+  it("has a length of 2", () => {
+    expect(tree.length).toBe(2);
+  });
+
   it("expands into a two-item array", () => {
     expect([...tree].length).toBe(2);
   });
@@ -174,5 +178,9 @@ describe("a complicated log_tree with great-grandchildren", () => {
 
   it("has a denominator of 20", () => {
     expect(tree.den()).toBe(20);
+  });
+
+  it("has a length of 2", () => {
+    expect(tree.length).toBe(2);
   });
 });
