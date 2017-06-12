@@ -208,6 +208,19 @@ describe("a complicated log_tree with great-grandchildren", () => {
     });
   });
 
+  describe("when starting the first page", () => {
+    beforeEach(() => {
+      tree.complete([5000, "begin", "starting process"]);
+      tree.complete([5000, "begin", 0, "starting shipment"]);
+      tree.complete([5000, "begin", 0, 0, "starting volume"]);
+      tree.complete([5000, "begin", 0, 0, 0, "starting page"]);
+    });
+
+    xit("still has a numerator of 0", () => {
+      expect(tree.num()).toBe(0);
+    });
+  });
+
   describe("when completing the first page of the first volume", () => {
     beforeEach(() => {
       tree.complete([12345, "done", 0, 0, 0, "first page done"]);
