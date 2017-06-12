@@ -99,3 +99,48 @@ describe("a log_tree with a description and no children", () => {
     expect(tree.description).toBe("specification process");
   });
 });
+
+describe("a complicated log_tree with great-grandchildren", () => {
+  beforeEach(() => {
+    tree = log_tree({
+      c: [{
+        d:"Shipment 2017123",
+        c: [{
+          d:"39015012345677",
+          c: [
+            {d:"00000001.tif"},
+            {d:"00000002.tif"},
+            {d:"00000003.tif"},
+            {d:"00000004.tif"},
+            {d:"00000005.tif"}
+          ]
+        },{
+          d:"39015012345685",
+          c: [
+            {d:"00000001.tif"},
+            {d:"00000002.tif"},
+            {d:"00000003.tif"},
+          ]
+        }]
+      },{
+        d:"Shipment 2017124",
+        c: [{
+          d:"39015012345693",
+          c: [
+            {d:"00000001.tif"},
+            {d:"00000002.tif"},
+            {d:"00000003.tif"},
+            {d:"00000004.tif"},
+          ]
+        },{
+          d:"39015012345701",
+          c: [
+            {d:"00000001.tif"},
+          ]
+        }]
+      }]
+    });
+  });
+
+  it("can be created", () => {});
+});
