@@ -22,6 +22,10 @@ describe("a log_tree with no description and no children", () => {
     expect(tree.num()).toBe(0);
   });
 
+  it("has a length of 0", () => {
+    expect(tree.length).toBe(0);
+  });
+
   it("expands into an empty array", () => {
     expect([...tree]).toEqual([]);
   });
