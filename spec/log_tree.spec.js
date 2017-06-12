@@ -50,6 +50,10 @@ describe("a log_tree with two children", () => {
     expect(tree.den()).toBe(3);
   });
 
+  it("has a length of 2", () => {
+    expect(tree.length).toBe(2);
+  });
+
   it("expands into a two-item array", () => {
     expect([...tree].length).toBe(2);
   });
