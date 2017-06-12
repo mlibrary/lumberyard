@@ -207,4 +207,14 @@ describe("a complicated log_tree with great-grandchildren", () => {
       expect(child.den()).toBe(11);
     });
   });
+
+  describe("when completing the first page of the first volume", () => {
+    beforeEach(() => {
+      tree.complete([12345, "done", 0, 0, 0, "first page done"]);
+    });
+
+    it("has a numerator of 1", () => {
+      expect(tree.num()).toBe(1);
+    });
+  });
 });
