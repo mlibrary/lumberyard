@@ -216,7 +216,7 @@ describe("a complicated log_tree with great-grandchildren", () => {
       tree.complete([5000, "begin", 0, 0, 0, "starting page"]);
     });
 
-    xit("still has a numerator of 0", () => {
+    it("still has a numerator of 0", () => {
       expect(tree.num()).toBe(0);
     });
   });
