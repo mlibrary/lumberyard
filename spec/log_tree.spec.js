@@ -183,4 +183,8 @@ describe("a complicated log_tree with great-grandchildren", () => {
   it("has a length of 2", () => {
     expect(tree.length).toBe(2);
   });
+
+  it("starts with a numerator of 0", () => {
+    expect(tree.num()).toBe(0);
+  });
 });
