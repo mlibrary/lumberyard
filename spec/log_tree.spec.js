@@ -102,9 +102,31 @@ describe("a log_tree with a description and no children", () => {
 
 describe("a complicated log_tree with great-grandchildren", () => {
   beforeEach(() => {
+    // More visually:
+    //
+    //     process_dir/
+    //     |-- Shipment_2017123/
+    //     |   |-- 39015012345677/
+    //     |   |   |-- 00000001.tif
+    //     |   |   |-- 00000002.tif
+    //     |   |   |-- 00000003.tif
+    //     |   |   |-- 00000004.tif
+    //     |   |   \-- 00000005.tif
+    //     |   \-- 39015012345685/
+    //     |       |-- 00000001.tif
+    //     |       |-- 00000002.tif
+    //     |       \-- 00000003.tif
+    //     \-- Shipment_2017124/
+    //         |-- 39015012345693/
+    //         |   |-- 00000001.tif
+    //         |   |-- 00000002.tif
+    //         |   |-- 00000003.tif
+    //         |   \-- 00000004.tif
+    //         \-- 39015012345701/
+    //             \-- 00000001.tif
     tree = log_tree({
       c: [{
-        d:"Shipment 2017123",
+        d:"Shipment_2017123",
         c: [{
           d:"39015012345677",
           c: [
@@ -119,28 +141,30 @@ describe("a complicated log_tree with great-grandchildren", () => {
           c: [
             {d:"00000001.tif"},
             {d:"00000002.tif"},
-            {d:"00000003.tif"},
+            {d:"00000003.tif"}
           ]
         }]
       },{
-        d:"Shipment 2017124",
+        d:"Shipment_2017124",
         c: [{
           d:"39015012345693",
           c: [
             {d:"00000001.tif"},
             {d:"00000002.tif"},
             {d:"00000003.tif"},
-            {d:"00000004.tif"},
+            {d:"00000004.tif"}
           ]
         },{
           d:"39015012345701",
           c: [
-            {d:"00000001.tif"},
+            {d:"00000001.tif"}
           ]
         }]
       }]
     });
   });
 
-  it("can be created", () => {});
+  it("has a denominator of 20", () => {
+    expect(tree.den()).toBe(20);
+  });
 });
