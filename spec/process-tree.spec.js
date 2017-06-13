@@ -3,3 +3,14 @@
 // BSD License. See LICENSE.txt for details.
 
 const processTree = require("../lib/process-tree");
+
+let treeSpy = function() {
+  let spy = { };
+
+  spy.messages = [ ];
+  spy.log = function(message) {
+    spy.messages.push(message)
+  };
+
+  return spy;
+};
