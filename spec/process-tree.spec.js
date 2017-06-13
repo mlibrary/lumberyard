@@ -14,3 +14,15 @@ let treeSpy = function() {
 
   return spy;
 };
+
+let spy, tree;
+
+describe("a processTree with no children", () => {
+  beforeEach(() => {
+    tree = processTree(treeSpy, function(o) { });
+    spy = tree.logger;
+  });
+
+  it("can be created", () => {
+  });
+});
