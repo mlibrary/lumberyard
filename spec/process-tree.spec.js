@@ -29,4 +29,14 @@ describe("a processTree with no children", () => {
   it("logs no messages", () => {
     expect(spy.messages.length).toBe(0);
   });
+
+  describe("when run", () => {
+    beforeEach(done => {
+      tree.run().then(done);
+    });
+
+    it("logs two messages", () => {
+      expect(spy.messages.length).toBe(2);
+    });
+  });
 });
