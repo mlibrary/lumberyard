@@ -2,12 +2,12 @@
 // All Rights Reserved. Licensed according to the terms of the Revised
 // BSD License. See LICENSE.txt for details.
 
-const log_tree = require("../lib/log_tree");
-var tree;
+const logTree = require("../lib/log-tree");
+let tree;
 
-describe("a log_tree with no description and no children", () => {
+describe("a logTree with no description and no children", () => {
   beforeEach(() => {
-    tree = log_tree({});
+    tree = logTree({});
   });
 
   it("has a description of ''", () => {
@@ -41,9 +41,9 @@ describe("a log_tree with no description and no children", () => {
   });
 });
 
-describe("a log_tree with two children", () => {
+describe("a logTree with two children", () => {
   beforeEach(() => {
-    tree = log_tree({c:[{}, {}]});
+    tree = logTree({c:[{}, {}]});
   });
 
   it("has a denominator of 3", () => {
@@ -59,9 +59,9 @@ describe("a log_tree with two children", () => {
   });
 });
 
-describe("a log_tree with two children and a grandchild", () => {
+describe("a logTree with two children and a grandchild", () => {
   beforeEach(() => {
-    tree = log_tree({c:[{}, {c:[{}]}]});
+    tree = logTree({c:[{}, {c:[{}]}]});
   });
 
   it("has a denominator of 4", () => {
@@ -85,7 +85,7 @@ describe("a log_tree with two children and a grandchild", () => {
   });
 
   describe("when told that [0] is complete", () => {
-    var children;
+    let children;
 
     beforeEach(() => {
       tree.complete([1496756029, "done", 0, "it finished"]);
@@ -102,9 +102,9 @@ describe("a log_tree with two children and a grandchild", () => {
   });
 });
 
-describe("a log_tree with a description and no children", () => {
+describe("a logTree with a description and no children", () => {
   beforeEach(() => {
-    tree = log_tree({d:"specification process"});
+    tree = logTree({d:"specification process"});
   });
 
   it("stores its description", () => {
@@ -112,31 +112,29 @@ describe("a log_tree with a description and no children", () => {
   });
 });
 
-describe("a complicated log_tree with great-grandchildren", () => {
+describe("a complicated logTree with great-grandchildren", () => {
   beforeEach(() => {
-    // More visually:
-    //
-    //     process_dir/
-    //     |-- Shipment_2017123/
-    //     |   |-- 39015012345677/
-    //     |   |   |-- 00000001.tif
-    //     |   |   |-- 00000002.tif
-    //     |   |   |-- 00000003.tif
-    //     |   |   |-- 00000004.tif
-    //     |   |   \-- 00000005.tif
-    //     |   \-- 39015012345685/
-    //     |       |-- 00000001.tif
-    //     |       |-- 00000002.tif
-    //     |       \-- 00000003.tif
-    //     \-- Shipment_2017124/
-    //         |-- 39015012345693/
-    //         |   |-- 00000001.tif
-    //         |   |-- 00000002.tif
-    //         |   |-- 00000003.tif
-    //         |   \-- 00000004.tif
-    //         \-- 39015012345701/
-    //             \-- 00000001.tif
-    tree = log_tree({
+    // process_dir/
+    // |-- Shipment_2017123/
+    // |   |-- 39015012345677/
+    // |   |   |-- 00000001.tif
+    // |   |   |-- 00000002.tif
+    // |   |   |-- 00000003.tif
+    // |   |   |-- 00000004.tif
+    // |   |   \-- 00000005.tif
+    // |   \-- 39015012345685/
+    // |       |-- 00000001.tif
+    // |       |-- 00000002.tif
+    // |       \-- 00000003.tif
+    // \-- Shipment_2017124/
+    //     |-- 39015012345693/
+    //     |   |-- 00000001.tif
+    //     |   |-- 00000002.tif
+    //     |   |-- 00000003.tif
+    //     |   \-- 00000004.tif
+    //     \-- 39015012345701/
+    //         \-- 00000001.tif
+    tree = logTree({
       c: [{
         d:"Shipment_2017123",
         c: [{
@@ -193,7 +191,7 @@ describe("a complicated log_tree with great-grandchildren", () => {
   });
 
   describe("the tree's first child", () => {
-    var child;
+    let child;
 
     beforeEach(() => {
       child = [...tree][0];
@@ -205,6 +203,19 @@ describe("a complicated log_tree with great-grandchildren", () => {
 
     it("has a denominator of 11", () => {
       expect(child.den()).toBe(11);
+    });
+  });
+
+  describe("when starting the first page", () => {
+    beforeEach(() => {
+      tree.complete([5000, "begin", "starting process"]);
+      tree.complete([5000, "begin", 0, "starting shipment"]);
+      tree.complete([5000, "begin", 0, 0, "starting volume"]);
+      tree.complete([5000, "begin", 0, 0, 0, "starting page"]);
+    });
+
+    it("still has a numerator of 0", () => {
+      expect(tree.num()).toBe(0);
     });
   });
 
