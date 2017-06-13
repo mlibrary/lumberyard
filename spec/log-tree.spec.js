@@ -2,7 +2,7 @@
 // All Rights Reserved. Licensed according to the terms of the Revised
 // BSD License. See LICENSE.txt for details.
 
-const logTree = require("../lib/log_tree");
+const logTree = require("../lib/log-tree");
 var tree;
 
 describe("a logTree with no description and no children", () => {
