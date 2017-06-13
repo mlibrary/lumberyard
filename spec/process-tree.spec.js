@@ -26,6 +26,7 @@ describe("a processTree with no children", () => {
     });
   });
 
-  it("can be created", () => {
+  it("logs no messages", () => {
+    expect(spy.messages.length).toBe(0);
   });
 });
