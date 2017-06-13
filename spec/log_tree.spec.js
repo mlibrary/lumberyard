@@ -2,12 +2,12 @@
 // All Rights Reserved. Licensed according to the terms of the Revised
 // BSD License. See LICENSE.txt for details.
 
-const log_tree = require("../lib/log_tree");
+const logTree = require("../lib/log_tree");
 var tree;
 
-describe("a log_tree with no description and no children", () => {
+describe("a logTree with no description and no children", () => {
   beforeEach(() => {
-    tree = log_tree({});
+    tree = logTree({});
   });
 
   it("has a description of ''", () => {
@@ -41,9 +41,9 @@ describe("a log_tree with no description and no children", () => {
   });
 });
 
-describe("a log_tree with two children", () => {
+describe("a logTree with two children", () => {
   beforeEach(() => {
-    tree = log_tree({c:[{}, {}]});
+    tree = logTree({c:[{}, {}]});
   });
 
   it("has a denominator of 3", () => {
@@ -59,9 +59,9 @@ describe("a log_tree with two children", () => {
   });
 });
 
-describe("a log_tree with two children and a grandchild", () => {
+describe("a logTree with two children and a grandchild", () => {
   beforeEach(() => {
-    tree = log_tree({c:[{}, {c:[{}]}]});
+    tree = logTree({c:[{}, {c:[{}]}]});
   });
 
   it("has a denominator of 4", () => {
@@ -102,9 +102,9 @@ describe("a log_tree with two children and a grandchild", () => {
   });
 });
 
-describe("a log_tree with a description and no children", () => {
+describe("a logTree with a description and no children", () => {
   beforeEach(() => {
-    tree = log_tree({d:"specification process"});
+    tree = logTree({d:"specification process"});
   });
 
   it("stores its description", () => {
@@ -112,7 +112,7 @@ describe("a log_tree with a description and no children", () => {
   });
 });
 
-describe("a complicated log_tree with great-grandchildren", () => {
+describe("a complicated logTree with great-grandchildren", () => {
   beforeEach(() => {
     // process_dir/
     // |-- Shipment_2017123/
@@ -134,7 +134,7 @@ describe("a complicated log_tree with great-grandchildren", () => {
     //     |   \-- 00000004.tif
     //     \-- 39015012345701/
     //         \-- 00000001.tif
-    tree = log_tree({
+    tree = logTree({
       c: [{
         d:"Shipment_2017123",
         c: [{
