@@ -18,9 +18,12 @@ let treeSpy = function() {
 let spy, tree;
 
 describe("a processTree with no children", () => {
-  beforeEach(() => {
-    tree = processTree(treeSpy, function(o) { });
-    spy = tree.logger;
+  beforeEach(done => {
+    processTree(treeSpy, function(o) { }).then(v => {
+      tree = v;
+      spy = tree.logger;
+      done();
+    });
   });
 
   it("can be created", () => {
