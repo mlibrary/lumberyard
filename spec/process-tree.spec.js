@@ -38,5 +38,9 @@ describe("a processTree with no children", () => {
     it("logs two messages", () => {
       expect(spy.messages.length).toBe(2);
     });
+
+    it("starts with a begin message", () => {
+      expect(spy.messages[0][1]).toBe("begin");
+    });
   });
 });
