@@ -19,11 +19,9 @@ let treeSpy = function(logTree, runningProcess) {
 };
 
 let spy;
-let spyOnTree = function(done, setup) {
-  processTree(treeSpy, setup).then(logger => {
-    spy = logger;
-    done();
-  });
+let spyOnTree = async function(done, setup) {
+  spy = await processTree(treeSpy, setup)
+  done();
 };
 
 describe("a processTree with no children", () => {
