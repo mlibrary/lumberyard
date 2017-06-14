@@ -19,7 +19,7 @@ let treeSpy = function(logTree, runningProcess) {
 };
 
 let spy;
-let spyOnTree = async function(done, setup) {
+let spyOnTree = async (done, setup) => {
   spy = await processTree(treeSpy, setup)
   done();
 };
