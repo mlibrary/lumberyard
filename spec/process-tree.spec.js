@@ -4,8 +4,11 @@
 
 const processTree = require("../lib/process-tree");
 
-let treeSpy = function() {
+let treeSpy = function(logTree, runningProcess) {
   let spy = { };
+
+  spy.tree = logTree;
+  spy.process = runningProcess;
 
   spy.messages = [ ];
   spy.log = function(message) {
@@ -15,28 +18,18 @@ let treeSpy = function() {
   return spy;
 };
 
-let spy, tree;
+let spy;
+let spyOnTree = async function(done, setup) {
+  spy = await processTree(treeSpy, setup)
+  done();
+};
 
 describe("a processTree with no children", () => {
   beforeEach(done => {
-    processTree(treeSpy, function(o) { }).then(v => {
-      tree = v;
-      spy = tree.logger;
-      done();
-    });
+    spyOnTree(done, function(o) { });
   });
 
-  it("logs no messages", () => {
-    expect(spy.messages.length).toBe(0);
-  });
-
-  describe("when run", () => {
-    beforeEach(done => {
-      tree.run().then(done);
-    });
-
-    it("logs two messages", () => {
-      expect(spy.messages.length).toBe(2);
-    });
+  it("returns a spy", () => {
+    expect(spy.tree).toBeDefined();
   });
 });
