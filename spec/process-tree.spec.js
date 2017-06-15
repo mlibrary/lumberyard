@@ -111,5 +111,9 @@ describe("a processTree with one child", () => {
     it("runs runBefore() first", () => {
       expect(spy.messages[1][2]).toBe("run before");
     });
+
+    it("runs run() after runBefore()", () => {
+      expect(spy.messages[2][2]).toBe("run");
+    });
   });
 });
