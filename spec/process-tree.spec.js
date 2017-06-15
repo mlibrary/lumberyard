@@ -71,8 +71,35 @@ describe("a processTree with one child", () => {
   beforeEach(done => {
     spyOnTree(done, function(o) {
       o.add(() => {});
+
+      o.runBefore = () => new Promise(function(resolve, reject) {
+        setTimeout(() => {
+          o.log("info", "run before");
+          resolve();
+        }, 10);
+      });
+
+      o.run = () => new Promise(function(resolve, reject) {
+        setTimeout(() => {
+          o.log("info", "run");
+          resolve();
+        }, 10);
+      });
+
+      o.runAfter = () => new Promise(function(resolve, reject) {
+        setTimeout(() => {
+          o.log("info", "run after");
+          resolve();
+        }, 10);
+      });
     });
   });
 
-  it("can be created", () => {});
+  it("logs 7 messages", done => {
+    spy.process.then(value => {
+      expect(spy.messages.length).toBe(7);
+
+      done();
+    });
+  });
 });
