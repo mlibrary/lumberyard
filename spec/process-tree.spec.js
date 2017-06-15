@@ -22,7 +22,7 @@ let treeSpy = function(logTree) {
 };
 
 let spy;
-let spyOnTree = async (done, setup) => {
+let spyOnTree = async function(done, setup) {
   spy = await processTree(treeSpy, setup)
   done();
 };
@@ -42,5 +42,19 @@ describe("a processTree with no children", () => {
 
       done();
     });
+  });
+});
+
+describe("a lone processTree with some setup time", () => {
+  beforeEach(done => {
+    spyOnTree(done, function(o) {
+      o.run = () => new Promise(function(resolve, reject) {
+        setTimeout(() => {resolve();}, 10);
+      });
+    });
+  });
+
+  it("doesn't log both messages right away", () => {
+    expect(spy.messages.length).toBeLessThan(2);
   });
 });
