@@ -115,5 +115,9 @@ describe("a processTree with one child", () => {
     it("runs run() after runBefore()", () => {
       expect(spy.messages[2][2]).toBe("run");
     });
+
+    it("logs a second 'begin' after run()", () => {
+      expect(spy.messages[3][1]).toBe("begin");
+    });
   });
 });
