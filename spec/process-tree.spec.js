@@ -49,12 +49,20 @@ describe("a lone processTree with some setup time", () => {
   beforeEach(done => {
     spyOnTree(done, function(o) {
       o.run = () => new Promise(function(resolve, reject) {
-        setTimeout(() => {resolve();}, 10);
+        setTimeout(() => {resolve();}, 50);
       });
     });
   });
 
   it("doesn't log both messages right away", () => {
     expect(spy.messages.length).toBeLessThan(2);
+  });
+
+  it("logs both messages in the end", done => {
+    spy.process.then(value => {
+      expect(spy.messages.length).toBe(2);
+
+      done();
+    });
   });
 });
