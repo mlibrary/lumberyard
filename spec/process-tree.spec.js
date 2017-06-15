@@ -4,11 +4,14 @@
 
 const processTree = require("../lib/process-tree");
 
-let treeSpy = function(logTree, runningProcess) {
+let treeSpy = function(logTree) {
   let spy = { };
 
   spy.tree = logTree;
-  spy.process = runningProcess;
+
+  spy.storeProcess = function(process) {
+    spy.process = process;
+  };
 
   spy.messages = [ ];
   spy.log = function(message) {
@@ -31,5 +34,102 @@ describe("a processTree with no children", () => {
 
   it("returns a spy", () => {
     expect(spy.tree).toBeDefined();
+  });
+
+  it("logs two messages once finished running", done => {
+    spy.process.then(value => {
+      expect(spy.messages.length).toBe(2);
+
+      done();
+    });
+  });
+});
+
+describe("a lone processTree with some setup time", () => {
+  beforeEach(done => {
+    spyOnTree(done, function(o) {
+      o.run = () => new Promise(function(resolve, reject) {
+        setTimeout(() => {resolve();}, 50);
+      });
+    });
+  });
+
+  it("doesn't log both messages right away", () => {
+    expect(spy.messages.length).toBeLessThan(2);
+  });
+
+  it("logs both messages in the end", done => {
+    spy.process.then(value => {
+      expect(spy.messages.length).toBe(2);
+
+      done();
+    });
+  });
+});
+
+describe("a processTree with one child", () => {
+  beforeEach(done => {
+    spyOnTree(done, function(o) {
+      o.add(() => {});
+
+      o.runBefore = () => new Promise(function(resolve, reject) {
+        setTimeout(() => {
+          o.log("info", "run before");
+          resolve();
+        }, 10);
+      });
+
+      o.run = () => new Promise(function(resolve, reject) {
+        setTimeout(() => {
+          o.log("info", "run");
+          resolve();
+        }, 10);
+      });
+
+      o.runAfter = () => new Promise(function(resolve, reject) {
+        setTimeout(() => {
+          o.log("info", "run after");
+          resolve();
+        }, 10);
+      });
+    });
+  });
+
+  describe("the resulting log", () => {
+    beforeEach(done => {
+      spy.process.then(value => {done();});
+    });
+
+    it("has 7 messages", () => {
+      expect(spy.messages.length).toBe(7);
+    });
+
+    it("starts with a 'begin' message", () => {
+      expect(spy.messages[0][1]).toBe("begin");
+    });
+
+    it("runs runBefore() first", () => {
+      expect(spy.messages[1][2]).toBe("run before");
+    });
+
+    it("runs run() after runBefore()", () => {
+      expect(spy.messages[2][2]).toBe("run");
+    });
+
+    it("logs a second 'begin' after run()", () => {
+      expect(spy.messages[3][1]).toBe("begin");
+    });
+
+    it("logs a 'done' right after the second 'begin'", () => {
+      expect(spy.messages[4][1]).toBe("done");
+    });
+
+    it("runs runAfter() after children are done", () => {
+      expect(spy.messages[5][2]).toBe("run after");
+    });
+
+    it("finishes with a final 'done'", () => {
+      expect(spy.messages[6][1]).toBe("done");
+    });
   });
 });
