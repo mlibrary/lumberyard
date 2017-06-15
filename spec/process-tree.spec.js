@@ -66,3 +66,13 @@ describe("a lone processTree with some setup time", () => {
     });
   });
 });
+
+describe("a processTree with one child", () => {
+  beforeEach(done => {
+    spyOnTree(done, function(o) {
+      o.add(() => {});
+    });
+  });
+
+  it("can be created", () => {});
+});
