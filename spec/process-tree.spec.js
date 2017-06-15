@@ -123,5 +123,9 @@ describe("a processTree with one child", () => {
     it("logs a 'done' right after the second 'begin'", () => {
       expect(spy.messages[4][1]).toBe("done");
     });
+
+    it("runs runAfter() after children are done", () => {
+      expect(spy.messages[5][2]).toBe("run after");
+    });
   });
 });
