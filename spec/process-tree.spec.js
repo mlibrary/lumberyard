@@ -103,5 +103,9 @@ describe("a processTree with one child", () => {
     it("has 7 messages", () => {
       expect(spy.messages.length).toBe(7);
     });
+
+    it("starts with a 'begin' message", () => {
+      expect(spy.messages[0][1]).toBe("begin");
+    });
   });
 });
