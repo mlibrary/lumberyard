@@ -95,11 +95,13 @@ describe("a processTree with one child", () => {
     });
   });
 
-  it("logs 7 messages", done => {
-    spy.process.then(value => {
-      expect(spy.messages.length).toBe(7);
+  describe("the resulting log", () => {
+    beforeEach(done => {
+      spy.process.then(value => {done();});
+    });
 
-      done();
+    it("has 7 messages", () => {
+      expect(spy.messages.length).toBe(7);
     });
   });
 });
