@@ -92,7 +92,8 @@ describe("a logTree with two children and a grandchild", () => {
     let children;
 
     beforeEach(() => {
-      tree.complete([1496756029, "done", 0, "it finished"]);
+      description = tree.complete(
+        [1496756029, "done", 0, "it finished"]);
       children = [...tree];
     });
 
@@ -102,6 +103,10 @@ describe("a logTree with two children and a grandchild", () => {
 
     it("has a first child with a numerator of 1", () => {
       expect(children[0].num()).toBe(1);
+    });
+
+    it("returns an empty description", () => {
+      expect(description).toBe("");
     });
   });
 });
@@ -113,6 +118,11 @@ describe("a logTree with a description and no children", () => {
 
   it("stores its description", () => {
     expect(tree.description).toBe("specification process");
+  });
+
+  it("returns its description when completed", () => {
+    expect(tree.complete([1234, "done", ""])).toBe(
+      "specification process");
   });
 });
 
