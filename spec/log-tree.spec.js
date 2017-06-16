@@ -3,7 +3,7 @@
 // BSD License. See LICENSE.txt for details.
 
 const logTree = require("../lib/log-tree");
-let tree;
+let tree, description;
 
 describe("a logTree with no description and no children", () => {
   beforeEach(() => {
@@ -32,11 +32,15 @@ describe("a logTree with no description and no children", () => {
 
   describe("when told that [] is complete", () => {
     beforeEach(() => {
-      tree.complete([1496756029, "done", "it finished"]);
+      description = tree.complete([1496756029, "done", "it finished"]);
     });
 
     it("has a numerator of 1", () => {
       expect(tree.num()).toBe(1);
+    });
+
+    it("returns the empty description", () => {
+      expect(description).toBe("");
     });
   });
 });
@@ -88,7 +92,8 @@ describe("a logTree with two children and a grandchild", () => {
     let children;
 
     beforeEach(() => {
-      tree.complete([1496756029, "done", 0, "it finished"]);
+      description = tree.complete(
+        [1496756029, "done", 0, "it finished"]);
       children = [...tree];
     });
 
@@ -98,6 +103,10 @@ describe("a logTree with two children and a grandchild", () => {
 
     it("has a first child with a numerator of 1", () => {
       expect(children[0].num()).toBe(1);
+    });
+
+    it("returns an empty description", () => {
+      expect(description).toBe("");
     });
   });
 });
@@ -109,6 +118,11 @@ describe("a logTree with a description and no children", () => {
 
   it("stores its description", () => {
     expect(tree.description).toBe("specification process");
+  });
+
+  it("returns its description when completed", () => {
+    expect(tree.complete([1234, "done", ""])).toBe(
+      "specification process");
   });
 });
 
@@ -221,11 +235,16 @@ describe("a complicated logTree with great-grandchildren", () => {
 
   describe("when completing the first page of the first volume", () => {
     beforeEach(() => {
-      tree.complete([12345, "done", 0, 0, 0, "first page done"]);
+      description = tree.complete(
+        [12345, "done", 0, 0, 0, "first page done"]);
     });
 
     it("has a numerator of 1", () => {
       expect(tree.num()).toBe(1);
+    });
+
+    it("returns that page's description", () => {
+      expect(description).toBe("00000001.tif");
     });
   });
 });
