@@ -170,11 +170,11 @@ describe("a binary processTree with four grandchildren", () => {
 
     describe("its second message", () => {
       it("has a 'begin' code", () => {
-        expect(spy.messages[0][1]).toBe("begin");
+        expect(spy.messages[1][1]).toBe("begin");
       });
 
-      xit("has an address of [0]", () => {
-        expect(spy.messages[0][2]).toBe(0);
+      it("has an address of [0]", () => {
+        expect(spy.messages[1][2]).toBe(0);
       });
     });
   });
