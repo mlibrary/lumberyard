@@ -198,3 +198,15 @@ describe("a binary processTree with four grandchildren", () => {
     });
   });
 });
+
+describe("a processTree with a description and no children", () => {
+  beforeEach(done => {
+    spyOnTree(done, function(o) {
+      o.description = "the lone root";
+    });
+  });
+
+  it("remembers its description", () => {
+    expect(spy.tree.d).toBe("the lone root");
+  });
+});
