@@ -67,7 +67,7 @@ describe("a lone processTree with some setup time", () => {
   });
 });
 
-describe("a processTree with one child", () => {
+describe("a processTree with one child and some delays", () => {
   beforeEach(done => {
     spyOnTree(done, function(o) {
       o.add(() => {});
