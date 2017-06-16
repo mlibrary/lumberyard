@@ -177,5 +177,14 @@ describe("a binary processTree with four grandchildren", () => {
         expect(spy.messages[1][2]).toBe(0);
       });
     });
+
+    it("contains a begin [1] message", () => {
+      let found_it = false;
+      for (let msg of spy.messages)
+        if (msg[1] === "begin" && msg.length === 4 && msg[2] === 1)
+          found_it = true;
+
+      expect(found_it).toBe(true);
+    });
   });
 });
