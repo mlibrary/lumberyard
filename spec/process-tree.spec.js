@@ -213,6 +213,10 @@ describe("a processTree with a description and no children", () => {
   it("remembers its description", () => {
     expect(spy.tree.d).toBe("the lone root");
   });
+
+  it("stores no children", () => {
+    expect(spy.tree.c || []).toEqual([]);
+  });
 });
 
 describe("a two-node processTree with descriptions", () => {
