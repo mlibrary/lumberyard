@@ -153,6 +153,20 @@ describe("a binary processTree with four grandchildren", () => {
     spyOnTree(done, add_two_parent_nodes);
   });
 
+  describe("its logTree", () => {
+    it("has two children", () => {
+      expect(spy.tree.c.length).toBe(2);
+    });
+
+    it("has two grandchildren under its first child", () => {
+      expect(spy.tree.c[0].c.length).toBe(2);
+    });
+
+    it("has two grandchildren under its second child", () => {
+      expect(spy.tree.c[1].c.length).toBe(2);
+    });
+  });
+
   describe("the resulting log", () => {
     beforeEach(done => {
       spy.process.then(value => {done();});
