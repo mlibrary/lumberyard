@@ -149,6 +149,13 @@ describe("a binary processTree with four grandchildren", () => {
     spyOnTree(done, add_two_parent_nodes);
   });
 
-  it("can be created", () => {
+  describe("the resulting log", () => {
+    beforeEach(done => {
+      spy.process.then(value => {done();});
+    });
+
+    it("has 14 messages", () => {
+      expect(spy.messages.length).toBe(14);
+    });
   });
 });
