@@ -233,4 +233,8 @@ describe("a two-node processTree with descriptions", () => {
   it("remembers its root description", () => {
     expect(spy.tree.d).toBe("the root");
   });
+
+  it("stores one child", () => {
+    expect(spy.tree.c.length).toBe(1);
+  });
 });
