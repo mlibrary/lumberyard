@@ -133,3 +133,22 @@ describe("a processTree with one child and some delays", () => {
     });
   });
 });
+
+describe("a binary processTree with four grandchildren", () => {
+  beforeEach(done => {
+    let add_two_leaf_nodes = function(o) {
+      o.add(() => {});
+      o.add(() => {});
+    };
+
+    let add_two_parent_nodes = function(o) {
+      o.add(add_two_leaf_nodes);
+      o.add(add_two_leaf_nodes);
+    };
+
+    spyOnTree(done, add_two_parent_nodes);
+  });
+
+  it("can be created", () => {
+  });
+});
