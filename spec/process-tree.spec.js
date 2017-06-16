@@ -214,3 +214,19 @@ describe("a processTree with a description and no children", () => {
     expect(spy.tree.d).toBe("the lone root");
   });
 });
+
+describe("a two-node processTree with descriptions", () => {
+  beforeEach(done => {
+    spyOnTree(done, function(root) {
+      root.description = "the root";
+
+      root.add(function(leaf) {
+        leaf.description = "the leaf"
+      });
+    });
+  });
+
+  it("remembers its root description", () => {
+    expect(spy.tree.d).toBe("the root");
+  });
+});
