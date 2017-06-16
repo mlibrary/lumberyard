@@ -52,7 +52,7 @@ describe("a processTree with no children", () => {
 describe("a lone processTree with some setup time", () => {
   beforeEach(done => {
     spyOnTree(done, o => {
-      o.run = () => new Promise(function(resolve, reject) {
+      o.run = () => new Promise((resolve, reject) => {
         setTimeout(() => {resolve();}, 50);
       });
     });
