@@ -43,6 +43,10 @@ describe("a processTree with no children", () => {
       done();
     });
   });
+
+  it("has no description", () => {
+    expect(spy.tree.d || "").toBe("");
+  });
 });
 
 describe("a lone processTree with some setup time", () => {
@@ -67,7 +71,7 @@ describe("a lone processTree with some setup time", () => {
   });
 });
 
-describe("a processTree with one child", () => {
+describe("a processTree with one child and some delays", () => {
   beforeEach(done => {
     spyOnTree(done, function(o) {
       o.add(() => {});
@@ -131,5 +135,124 @@ describe("a processTree with one child", () => {
     it("finishes with a final 'done'", () => {
       expect(spy.messages[6][1]).toBe("done");
     });
+  });
+});
+
+describe("a binary processTree with four grandchildren", () => {
+  beforeEach(done => {
+    let add_two_leaf_nodes = function(o) {
+      o.add(() => {});
+      o.add(() => {});
+    };
+
+    let add_two_parent_nodes = function(o) {
+      o.add(add_two_leaf_nodes);
+      o.add(add_two_leaf_nodes);
+    };
+
+    spyOnTree(done, add_two_parent_nodes);
+  });
+
+  describe("its logTree", () => {
+    it("has two children", () => {
+      expect(spy.tree.c.length).toBe(2);
+    });
+
+    it("has two grandchildren under its first child", () => {
+      expect(spy.tree.c[0].c.length).toBe(2);
+    });
+
+    it("has two grandchildren under its second child", () => {
+      expect(spy.tree.c[1].c.length).toBe(2);
+    });
+  });
+
+  describe("the resulting log", () => {
+    beforeEach(done => {
+      spy.process.then(value => {done();});
+    });
+
+    it("has 14 messages", () => {
+      expect(spy.messages.length).toBe(14);
+    });
+
+    describe("its first message", () => {
+      it("has a 'begin' code", () => {
+        expect(spy.messages[0][1]).toBe("begin");
+      });
+
+      it("has an empty message", () => {
+        expect(spy.messages[0][2]).toBe("");
+      });
+    });
+
+    describe("its second message", () => {
+      it("has a 'begin' code", () => {
+        expect(spy.messages[1][1]).toBe("begin");
+      });
+
+      it("has an address of [0]", () => {
+        expect(spy.messages[1][2]).toBe(0);
+      });
+    });
+
+    it("contains a begin [1] message", () => {
+      let found_it = false;
+      for (let msg of spy.messages)
+        if (msg[1] === "begin" && msg.length === 4 && msg[2] === 1)
+          found_it = true;
+
+      expect(found_it).toBe(true);
+    });
+
+    it("contains a begin [1, 0] message", () => {
+      let found_it = false;
+      for (let msg of spy.messages)
+        if (msg[1] === "begin" && msg.length === 5
+            && msg[2] === 1 && msg[3] === 0)
+          found_it = true;
+
+      expect(found_it).toBe(true);
+    });
+  });
+});
+
+describe("a processTree with a description and no children", () => {
+  beforeEach(done => {
+    spyOnTree(done, function(o) {
+      o.description = "the lone root";
+    });
+  });
+
+  it("remembers its description", () => {
+    expect(spy.tree.d).toBe("the lone root");
+  });
+
+  it("stores no children", () => {
+    expect(spy.tree.c || []).toEqual([]);
+  });
+});
+
+describe("a two-node processTree with descriptions", () => {
+  beforeEach(done => {
+    spyOnTree(done, function(root) {
+      root.description = "the root";
+
+      root.add(function(leaf) {
+        leaf.description = "the leaf"
+      });
+    });
+  });
+
+  it("remembers its root description", () => {
+    expect(spy.tree.d).toBe("the root");
+  });
+
+  it("stores one child", () => {
+    expect(spy.tree.c.length).toBe(1);
+  });
+
+  it("remembers its leaf description", () => {
+    expect(spy.tree.c[0].d).toBe("the leaf");
   });
 });
