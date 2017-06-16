@@ -43,6 +43,10 @@ describe("a processTree with no children", () => {
       done();
     });
   });
+
+  it("has no description", () => {
+    expect(spy.tree.d || "").toBe("");
+  });
 });
 
 describe("a lone processTree with some setup time", () => {
