@@ -235,11 +235,16 @@ describe("a complicated logTree with great-grandchildren", () => {
 
   describe("when completing the first page of the first volume", () => {
     beforeEach(() => {
-      tree.complete([12345, "done", 0, 0, 0, "first page done"]);
+      description = tree.complete(
+        [12345, "done", 0, 0, 0, "first page done"]);
     });
 
     it("has a numerator of 1", () => {
       expect(tree.num()).toBe(1);
+    });
+
+    it("returns that page's description", () => {
+      expect(description).toBe("00000001.tif");
     });
   });
 });
