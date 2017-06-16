@@ -162,6 +162,10 @@ describe("a binary processTree with four grandchildren", () => {
       it("has a 'begin' code", () => {
         expect(spy.messages[0][1]).toBe("begin");
       });
+
+      it("has an empty message", () => {
+        expect(spy.messages[0][2]).toBe("");
+      });
     });
   });
 });
