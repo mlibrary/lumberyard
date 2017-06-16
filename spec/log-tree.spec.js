@@ -3,7 +3,7 @@
 // BSD License. See LICENSE.txt for details.
 
 const logTree = require("../lib/log-tree");
-let tree;
+let tree, description;
 
 describe("a logTree with no description and no children", () => {
   beforeEach(() => {
@@ -32,11 +32,15 @@ describe("a logTree with no description and no children", () => {
 
   describe("when told that [] is complete", () => {
     beforeEach(() => {
-      tree.complete([1496756029, "done", "it finished"]);
+      description = tree.complete([1496756029, "done", "it finished"]);
     });
 
     it("has a numerator of 1", () => {
       expect(tree.num()).toBe(1);
+    });
+
+    it("returns the empty description", () => {
+      expect(description).toBe("");
     });
   });
 });
