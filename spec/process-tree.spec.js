@@ -29,7 +29,7 @@ let spyOnTree = async function(done, setup) {
 
 describe("a processTree with no children", () => {
   beforeEach(done => {
-    spyOnTree(done, function(o) { });
+    spyOnTree(done, o => {});
   });
 
   it("returns a spy", () => {
@@ -51,7 +51,7 @@ describe("a processTree with no children", () => {
 
 describe("a lone processTree with some setup time", () => {
   beforeEach(done => {
-    spyOnTree(done, function(o) {
+    spyOnTree(done, o => {
       o.run = () => new Promise(function(resolve, reject) {
         setTimeout(() => {resolve();}, 50);
       });
@@ -73,7 +73,7 @@ describe("a lone processTree with some setup time", () => {
 
 describe("a processTree with one child and some delays", () => {
   beforeEach(done => {
-    spyOnTree(done, function(o) {
+    spyOnTree(done, o => {
       o.add(() => {});
 
       o.runBefore = () => new Promise(function(resolve, reject) {
@@ -140,12 +140,12 @@ describe("a processTree with one child and some delays", () => {
 
 describe("a binary processTree with four grandchildren", () => {
   beforeEach(done => {
-    let add_two_leaf_nodes = function(o) {
+    let add_two_leaf_nodes = o => {
       o.add(() => {});
       o.add(() => {});
     };
 
-    let add_two_parent_nodes = function(o) {
+    let add_two_parent_nodes = o => {
       o.add(add_two_leaf_nodes);
       o.add(add_two_leaf_nodes);
     };
@@ -219,7 +219,7 @@ describe("a binary processTree with four grandchildren", () => {
 
 describe("a processTree with a description and no children", () => {
   beforeEach(done => {
-    spyOnTree(done, function(o) {
+    spyOnTree(done, o => {
       o.description = "the lone root";
     });
   });
@@ -235,10 +235,10 @@ describe("a processTree with a description and no children", () => {
 
 describe("a two-node processTree with descriptions", () => {
   beforeEach(done => {
-    spyOnTree(done, function(root) {
+    spyOnTree(done, root => {
       root.description = "the root";
 
-      root.add(function(leaf) {
+      root.add(leaf => {
         leaf.description = "the leaf"
       });
     });
