@@ -40,7 +40,7 @@ describe("a logTree with no description and no children", () => {
     });
 
     it("returns the empty description", () => {
-      expect(description).toBe("");
+      expect(description).toBe("Finished  ...");
     });
   });
 });
@@ -106,7 +106,7 @@ describe("a logTree with two children and a grandchild", () => {
     });
 
     it("returns an empty description", () => {
-      expect(description).toBe("");
+      expect(description).toBe("Finished  ...");
     });
   });
 });
@@ -122,7 +122,7 @@ describe("a logTree with a description and no children", () => {
 
   it("returns its description when completed", () => {
     expect(tree.complete([1234, "done", ""])).toBe(
-      "specification process");
+      "Finished specification process ...");
   });
 });
 
@@ -244,7 +244,7 @@ describe("a complicated logTree with great-grandchildren", () => {
     });
 
     it("returns that page's description", () => {
-      expect(description).toBe("00000001.tif");
+      expect(description).toBe("Finished 00000001.tif ...");
     });
   });
 });
