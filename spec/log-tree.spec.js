@@ -129,6 +129,11 @@ describe("a logTree with a description and no children", () => {
     expect(tree.complete([1234, "begin", ""])).toBe(
       "Started specification process ...");
   });
+
+  it("returns 'info' messages as written", () => {
+    expect(tree.complete([1234, "info", "wow very informative"])).toBe(
+      "wow very informative");
+  });
 });
 
 describe("a complicated logTree with great-grandchildren", () => {
