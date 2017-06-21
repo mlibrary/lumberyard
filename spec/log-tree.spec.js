@@ -40,7 +40,7 @@ describe("a logTree with no description and no children", () => {
     });
 
     it("returns the empty description", () => {
-      expect(description).toBe("Finished  ...");
+      expect(description).toBe("Finished ...");
     });
   });
 });
@@ -106,7 +106,7 @@ describe("a logTree with two children and a grandchild", () => {
     });
 
     it("returns an empty description", () => {
-      expect(description).toBe("Finished  ...");
+      expect(description).toBe("Finished ...");
     });
   });
 });
