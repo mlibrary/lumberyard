@@ -256,3 +256,65 @@ describe("a two-node processTree with descriptions", () => {
     expect(spy.tree.c[0].d).toBe("the leaf");
   });
 });
+
+describe("a tree with two failing nodes", () => {
+  let error;
+
+  beforeEach(done => {
+    let addLeaf = (parentNode, id) => {
+      parentNode.add(leaf => {
+        leaf.description = "node " + id;
+      });
+    };
+
+    error = undefined;
+
+    Promise.resolve(processTree(treeSpy, root => {
+      root.description = "the root";
+
+      root.add(middle => {
+        middle.description = "node 1";
+
+        addLeaf(middle, "1a");
+        addLeaf(middle, "1b");
+        addLeaf(middle, "1c");
+      });
+
+      root.add(middle => {
+        middle.description = "node 2";
+
+        addLeaf(middle, "2a");
+
+        middle.add(leaf => {
+          leaf.description = "node 2b";
+
+          throw "bad problem with node 2b";
+        });
+
+        addLeaf(middle, "2c");
+      });
+
+      root.add(middle => {
+        middle.description = "node 3";
+
+        addLeaf(middle, "3a");
+        addLeaf(middle, "3b");
+        addLeaf(middle, "3c");
+
+        throw "bad problem with node 3";
+      });
+
+    })).then(v => {
+      spy = v;
+      done();
+
+    }, e => {
+      error = e;
+      done();
+    });
+  });
+
+  it("raises an error", () => {
+    expect(error).toBeDefined();
+  });
+});
