@@ -317,4 +317,10 @@ describe("a tree with two failing nodes", () => {
   it("raises an error", () => {
     expect(error).toBeDefined();
   });
+
+  describe("the exception object", () => {
+    it("has an empty array of error messages", () => {
+      expect(error.messages).toEqual([]);
+    });
+  });
 });
