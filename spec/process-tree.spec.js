@@ -450,4 +450,8 @@ describe("a tree that fails while running", () => {
   it("receives a runtime error", () => {
     expect(runError).toBeDefined();
   });
+
+  it("doesn't receive a result", () => {
+    expect(runResult).not.toBeDefined();
+  });
 });
