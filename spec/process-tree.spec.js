@@ -341,7 +341,7 @@ describe("a tree with two failing nodes", () => {
         expect(first_child.description).toBe("node 2");
       });
 
-      it("has an empty array of error messages", () => {
+      it("has no error messages", () => {
         expect(first_child.messages).toEqual([]);
       });
 
@@ -380,7 +380,7 @@ describe("a tree with two failing nodes", () => {
         expect(second_child.description).toBe("node 3");
       });
 
-      it("has an empty array of child exceptions", () => {
+      it("has no child exceptions", () => {
         expect(second_child.children).toEqual([]);
       });
 
