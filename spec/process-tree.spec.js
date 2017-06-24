@@ -319,6 +319,10 @@ describe("a tree with two failing nodes", () => {
   });
 
   describe("the exception object", () => {
+    it("has a description of 'the root'", () => {
+      expect(error.description).toBe("the root");
+    });
+
     it("has an empty array of error messages", () => {
       expect(error.messages).toEqual([]);
     });
@@ -333,6 +337,10 @@ describe("a tree with two failing nodes", () => {
         first_child = error.children[0];
       });
 
+      it("has a description of 'node 2'", () => {
+        expect(first_child.description).toBe("node 2");
+      });
+
       it("has an empty array of error messages", () => {
         expect(first_child.messages).toEqual([]);
       });
@@ -341,13 +349,24 @@ describe("a tree with two failing nodes", () => {
         expect(first_child.children.length).toBe(1);
       });
 
-      it("has no grandchild exceptions", () => {
-        expect(first_child.children[0].children).toEqual([]);
-      });
+      describe("its only child (aka the grandchild)", () => {
+        let grandchild;
+        beforeEach(() => {
+          grandchild = first_child.children[0];
+        });
 
-      it("has the right message in its child", () => {
-        expect(first_child.children[0].messages).toEqual(
-          ["bad problem with node 2b"]);
+        it("has a description of 'node 2b'", () => {
+          expect(grandchild.description).toBe("node 2b");
+        });
+
+        it("has no child exceptions", () => {
+          expect(grandchild.children).toEqual([]);
+        });
+
+        it("has the right error message", () => {
+          expect(grandchild.messages).toEqual(
+            ["bad problem with node 2b"]);
+        });
       });
     });
 
@@ -355,6 +374,10 @@ describe("a tree with two failing nodes", () => {
       let second_child;
       beforeEach(() => {
         second_child = error.children[1];
+      });
+
+      it("has a description of 'node 3'", () => {
+        expect(second_child.description).toBe("node 3");
       });
 
       it("has an empty array of child exceptions", () => {
