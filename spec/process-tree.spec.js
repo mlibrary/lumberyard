@@ -326,5 +326,45 @@ describe("a tree with two failing nodes", () => {
     it("has two child exceptions", () => {
       expect(error.children.length).toBe(2);
     });
+
+    describe("its first child", () => {
+      let first_child;
+      beforeEach(() => {
+        first_child = error.children[0];
+      });
+
+      it("has an empty array of error messages", () => {
+        expect(first_child.messages).toEqual([]);
+      });
+
+      it("has one child exception", () => {
+        expect(first_child.children.length).toBe(1);
+      });
+
+      it("has no grandchild exceptions", () => {
+        expect(first_child.children[0].children).toEqual([]);
+      });
+
+      it("has the right message in its child", () => {
+        expect(first_child.children[0].messages).toEqual(
+          ["bad problem with node 2b"]);
+      });
+    });
+
+    describe("its second child", () => {
+      let second_child;
+      beforeEach(() => {
+        second_child = error.children[1];
+      });
+
+      it("has an empty array of child exceptions", () => {
+        expect(second_child.children).toEqual([]);
+      });
+
+      it("has the right error message", () => {
+        expect(second_child.messages).toEqual(
+          ["bad problem with node 3"]);
+      });
+    });
   });
 });
