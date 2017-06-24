@@ -256,3 +256,138 @@ describe("a two-node processTree with descriptions", () => {
     expect(spy.tree.c[0].d).toBe("the leaf");
   });
 });
+
+describe("a tree with two failing nodes", () => {
+  let error;
+
+  beforeEach(done => {
+    let addLeaf = (parentNode, id) => {
+      parentNode.add(leaf => {
+        leaf.description = "node " + id;
+      });
+    };
+
+    error = undefined;
+
+    Promise.resolve(processTree(treeSpy, root => {
+      root.description = "the root";
+
+      root.add(middle => {
+        middle.description = "node 1";
+
+        addLeaf(middle, "1a");
+        addLeaf(middle, "1b");
+        addLeaf(middle, "1c");
+      });
+
+      root.add(middle => {
+        middle.description = "node 2";
+
+        addLeaf(middle, "2a");
+
+        middle.add(leaf => {
+          leaf.description = "node 2b";
+
+          throw "bad problem with node 2b";
+        });
+
+        addLeaf(middle, "2c");
+      });
+
+      root.add(middle => {
+        middle.description = "node 3";
+
+        addLeaf(middle, "3a");
+        addLeaf(middle, "3b");
+        addLeaf(middle, "3c");
+
+        throw "bad problem with node 3";
+      });
+
+    })).then(v => {
+      spy = v;
+      done();
+
+    }, e => {
+      error = e;
+      done();
+    });
+  });
+
+  it("raises an error", () => {
+    expect(error).toBeDefined();
+  });
+
+  describe("the exception object", () => {
+    it("has a description of 'the root'", () => {
+      expect(error.description).toBe("the root");
+    });
+
+    it("has no error messages", () => {
+      expect(error.messages).toEqual([]);
+    });
+
+    it("has two child exceptions", () => {
+      expect(error.children.length).toBe(2);
+    });
+
+    describe("its first child", () => {
+      let first_child;
+      beforeEach(() => {
+        first_child = error.children[0];
+      });
+
+      it("has a description of 'node 2'", () => {
+        expect(first_child.description).toBe("node 2");
+      });
+
+      it("has no error messages", () => {
+        expect(first_child.messages).toEqual([]);
+      });
+
+      it("has one child exception", () => {
+        expect(first_child.children.length).toBe(1);
+      });
+
+      describe("its only child (aka the grandchild)", () => {
+        let grandchild;
+        beforeEach(() => {
+          grandchild = first_child.children[0];
+        });
+
+        it("has a description of 'node 2b'", () => {
+          expect(grandchild.description).toBe("node 2b");
+        });
+
+        it("has no child exceptions", () => {
+          expect(grandchild.children).toEqual([]);
+        });
+
+        it("has the right error message", () => {
+          expect(grandchild.messages).toEqual(
+            ["bad problem with node 2b"]);
+        });
+      });
+    });
+
+    describe("its second child", () => {
+      let second_child;
+      beforeEach(() => {
+        second_child = error.children[1];
+      });
+
+      it("has a description of 'node 3'", () => {
+        expect(second_child.description).toBe("node 3");
+      });
+
+      it("has no child exceptions", () => {
+        expect(second_child.children).toEqual([]);
+      });
+
+      it("has the right error message", () => {
+        expect(second_child.messages).toEqual(
+          ["bad problem with node 3"]);
+      });
+    });
+  });
+});
