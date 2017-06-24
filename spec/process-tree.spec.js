@@ -391,3 +391,59 @@ describe("a tree with two failing nodes", () => {
     });
   });
 });
+
+describe("a tree that fails while running", () => {
+  let validationError, runError, runResult;
+
+  beforeEach(done => {
+    validationError = undefined;
+    runError = undefined;
+    runResult = undefined;
+
+    Promise.resolve(processTree(treeSpy, root => {
+      root.description = "root";
+
+      root.add(child => {
+        child.description = "first child";
+
+        child.run = () => {
+          throw "uh oh uh oh";
+        };
+      });
+
+      root.add(child => {
+        child.description = "second child";
+      });
+
+      root.add(child => {
+        child.description = "third child";
+
+        child.add(grandchild => {
+          grandchild.description = "only grandchild";
+
+          grandchild.run = () => {
+            throw "a grandchild problem";
+          };
+        });
+      });
+    })).then(result => {
+      spy = result;
+      spy.process.then(result => {
+        runResult = result;
+        done();
+
+      }, e => {
+        runError = e;
+        done();
+      });
+
+    }, e => {
+      validationError = e;
+      done();
+    });
+  });
+
+  it("validates without any errors", () => {
+    expect(validationError).not.toBeDefined();
+  });
+});
