@@ -323,7 +323,7 @@ describe("a tree with two failing nodes", () => {
       expect(error.description).toBe("the root");
     });
 
-    it("has an empty array of error messages", () => {
+    it("has no error messages", () => {
       expect(error.messages).toEqual([]);
     });
 
