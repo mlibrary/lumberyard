@@ -446,4 +446,8 @@ describe("a tree that fails while running", () => {
   it("validates without any errors", () => {
     expect(validationError).not.toBeDefined();
   });
+
+  it("receives a runtime error", () => {
+    expect(runError).toBeDefined();
+  });
 });
