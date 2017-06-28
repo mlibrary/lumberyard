@@ -459,5 +459,9 @@ describe("a tree that fails while running", () => {
     it("has a description of 'root'", () => {
       expect(runError.description).toBe("root");
     });
+
+    it("has two children", () => {
+      expect(runError.children.length).toBe(2);
+    });
   });
 });
