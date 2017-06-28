@@ -463,5 +463,9 @@ describe("a tree that fails while running", () => {
     it("has two children", () => {
       expect(runError.children.length).toBe(2);
     });
+
+    it("has no error messages of its own", () => {
+      expect(runError.messages.length).toBe(0);
+    });
   });
 });
