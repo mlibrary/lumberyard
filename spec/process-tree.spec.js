@@ -467,5 +467,16 @@ describe("a tree that fails while running", () => {
     it("has no error messages of its own", () => {
       expect(runError.messages.length).toBe(0);
     });
+
+    describe("its first child", () => {
+      let first_child;
+      beforeEach(() => {
+        first_child = runError.children[0];
+      });
+
+      xit("has a description of 'first child'", () => {
+        expect(first_child.description).toBe("first child");
+      });
+    });
   });
 });
