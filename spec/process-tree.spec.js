@@ -474,7 +474,7 @@ describe("a tree that fails while running", () => {
         first_child = runError.children[0];
       });
 
-      xit("has a description of 'first child'", () => {
+      it("has a description of 'first child'", () => {
         expect(first_child.description).toBe("first child");
       });
     });
