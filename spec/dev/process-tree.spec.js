@@ -2,7 +2,7 @@
 // All Rights Reserved. Licensed according to the terms of the Revised
 // BSD License. See LICENSE.txt for details.
 
-const processTree = require("../lib/process-tree");
+const processTree = require("../../lib/process-tree");
 
 let treeSpy = function(logTree) {
   let spy = { };
