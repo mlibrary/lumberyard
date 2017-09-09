@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/daaang/awful-mess/issues"
   },
-  "homepage": "https://github.com/daaang/awful-mess#readme"
+  "homepage": "https://github.com/daaang/awful-mess#readme",
+  "dependencies": {
+    "executive": "^1.5.11",
+    "tail": "^1.2.2"
+  }
 }
