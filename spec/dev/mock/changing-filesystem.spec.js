@@ -31,7 +31,7 @@ describe("an empty filesystem mock", () => {
       stream = fsMock.createReadStream("fake.txt");
     });
 
-    it("throws an error event", done => {
+    it("emits an 'error' event", done => {
       stream.on("error", function(error) {
         done();
       });
