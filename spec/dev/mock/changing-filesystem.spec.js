@@ -16,4 +16,9 @@ describe("an empty filesystem mock", () => {
       done();
     });
   });
+
+  it("throws an error when readdir() is called", () => {
+    fsMock.readdir("there_are_no_files.txt", function(error, stats) {
+    });
+  });
 });
