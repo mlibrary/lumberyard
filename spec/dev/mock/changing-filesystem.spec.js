@@ -24,11 +24,17 @@ describe("an empty filesystem mock", () => {
     });
   });
 
-  it("throws an error when createReadStream() is called", done => {
-    let stream = fsMock.createReadStream("fake.txt");
+  describe("the stream from createReadStream()", () => {
+    let stream;
 
-    stream.on("error", function(error) {
-      done();
+    beforeEach(() => {
+      stream = fsMock.createReadStream("fake.txt");
+    });
+
+    it("throws an error event", done => {
+      stream.on("error", function(error) {
+        done();
+      });
     });
   });
 });
