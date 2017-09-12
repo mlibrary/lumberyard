@@ -36,5 +36,15 @@ describe("an empty filesystem mock", () => {
         done();
       });
     });
+
+    it("doesn't emit a 'data' event", done => {
+      setTimeout(function() {
+        done();
+      }, 50);
+
+      stream.on("data", function(chunk) {
+        throw "emitted 'data' event";
+      });
+    });
   });
 });
