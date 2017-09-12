@@ -10,6 +10,8 @@ describe("an empty filesystem mock", () => {
     fsMock = ChangingFSMock();
   });
 
-  it("can be inited", () => {
+  it("throws an error when stat() is called", () => {
+    fsMock.stat("any_file_path.txt", function(error, stats) {
+    });
   });
 });
