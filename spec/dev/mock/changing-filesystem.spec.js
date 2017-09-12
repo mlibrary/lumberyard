@@ -23,4 +23,8 @@ describe("an empty filesystem mock", () => {
       done();
     });
   });
+
+  it("throws an error when createReadStream() is called", () => {
+    let stream = fsMock.createReadStream("fake.txt");
+  });
 });
