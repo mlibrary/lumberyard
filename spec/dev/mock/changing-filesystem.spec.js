@@ -3,3 +3,13 @@
 // BSD License. See LICENSE.txt for details.
 
 const ChangingFSMock = require("../../../lib/mock/changing-filesystem");
+let fsMock;
+
+describe("an empty filesystem mock", () => {
+  beforeEach(() => {
+    fsMock = ChangingFSMock();
+  });
+
+  it("can be inited", () => {
+  });
+});
