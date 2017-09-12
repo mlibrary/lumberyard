@@ -42,6 +42,8 @@ describe("an empty filesystem mock", () => {
         done();
       }, 50);
 
+      stream.on("error", () => {});
+
       stream.on("data", function(chunk) {
         throw "emitted 'data' event";
       });
