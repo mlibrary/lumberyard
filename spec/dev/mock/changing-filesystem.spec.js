@@ -10,8 +10,10 @@ describe("an empty filesystem mock", () => {
     fsMock = ChangingFSMock();
   });
 
-  it("throws an error when stat() is called", () => {
+  it("throws an error when stat() is called", done => {
     fsMock.stat("any_file_path.txt", function(error, stats) {
+      expect(error).toBeDefined();
+      done();
     });
   });
 });
