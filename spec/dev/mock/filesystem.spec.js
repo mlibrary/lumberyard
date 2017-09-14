@@ -50,11 +50,16 @@ describe("an empty filesystem mock", () => {
     });
   });
 
-  it("can store a new file and stat it", done => {
-    fsMock.set("fake_file.txt", "some contents");
-    fsMock.stat("fake_file.txt", function(error, stats) {
-      expect(error).toBeUndefined();
-      done();
+  describe("after setting fake_file.txt to 'some contents'", () => {
+    beforeEach(() => {
+      fsMock.set("fake_file.txt", "some contents");
+    });
+
+    it("can stat fake_file.txt without error", done => {
+      fsMock.stat("fake_file.txt", function(error, stats) {
+        expect(error).toBeUndefined();
+        done();
+      });
     });
   });
 });
