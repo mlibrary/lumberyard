@@ -49,4 +49,8 @@ describe("an empty filesystem mock", () => {
       });
     });
   });
+
+  it("can store a new file", () => {
+    fsMock.set("fake_file.txt", "some contents");
+  });
 });
