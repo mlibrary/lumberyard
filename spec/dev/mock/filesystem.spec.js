@@ -89,6 +89,13 @@ describe("an empty filesystem mock", () => {
           done();
         });
       });
+
+      it("can stat another.txt without error", done => {
+        fsMock.stat("another.txt", function(error, stats) {
+          expect(error).toBeUndefined();
+          done();
+        });
+      });
     });
   });
 });
