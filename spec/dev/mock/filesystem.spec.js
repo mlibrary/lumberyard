@@ -69,5 +69,18 @@ describe("an empty filesystem mock", () => {
         done();
       });
     });
+
+    describe("after setting another.txt to 'new stuff'", () => {
+      beforeEach(() => {
+        fsMock.set("another.txt", "new stuff");
+      });
+
+      it("can still stat fake_file.txt without error", done => {
+        fsMock.stat("fake_file.txt", function(error, stats) {
+          expect(error).toBeUndefined();
+          done();
+        });
+      });
+    });
   });
 });
