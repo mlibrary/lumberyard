@@ -81,6 +81,14 @@ describe("an empty filesystem mock", () => {
           done();
         });
       });
+
+      it("streams 'some contents' when fake_file.txt is read", done => {
+        let stream = fsMock.createReadStream("fake_file.txt");
+        stream.on("data", function(chunk) {
+          expect(chunk).toBe("some contents");
+          done();
+        });
+      });
     });
   });
 });
