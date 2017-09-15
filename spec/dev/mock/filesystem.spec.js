@@ -96,6 +96,14 @@ describe("an empty filesystem mock", () => {
           done();
         });
       });
+
+      it("streams 'new stuff' when another.txt is read", done => {
+        let stream = fsMock.createReadStream("another.txt");
+        stream.on("data", function(chunk) {
+          expect(chunk).toBe("new stuff");
+          done();
+        });
+      });
     });
   });
 });
