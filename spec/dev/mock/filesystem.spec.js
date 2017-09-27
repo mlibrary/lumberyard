@@ -70,6 +70,10 @@ describe("an empty filesystem mock", () => {
       });
     });
 
+    it("can delete fake_file.txt", () => {
+      fsMock.delete("fake_file.txt");
+    });
+
     describe("after setting another.txt to 'new stuff'", () => {
       beforeEach(() => {
         fsMock.set("another.txt", "new stuff");
