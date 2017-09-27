@@ -160,4 +160,8 @@ describe("an empty filesystem mock", () => {
       });
     });
   });
+
+  it("can create a directory", () => {
+    fsMock.mkdir("subdir");
+  });
 });
