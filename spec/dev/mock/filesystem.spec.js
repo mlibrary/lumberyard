@@ -84,6 +84,10 @@ describe("an empty filesystem mock", () => {
       it("stats.isDirectory() returns false", () => {
         expect(fakefile_stats.isDirectory()).toBe(false);
       });
+
+      it("stats.size is 13", () => {
+        expect(fakefile_stats.size).toBe(13);
+      });
     });
 
     describe("after setting another.txt to 'new stuff'", () => {
