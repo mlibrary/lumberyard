@@ -172,8 +172,13 @@ describe("an empty filesystem mock", () => {
       fsMock.mkdir("subdir");
     });
 
-    it("can add a file to subdir", () => {
-      fsMock.set("subdir/new_file.txt", "hello");
+    describe("after setting subdir/new_file.txt to 'hello'", () => {
+      beforeEach(() => {
+        fsMock.set("subdir/new_file.txt", "hello");
+      });
+
+      it("doesn't error out", () => {
+      });
     });
 
     it("won't let you overwrite subdir as a file", () => {
