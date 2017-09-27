@@ -24,6 +24,12 @@ describe("an empty filesystem mock", () => {
     });
   });
 
+  it("won't let you create a file in an unknown directory", () => {
+    expect(() => {
+      fsMock.set("not_a_real_dir/new_file.txt", "some text");
+    }).toThrow();
+  });
+
   describe("the stream from createReadStream()", () => {
     let stream;
 
@@ -157,6 +163,44 @@ describe("an empty filesystem mock", () => {
           expect(error).toBeDefined();
           done();
         });
+      });
+    });
+  });
+
+  describe("after creating directory 'subdir'", () => {
+    beforeEach(() => {
+      fsMock.mkdir("subdir");
+    });
+
+    describe("after setting subdir/new_file.txt to 'hello'", () => {
+      beforeEach(() => {
+        fsMock.set("subdir/new_file.txt", "hello");
+      });
+
+      it("subdir/new_file.txt has size 5", done => {
+        fsMock.stat("subdir/new_file.txt", function(error, stats) {
+          expect(stats.size).toBe(5);
+          done();
+        });
+      });
+    });
+
+    it("won't let you overwrite subdir as a file", () => {
+      expect(() => {
+        fsMock.set("subdir", "uh oh");
+      }).toThrow();
+    });
+
+    it("won't let you run mkdir on subdir a second time", () => {
+      expect(() => {
+        fsMock.mkdir("subdir");
+      }).toThrow();
+    });
+
+    it("has stats knowing they're a directory", done => {
+      fsMock.stat("subdir", function(error, stats) {
+        expect(stats.isDirectory()).toBe(true);
+        done();
       });
     });
   });
