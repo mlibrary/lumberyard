@@ -175,5 +175,11 @@ describe("an empty filesystem mock", () => {
     it("can add a file to subdir", () => {
       fsMock.set("subdir/new_file.txt", "hello");
     });
+
+    it("won't let you overwrite subdir as a file", () => {
+      expect(() => {
+        fsMock.set("subdir", "uh oh");
+      }).toThrow();
+    });
   });
 });
