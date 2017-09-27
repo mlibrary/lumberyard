@@ -172,7 +172,8 @@ describe("an empty filesystem mock", () => {
       fsMock.mkdir("subdir");
     });
 
-    it("can create a directory", () => {
+    it("can add a file to subdir", () => {
+      fsMock.set("subdir/new_file.txt", "hello");
     });
   });
 });
