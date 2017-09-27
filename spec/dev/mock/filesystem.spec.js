@@ -70,6 +70,22 @@ describe("an empty filesystem mock", () => {
       });
     });
 
+    describe("fake_file.txt's stats object", () => {
+      let fakefile_stats;
+
+      beforeEach(done => {
+        fsMock.stat("fake_file.txt", function(error, stats) {
+          expect(error).toBeUndefined();
+          fakefile_stats = stats;
+          done();
+        });
+      });
+
+      it("is defined", () => {
+        expect(fakefile_stats).toBeDefined();
+      });
+    });
+
     describe("after setting another.txt to 'new stuff'", () => {
       beforeEach(() => {
         fsMock.set("another.txt", "new stuff");
