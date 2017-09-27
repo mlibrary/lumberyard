@@ -105,5 +105,15 @@ describe("an empty filesystem mock", () => {
         });
       });
     });
+
+    describe("after setting fake_file.txt to 'new data'", () => {
+      beforeEach(() => {
+        fsMock.set("fake_file.txt", "new data");
+      });
+
+      it("succeeds", () => {
+        expect(true).toBe(true);
+      });
+    });
   });
 });
