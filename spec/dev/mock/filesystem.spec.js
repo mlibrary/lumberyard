@@ -24,6 +24,12 @@ describe("an empty filesystem mock", () => {
     });
   });
 
+  it("won't let you create a file in an unknown directory", () => {
+    expect(() => {
+      fsMock.set("not_a_real_dir/new_file.txt", "some text");
+    }).toThrow();
+  });
+
   describe("the stream from createReadStream()", () => {
     let stream;
 
