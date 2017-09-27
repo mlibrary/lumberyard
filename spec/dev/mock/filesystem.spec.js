@@ -125,7 +125,11 @@ describe("an empty filesystem mock", () => {
         fsMock.delete("fake_file.txt");
       });
 
-      it("can delete fake_file.txt", () => {
+      it("throws an error on stat('fake_file.txt')", done => {
+        fsMock.stat("fake_file.txt", function(error, stats) {
+          expect(error).toBeDefined();
+          done();
+        });
       });
     });
   });
