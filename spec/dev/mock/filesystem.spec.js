@@ -181,5 +181,11 @@ describe("an empty filesystem mock", () => {
         fsMock.set("subdir", "uh oh");
       }).toThrow();
     });
+
+    it("won't let you run mkdir on subdir a second time", () => {
+      expect(() => {
+        fsMock.mkdir("subdir");
+      }).toThrow();
+    });
   });
 });
