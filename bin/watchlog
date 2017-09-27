@@ -33,7 +33,8 @@ logTools.BulletedListener().then(function(listener) {
 
   listener.promise.then(() => {
     process.exit(0);
-  }, () => {
+  }, error => {
+    logTools.walkErrorToStdOut(error);
     process.exit(1);
   });
 });
