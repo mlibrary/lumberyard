@@ -187,5 +187,12 @@ describe("an empty filesystem mock", () => {
         fsMock.mkdir("subdir");
       }).toThrow();
     });
+
+    it("has stats knowing they're a directory", done => {
+      fsMock.stat("subdir", function(error, stats) {
+        expect(stats.isDirectory()).toBe(true);
+        done();
+      });
+    });
   });
 });
