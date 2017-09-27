@@ -81,8 +81,8 @@ describe("an empty filesystem mock", () => {
         });
       });
 
-      it("is defined", () => {
-        expect(fakefile_stats).toBeDefined();
+      it("stats.isDirectory() returns false", () => {
+        expect(fakefile_stats.isDirectory()).toBe(false);
       });
     });
 
