@@ -124,6 +124,13 @@ describe("an empty filesystem mock", () => {
           done();
         });
       });
+
+      it("knows another.txt has a file size of 9", done => {
+        fsMock.stat("another.txt", function(error, stats) {
+          expect(stats.size).toBe(9);
+          done();
+        });
+      });
     });
 
     describe("after setting fake_file.txt to 'new data'", () => {
