@@ -177,7 +177,11 @@ describe("an empty filesystem mock", () => {
         fsMock.set("subdir/new_file.txt", "hello");
       });
 
-      it("doesn't error out", () => {
+      it("subdir/new_file.txt has size 5", done => {
+        fsMock.stat("subdir/new_file.txt", function(error, stats) {
+          expect(stats.size).toBe(5);
+          done();
+        });
       });
     });
 
