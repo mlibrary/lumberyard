@@ -212,6 +212,13 @@ describe("an empty filesystem mock", () => {
       });
     });
 
+    it("createReadStream() emits an 'error' event", done => {
+      let stream = fsMock.createReadStream("subdir");
+      stream.on("error", function(error) {
+        done();
+      });
+    });
+
     describe("after setting subdir/new_file.txt to 'hello'", () => {
       beforeEach(() => {
         fsMock.set("subdir/new_file.txt", "hello");
