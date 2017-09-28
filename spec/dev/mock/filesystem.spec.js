@@ -76,6 +76,13 @@ describe("an empty filesystem mock", () => {
       });
     });
 
+    it("throws an error when readdir() is called", done => {
+      fsMock.readdir("fake_file.txt", function(error, files) {
+        expect(error).toBeDefined();
+        done();
+      });
+    });
+
     describe("fake_file.txt's stats object", () => {
       let fakefile_stats;
 
@@ -172,19 +179,6 @@ describe("an empty filesystem mock", () => {
       fsMock.mkdir("subdir");
     });
 
-    describe("after setting subdir/new_file.txt to 'hello'", () => {
-      beforeEach(() => {
-        fsMock.set("subdir/new_file.txt", "hello");
-      });
-
-      it("subdir/new_file.txt has size 5", done => {
-        fsMock.stat("subdir/new_file.txt", function(error, stats) {
-          expect(stats.size).toBe(5);
-          done();
-        });
-      });
-    });
-
     it("won't let you overwrite subdir as a file", () => {
       expect(() => {
         fsMock.set("subdir", "uh oh");
@@ -201,6 +195,55 @@ describe("an empty filesystem mock", () => {
       fsMock.stat("subdir", function(error, stats) {
         expect(stats.isDirectory()).toBe(true);
         done();
+      });
+    });
+
+    it("returns [] when readdir() is called", done => {
+      fsMock.readdir("subdir", function(error, files) {
+        expect(files).toEqual([]);
+        done();
+      });
+    });
+
+    it("doesn't throw an error on readdir()", done => {
+      fsMock.readdir("subdir", function(error, files) {
+        expect(error).toBeUndefined();
+        done();
+      });
+    });
+
+    it("createReadStream() emits an 'error' event", done => {
+      let stream = fsMock.createReadStream("subdir");
+      stream.on("error", function(error) {
+        done();
+      });
+    });
+
+    describe("after setting subdir/new_file.txt to 'hello'", () => {
+      beforeEach(() => {
+        fsMock.set("subdir/new_file.txt", "hello");
+      });
+
+      it("subdir/new_file.txt has size 5", done => {
+        fsMock.stat("subdir/new_file.txt", function(error, stats) {
+          expect(stats.size).toBe(5);
+          done();
+        });
+      });
+
+      it("returns ['new_file.txt'] on readdir()", done => {
+        fsMock.readdir("subdir", function(error, files) {
+          expect(files).toEqual(["new_file.txt"]);
+          done();
+        });
+      });
+
+      it("streams 'hello' when new_file.txt is read", done => {
+        let stream = fsMock.createReadStream("subdir/new_file.txt");
+        stream.on("data", function(chunk) {
+          expect(chunk).toBe("hello");
+          done();
+        });
       });
     });
   });
