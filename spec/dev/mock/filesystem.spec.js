@@ -76,6 +76,13 @@ describe("an empty filesystem mock", () => {
       });
     });
 
+    it("throws an error when readdir() is called", done => {
+      fsMock.readdir("fake_file.txt", function(error, files) {
+        expect(error).toBeDefined();
+        done();
+      });
+    });
+
     describe("fake_file.txt's stats object", () => {
       let fakefile_stats;
 
