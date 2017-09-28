@@ -11,5 +11,7 @@ describe("a duration without an object", () => {
     ticker = Duration();
   });
 
-  it("can be inited with nothing", () => {});
+  it("has a tick() method", () => {
+    ticker.tick();
+  });
 });
