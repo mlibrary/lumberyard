@@ -11,7 +11,12 @@ describe("a duration without an object", () => {
     ticker = Duration();
   });
 
-  it("has a tick() method", () => {
-    ticker.tick();
+  it("has a tick() method which resolves", done => {
+    ticker.tick().then(function() {
+      done();
+    }, function(error) {
+      expect(error).toBe("not an error");
+      done();
+    });
   });
 });
