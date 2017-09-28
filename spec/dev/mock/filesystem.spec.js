@@ -172,19 +172,6 @@ describe("an empty filesystem mock", () => {
       fsMock.mkdir("subdir");
     });
 
-    describe("after setting subdir/new_file.txt to 'hello'", () => {
-      beforeEach(() => {
-        fsMock.set("subdir/new_file.txt", "hello");
-      });
-
-      it("subdir/new_file.txt has size 5", done => {
-        fsMock.stat("subdir/new_file.txt", function(error, stats) {
-          expect(stats.size).toBe(5);
-          done();
-        });
-      });
-    });
-
     it("won't let you overwrite subdir as a file", () => {
       expect(() => {
         fsMock.set("subdir", "uh oh");
@@ -201,6 +188,19 @@ describe("an empty filesystem mock", () => {
       fsMock.stat("subdir", function(error, stats) {
         expect(stats.isDirectory()).toBe(true);
         done();
+      });
+    });
+
+    describe("after setting subdir/new_file.txt to 'hello'", () => {
+      beforeEach(() => {
+        fsMock.set("subdir/new_file.txt", "hello");
+      });
+
+      it("subdir/new_file.txt has size 5", done => {
+        fsMock.stat("subdir/new_file.txt", function(error, stats) {
+          expect(stats.size).toBe(5);
+          done();
+        });
       });
     });
   });
