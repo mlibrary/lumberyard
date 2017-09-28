@@ -230,6 +230,14 @@ describe("an empty filesystem mock", () => {
           done();
         });
       });
+
+      it("streams 'hello' when new_file.txt is read", done => {
+        let stream = fsMock.createReadStream("subdir/new_file.txt");
+        stream.on("data", function(chunk) {
+          expect(chunk).toBe("hello");
+          done();
+        });
+      });
     });
   });
 });
