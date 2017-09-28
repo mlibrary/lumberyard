@@ -250,7 +250,7 @@ describe("an empty filesystem mock", () => {
 });
 
 describe("a filesystem mock inited with a simple file tree", () => {
-  it("can exist", () => {
+  beforeEach(() => {
     fsMock = ChangingFSMock({
       "Shipment_1234567": {
         "39015012345677": {
@@ -269,5 +269,8 @@ describe("a filesystem mock inited with a simple file tree", () => {
         "validation.log": "probably invalid? no barcodes"
       }
     });
+  });
+
+  it("can exist", () => {
   });
 });
