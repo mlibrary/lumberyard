@@ -248,3 +248,26 @@ describe("an empty filesystem mock", () => {
     });
   });
 });
+
+describe("a filesystem mock inited with a simple file tree", () => {
+  it("can exist", () => {
+    fsMock = ChangingFSMock({
+      "Shipment_1234567": {
+        "39015012345677": {
+          "00000001.tif": "the first tiff",
+          "00000002.tif": "the second tiff"
+        },
+
+        "39015012345685": {
+          "00000001.jp2": "this is a jp2"
+        },
+
+        "validation.log": "some validation results"
+      },
+
+      "Shipment_1234568": {
+        "validation.log": "probably invalid? no barcodes"
+      }
+    });
+  });
+});
