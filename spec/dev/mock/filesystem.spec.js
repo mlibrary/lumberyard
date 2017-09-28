@@ -223,6 +223,13 @@ describe("an empty filesystem mock", () => {
           done();
         });
       });
+
+      it("returns ['new_file.txt'] on readdir()", done => {
+        fsMock.readdir("subdir", function(error, files) {
+          expect(files).toEqual(["new_file.txt"]);
+          done();
+        });
+      });
     });
   });
 });
