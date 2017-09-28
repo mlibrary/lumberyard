@@ -20,3 +20,16 @@ describe("a duration without an object", () => {
     });
   });
 });
+
+describe("a duration based on an array", () => {
+  let changingArray;
+
+  beforeEach(() => {
+    changingArray = [];
+    ticker = Duration(changingArray);
+  });
+
+  it("can be given an action", () => {
+    ticker.at(1, "push", "hi");
+  });
+});
