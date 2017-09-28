@@ -205,6 +205,13 @@ describe("an empty filesystem mock", () => {
       });
     });
 
+    it("doesn't throw an error on readdir()", done => {
+      fsMock.readdir("subdir", function(error, files) {
+        expect(error).toBeUndefined();
+        done();
+      });
+    });
+
     describe("after setting subdir/new_file.txt to 'hello'", () => {
       beforeEach(() => {
         fsMock.set("subdir/new_file.txt", "hello");
