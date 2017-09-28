@@ -271,6 +271,13 @@ describe("a filesystem mock inited with a simple file tree", () => {
     });
   });
 
-  it("can exist", () => {
+  it("can stream the first tiff", done => {
+    let stream = fsMock.createReadStream(
+        "Shipment_1234567/39015012345677/00000001.tif");
+
+    stream.on("data", function(chunk) {
+      expect(chunk).toBe("the first tiff");
+      done();
+    });
   });
 });
