@@ -79,7 +79,7 @@ describe("a duration based on an empty array", () => {
         expect(changingArray).toEqual([]);
       });
 
-      xit("pushes 'hi' then 'matt' after 1 tick", done => {
+      it("pushes 'hi' then 'matt' after 1 tick", done => {
         tickThen(1, done, function() {
           expect(changingArray).toEqual(["hi", "matt"]);
         });
