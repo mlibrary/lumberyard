@@ -34,8 +34,19 @@ describe("a duration based on an empty array", () => {
       ticker.at(1, "push", "hi");
     });
 
-    it("the array is unaffected", () => {
+    it("doesn't alter the array", () => {
       expect(changingArray).toEqual([]);
+    });
+
+    it("pushes 'hi' to the array after 1 tick", done => {
+      ticker.tick().then(function() {
+        done();
+        expect(changingArray).toEqual(["hi"]);
+
+      }, function(error) {
+        expect(error).toBe("not an error");
+        done();
+      });
     });
   });
 });
