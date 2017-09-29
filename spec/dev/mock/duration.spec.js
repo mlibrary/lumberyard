@@ -6,18 +6,24 @@ const Duration = require("../../../lib/mock/duration");
 
 let ticker;
 
+let tickThen = function(done, callback) {
+  ticker.tick().then(function() {
+    callback();
+    done();
+
+  }, function(error) {
+    expect(error).toBe("not an error");
+    done();
+  });
+};
+
 describe("a duration without an object", () => {
   beforeEach(() => {
     ticker = Duration();
   });
 
   it("has a tick() method which resolves", done => {
-    ticker.tick().then(function() {
-      done();
-    }, function(error) {
-      expect(error).toBe("not an error");
-      done();
-    });
+    tickThen(done, () => {});
   });
 });
 
@@ -39,13 +45,8 @@ describe("a duration based on an empty array", () => {
     });
 
     it("pushes 'hi' to the array after 1 tick", done => {
-      ticker.tick().then(function() {
-        done();
+      tickThen(done, function() {
         expect(changingArray).toEqual(["hi"]);
-
-      }, function(error) {
-        expect(error).toBe("not an error");
-        done();
       });
     });
   });
