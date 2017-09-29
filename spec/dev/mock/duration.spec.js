@@ -80,6 +80,12 @@ describe("a duration based on an empty array", () => {
       expect(changingArray).toEqual([]);
     });
 
+    xit("doesn't alter the array after 2 ticks", done => {
+      tickThen(2, done, function() {
+        expect(changingArray).toEqual([]);
+      });
+    });
+
     it("pushes 'sup' to the array after 3 ticks", done => {
       tickThen(3, done, function() {
         expect(changingArray).toEqual(["sup"]);
