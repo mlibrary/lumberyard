@@ -21,7 +21,7 @@ describe("a duration without an object", () => {
   });
 });
 
-describe("a duration based on an array", () => {
+describe("a duration based on an empty array", () => {
   let changingArray;
 
   beforeEach(() => {
@@ -29,7 +29,12 @@ describe("a duration based on an array", () => {
     ticker = Duration(changingArray);
   });
 
-  it("can be given an action", () => {
-    ticker.at(1, "push", "hi");
+  describe("when told to push 'hi' at 1", () => {
+    beforeEach(() => {
+      ticker.at(1, "push", "hi");
+    });
+
+    it("can be given an action", () => {
+    });
   });
 });
