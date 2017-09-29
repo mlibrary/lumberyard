@@ -63,5 +63,11 @@ describe("a duration based on an empty array", () => {
         expect(changingArray).toEqual(["hi"]);
       });
     });
+
+    it("only pushes 'hi' once after additional ticks", done => {
+      tickThen(5, done, function() {
+        expect(changingArray).toEqual(["hi"]);
+      });
+    });
   });
 });
