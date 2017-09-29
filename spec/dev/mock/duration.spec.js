@@ -34,7 +34,8 @@ describe("a duration based on an empty array", () => {
       ticker.at(1, "push", "hi");
     });
 
-    it("can be given an action", () => {
+    it("the array is unaffected", () => {
+      expect(changingArray).toEqual([]);
     });
   });
 });
