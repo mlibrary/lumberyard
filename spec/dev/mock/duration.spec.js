@@ -69,6 +69,22 @@ describe("a duration based on an empty array", () => {
         expect(changingArray).toEqual(["hi"]);
       });
     });
+
+    describe("and then told to push 'matt' at 1", () => {
+      beforeEach(() => {
+        ticker.at(1, "push", "matt");
+      });
+
+      it("does nothing at first", () => {
+        expect(changingArray).toEqual([]);
+      });
+
+      xit("pushes 'hi' then 'matt' after 1 tick", done => {
+        tickThen(1, done, function() {
+          expect(changingArray).toEqual(["hi", "matt"]);
+        });
+      });
+    });
   });
 
   describe("when told to push 'sup' at 3", () => {
