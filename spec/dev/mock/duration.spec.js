@@ -7,28 +7,14 @@ const Duration = require("../../../lib/mock/duration");
 let ticker;
 
 let tickThen = function(n, done, callback) {
-  let testRunner = function() {
+  ticker.tick(n).then(function() {
     callback();
     done();
-  };
 
-  let errorHandler = function(error) {
+  }, function(error) {
     expect(error).toBe("not an error");
     done();
-  };
-
-  let singleTick = function(f) {
-    return function() {
-      ticker.tick().then(f, errorHandler);
-    };
-  };
-
-  for (; n > 0; n -= 1) {
-    let anotherTick = singleTick(testRunner);
-    testRunner = anotherTick;
-  }
-
-  testRunner();
+  });
 };
 
 describe("a duration without an object", () => {
