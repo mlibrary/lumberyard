@@ -70,4 +70,20 @@ describe("a duration based on an empty array", () => {
       });
     });
   });
+
+  describe("when told to push 'sup' at 3", () => {
+    beforeEach(() => {
+      ticker.at(3, "push", "sup");
+    });
+
+    it("doesn't alter the array", () => {
+      expect(changingArray).toEqual([]);
+    });
+
+    it("pushes 'sup' to the array after 3 ticks", done => {
+      tickThen(3, done, function() {
+        expect(changingArray).toEqual(["sup"]);
+      });
+    });
+  });
 });
