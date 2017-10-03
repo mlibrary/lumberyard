@@ -17,4 +17,20 @@ describe("a default instance of Emitter()", () => {
   it("has an on() method", () => {
     emitter.on("anything", () => {});
   });
+
+  it("remembers on() callbacks when called before emit()", () => {
+    let callbackWasCalled = false;
+
+    runs(function() {
+      emitter.on("do the test", function() {
+        callbackWasCalled = true;
+      });
+
+      emitter.emit("do the test");
+    });
+
+    waitsFor(function() {
+      return callbackWasCalled;
+    }, "emitter to call 'do the test' callback", 50);
+  });
 });
