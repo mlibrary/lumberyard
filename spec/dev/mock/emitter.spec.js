@@ -3,3 +3,10 @@
 // BSD License. See LICENSE.txt for details.
 
 const Emitter = require("../../../lib/mock/emitter");
+let emitter;
+
+describe("a default instance of Emitter()", () => {
+  it("doesn't raise an error", () => {
+    emitter = Emitter();
+  });
+});
