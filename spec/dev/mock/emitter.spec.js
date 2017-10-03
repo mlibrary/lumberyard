@@ -6,7 +6,10 @@ const Emitter = require("../../../lib/mock/emitter");
 let emitter;
 
 describe("a default instance of Emitter()", () => {
-  it("doesn't raise an error", () => {
+  beforeEach(() => {
     emitter = Emitter();
+  });
+
+  it("doesn't raise an error", () => {
   });
 });
