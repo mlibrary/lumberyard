@@ -10,6 +10,7 @@ describe("a default instance of Emitter()", () => {
     emitter = Emitter();
   });
 
-  it("doesn't raise an error", () => {
+  it("has an emit() method", () => {
+    emitter.emit("nothing");
   });
 });
