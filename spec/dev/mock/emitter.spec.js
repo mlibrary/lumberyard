@@ -13,4 +13,8 @@ describe("a default instance of Emitter()", () => {
   it("has an emit() method", () => {
     emitter.emit("nothing");
   });
+
+  it("has an on() method", () => {
+    emitter.on("anything", () => {});
+  });
 });
