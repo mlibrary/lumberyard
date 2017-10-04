@@ -34,7 +34,7 @@ describe("a default instance of Emitter()", () => {
     }, "emitter to call 'do the test' callback", 50);
   });
 
-  xit("remembers emit() when on() is called after", () => {
+  it("remembers emit() when on() is called after", () => {
     let callbackWasCalled = false;
 
     runs(function() {
