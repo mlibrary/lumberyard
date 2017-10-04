@@ -33,4 +33,20 @@ describe("a default instance of Emitter()", () => {
       return callbackWasCalled;
     }, "emitter to call 'do the test' callback", 50);
   });
+
+  xit("remembers emit() when on() is called after", () => {
+    let callbackWasCalled = false;
+
+    runs(function() {
+      emitter.emit("send");
+
+      emitter.on("send", function() {
+        callbackWasCalled = true;
+      });
+    });
+
+    waitsFor(function() {
+      return callbackWasCalled;
+    }, "emitter to call 'send' callback", 50);
+  });
 });
