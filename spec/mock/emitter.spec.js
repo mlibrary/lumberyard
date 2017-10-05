@@ -2,7 +2,7 @@
 // All Rights Reserved. Licensed according to the terms of the Revised
 // BSD License. See LICENSE.txt for details.
 
-const Emitter = require("../../../lib/mock/emitter");
+const Emitter = require("./emitter");
 let emitter;
 
 describe("a default instance of Emitter()", () => {

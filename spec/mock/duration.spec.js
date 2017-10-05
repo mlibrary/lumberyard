@@ -2,7 +2,7 @@
 // All Rights Reserved. Licensed according to the terms of the Revised
 // BSD License. See LICENSE.txt for details.
 
-const Duration = require("../../../lib/mock/duration");
+const Duration = require("./duration");
 
 let ticker;
 
