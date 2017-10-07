@@ -11,10 +11,6 @@ describe("an instance of Ticker()", () => {
     ticker = Ticker();
   });
 
-  it("has a tick() method", () => {
-    ticker.tick();
-  });
-
   it("returns a promise on tick()", () => {
     let n = 0;
 
