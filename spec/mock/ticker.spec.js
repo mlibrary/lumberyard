@@ -11,6 +11,7 @@ describe("an instance of Ticker()", () => {
     ticker = Ticker();
   });
 
-  it("can exist", () => {
+  it("has a tick() method", () => {
+    ticker.tick();
   });
 });

@@ -3,4 +3,10 @@
 // BSD License. See LICENSE.txt for details.
 
 module.exports = function() {
+  Ticker = {};
+
+  Ticker.tick = function() {
+  };
+
+  return Ticker;
 };
