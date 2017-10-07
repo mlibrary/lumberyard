@@ -2,7 +2,7 @@
 // All Rights Reserved. Licensed according to the terms of the Revised
 // BSD License. See LICENSE.txt for details.
 
-const ChangingFSMock = require("../../../lib/mock/filesystem");
+const ChangingFSMock = require("./filesystem");
 let fsMock;
 
 describe("an empty filesystem mock", () => {
