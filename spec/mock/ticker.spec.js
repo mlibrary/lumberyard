@@ -14,4 +14,22 @@ describe("an instance of Ticker()", () => {
   it("has a tick() method", () => {
     ticker.tick();
   });
+
+  xit("returns a promise on tick()", () => {
+    let n = 0;
+
+    runs(() => {
+      ticker.tick().then(() => {
+        n += 1;
+      });
+    });
+
+    waitsFor(() => {
+      return (n > 0);
+    }, "tick() to finish", 10);
+
+    runs(() => {
+      expect(n).toBe(1);
+    });
+  });
 });
