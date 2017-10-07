@@ -22,20 +22,33 @@ describe("an instance of Ticker()", () => {
 
     waitsFor(() => {
       return (n > 0);
-    }, "tick() to finish", 10);
+    }, "tick() to finish", 50);
 
     runs(() => {
       expect(n).toBe(1);
     });
   });
 
-  it("can be given a task", () => {
+  xit("can be given a task", () => {
+    let tick_happened = false;
     let n = 0;
 
     runs(() => {
       ticker.at(1, () => {
         n += 1;
       });
+
+      ticker.tick().then(() => {
+        tick_happened = true;
+      });
+    });
+
+    waitsFor(() => {
+      return tick_happened;
+    }, "tick() to finish", 50);
+
+    runs(() => {
+      expect(n).toBe(1);
     });
   });
 });
