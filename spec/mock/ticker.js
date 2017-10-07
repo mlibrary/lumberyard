@@ -6,6 +6,7 @@ module.exports = function() {
   Ticker = {};
 
   Ticker.tick = () => new Promise(function(resolve, reject) {
+    resolve();
   });
 
   return Ticker;

@@ -15,7 +15,7 @@ describe("an instance of Ticker()", () => {
     ticker.tick();
   });
 
-  xit("returns a promise on tick()", () => {
+  it("returns a promise on tick()", () => {
     let n = 0;
 
     runs(() => {
