@@ -29,26 +29,32 @@ describe("an instance of Ticker()", () => {
     });
   });
 
-  it("can be given a task", () => {
-    let tick_happened = false;
-    let n = 0;
+  describe("when given a task to increment n", () => {
+    let n;
 
-    runs(() => {
+    beforeEach(() => {
+      n = 0;
       ticker.at(1, () => {
         n += 1;
       });
+    });
 
-      ticker.tick().then(() => {
-        tick_happened = true;
+      it("can be given a task", () => {
+        let tick_happened = false;
+
+        runs(() => {
+          ticker.tick().then(() => {
+            tick_happened = true;
+          });
+        });
+
+        waitsFor(() => {
+          return tick_happened;
+        }, "tick() to finish", 50);
+
+        runs(() => {
+          expect(n).toBe(1);
+        });
       });
-    });
-
-    waitsFor(() => {
-      return tick_happened;
-    }, "tick() to finish", 50);
-
-    runs(() => {
-      expect(n).toBe(1);
-    });
   });
 });
