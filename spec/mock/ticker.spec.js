@@ -7,7 +7,10 @@ const Ticker = require("./ticker");
 let ticker;
 
 describe("an instance of Ticker()", () => {
-  it("can exist", () => {
+  beforeEach(() => {
     ticker = Ticker();
+  });
+
+  it("can exist", () => {
   });
 });
