@@ -4,12 +4,17 @@
 
 module.exports = function() {
   Ticker = {};
+  internal = {};
 
   Ticker.tick = () => new Promise(function(resolve, reject) {
+    if (internal.callback)
+      internal.callback();
+
     resolve();
   });
 
-  Ticker.at = function() {
+  Ticker.at = function(n, callback) {
+    internal.callback = callback;
   };
 
   return Ticker;

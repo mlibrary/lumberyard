@@ -29,7 +29,7 @@ describe("an instance of Ticker()", () => {
     });
   });
 
-  xit("can be given a task", () => {
+  it("can be given a task", () => {
     let tick_happened = false;
     let n = 0;
 
