@@ -3,3 +3,11 @@
 // BSD License. See LICENSE.txt for details.
 
 const Ticker = require("./ticker");
+
+let ticker;
+
+describe("an instance of Ticker()", () => {
+  it("can exist", () => {
+    ticker = Ticker();
+  });
+});

@@ -2,4 +2,5 @@
 // All Rights Reserved. Licensed according to the terms of the Revised
 // BSD License. See LICENSE.txt for details.
 
-module.exports = 0;
+module.exports = function() {
+};
