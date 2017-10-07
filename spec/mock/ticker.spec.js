@@ -28,4 +28,14 @@ describe("an instance of Ticker()", () => {
       expect(n).toBe(1);
     });
   });
+
+  it("can be given a task", () => {
+    let n = 0;
+
+    runs(() => {
+      ticker.at(1, () => {
+        n += 1;
+      });
+    });
+  });
 });

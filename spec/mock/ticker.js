@@ -9,5 +9,8 @@ module.exports = function() {
     resolve();
   });
 
+  Ticker.at = function() {
+  };
+
   return Ticker;
 };
