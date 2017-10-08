@@ -7,15 +7,17 @@ module.exports = function() {
   internal = {};
 
   Ticker.tick = () => new Promise(function(resolve, reject) {
-    if (internal.callback)
-      internal.callback();
+    if (internal.callbacks.length > 0)
+      internal.callbacks[0]();
 
     resolve();
   });
 
   Ticker.at = function(n, callback) {
-    internal.callback = callback;
+    internal.callbacks.push(callback);
   };
+
+  internal.callbacks = [];
 
   return Ticker;
 };
