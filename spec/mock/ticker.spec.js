@@ -39,22 +39,46 @@ describe("an instance of Ticker()", () => {
       });
     });
 
-      it("can be given a task", () => {
-        let tick_happened = false;
+    it("can be given a task", () => {
+      let tick_happened = false;
 
-        runs(() => {
-          ticker.tick().then(() => {
-            tick_happened = true;
-          });
-        });
-
-        waitsFor(() => {
-          return tick_happened;
-        }, "tick() to finish", 50);
-
-        runs(() => {
-          expect(n).toBe(1);
+      runs(() => {
+        ticker.tick().then(() => {
+          tick_happened = true;
         });
       });
+
+      waitsFor(() => {
+        return tick_happened;
+      }, "tick() to finish", 50);
+
+      runs(() => {
+        expect(n).toBe(1);
+      });
+    });
+
+    xit("can queue multiple tasks", () => {
+      let tick_happened = false;
+      let m = 0;
+
+      runs(() => {
+        ticker.at(1, () => {
+          m += 1;
+        });
+
+        ticker.tick().then(() => {
+          tick_happened = true;
+        });
+      });
+
+      waitsFor(() => {
+        return tick_happened;
+      }, "tick() to finish", 50);
+
+      runs(() => {
+        expect(n).toBe(1);
+        expect(m).toBe(1);
+      });
+    });
   });
 });
