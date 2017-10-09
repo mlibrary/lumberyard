@@ -14,7 +14,8 @@ module.exports = function() {
   });
 
   Ticker.at = function(n, callback) {
-    internal.callbacks.push(callback);
+    if (n == 1)
+      internal.callbacks.push(callback);
   };
 
   internal.callbacks = [];
