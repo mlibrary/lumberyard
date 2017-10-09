@@ -35,24 +35,6 @@ describe("an instance of Ticker()", () => {
     ticker = Ticker();
   });
 
-  it("returns a promise on tick()", () => {
-    let n = 0;
-
-    runs(() => {
-      ticker.tick().then(() => {
-        n += 1;
-      });
-    });
-
-    waitsFor(() => {
-      return (n > 0);
-    }, "tick() to finish", 50);
-
-    runs(() => {
-      expect(n).toBe(1);
-    });
-  });
-
   describe("when given a task to increment n", () => {
     let n, m;
 
