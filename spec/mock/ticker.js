@@ -12,7 +12,15 @@ module.exports = function() {
 
     for (let i = 0; i < n; i += 1) {
       internal.counter += 1;
-      internal.runCallbacks();
+      let promise = Promise.resolve();
+
+      if (internal.callbacks.has(internal.counter))
+        for (let callback of internal.callbacks.get(internal.counter))
+          promise = new Promise(function(done) {
+            promise.then(function() {
+              Promise.resolve(callback()).then(done);
+            });
+          });
     }
 
     resolve();
@@ -27,18 +35,6 @@ module.exports = function() {
 
   internal.callbacks = new Map();
   internal.counter = 0;
-
-  internal.runCallbacks = function() {
-    let promise = Promise.resolve();
-
-    if (internal.callbacks.has(internal.counter))
-      for (let callback of internal.callbacks.get(internal.counter))
-        promise = new Promise(function(done) {
-          promise.then(function() {
-            Promise.resolve(callback()).then(done);
-          });
-        });
-  };
 
   return Ticker;
 };
