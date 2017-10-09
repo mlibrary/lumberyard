@@ -6,10 +6,14 @@ module.exports = function() {
   Ticker = {};
   internal = {};
 
-  Ticker.tick = () => new Promise(function(resolve, reject) {
-    internal.counter += 1;
+  Ticker.tick = n => new Promise(function(resolve, reject) {
+    if (typeof n === "undefined")
+      n = 1;
 
-    internal.runCallbacks();
+    for (let i = 0; i < n; i += 1) {
+      internal.counter += 1;
+      internal.runCallbacks();
+    }
 
     resolve();
   });

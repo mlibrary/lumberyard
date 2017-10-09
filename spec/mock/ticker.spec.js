@@ -133,5 +133,23 @@ describe("an instance of Ticker()", () => {
         expect(n).toBe(1);
       });
     });
+
+    it("increments after tick(3)", () => {
+      let ticks_happened = false;
+
+      runs(() => {
+        ticker.tick(3).then(() => {
+          ticks_happened = true;
+        });
+      });
+
+      waitsFor(() => {
+        return ticks_happened;
+      }, "3 ticks to complete", 50);
+
+      runs(() => {
+        expect(n).toBe(1);
+      });
+    });
   });
 });
