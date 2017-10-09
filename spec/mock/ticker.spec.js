@@ -57,7 +57,7 @@ describe("an instance of Ticker()", () => {
       });
     });
 
-    xit("can queue multiple tasks", () => {
+    it("can queue multiple tasks", () => {
       let tick_happened = false;
       let m = 0;
 
