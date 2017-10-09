@@ -80,6 +80,24 @@ describe("an instance of Ticker()", () => {
         expect(m).toBe(1);
       });
     });
+
+    it("does nothing on tick(0)", () => {
+      let ticks_happened = false;
+
+      runs(() => {
+        ticker.tick(0).then(() => {
+          ticks_happened = true;
+        });
+      });
+
+      waitsFor(() => {
+        return ticks_happened;
+      }, "0 ticks to complete", 50);
+
+      runs(() => {
+        expect(n).toBe(0);
+      });
+    });
   });
 
   describe("when given a task to increment n at 3", () => {
