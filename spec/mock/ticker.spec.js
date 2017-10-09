@@ -81,4 +81,17 @@ describe("an instance of Ticker()", () => {
       });
     });
   });
+
+  describe("when given a task to increment n at 3", () => {
+    let n;
+
+    beforeEach(() => {
+      n = 0;
+      ticker.at(3, () => {
+        n += 1;
+      });
+    });
+
+    it("accepts the schedule", () => {});
+  });
 });
