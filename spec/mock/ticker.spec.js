@@ -4,13 +4,13 @@
 
 const Ticker = require("./ticker");
 
-let ticker, ticksHappened;
+let ticker;
 
 let aroundTick = function(tickCount, before, after) {
   return function() {
-    runs(() => {
-      ticksHappened = false;
+    let ticksHappened = false;
 
+    runs(() => {
       if (typeof before !== "undefined")
         before();
 
