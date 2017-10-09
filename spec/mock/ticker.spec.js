@@ -40,16 +40,16 @@ describe("an instance of Ticker()", () => {
     });
 
     it("can be given a task", () => {
-      let tick_happened = false;
+      let ticksHappened = false;
 
       runs(() => {
         ticker.tick().then(() => {
-          tick_happened = true;
+          ticksHappened = true;
         });
       });
 
       waitsFor(() => {
-        return tick_happened;
+        return ticksHappened;
       }, "tick() to finish", 50);
 
       runs(() => {
@@ -58,7 +58,7 @@ describe("an instance of Ticker()", () => {
     });
 
     it("can queue multiple tasks", () => {
-      let tick_happened = false;
+      let ticksHappened = false;
       let m = 0;
 
       runs(() => {
@@ -67,12 +67,12 @@ describe("an instance of Ticker()", () => {
         });
 
         ticker.tick().then(() => {
-          tick_happened = true;
+          ticksHappened = true;
         });
       });
 
       waitsFor(() => {
-        return tick_happened;
+        return ticksHappened;
       }, "tick() to finish", 50);
 
       runs(() => {
@@ -82,16 +82,16 @@ describe("an instance of Ticker()", () => {
     });
 
     it("does nothing on tick(0)", () => {
-      let ticks_happened = false;
+      let ticksHappened = false;
 
       runs(() => {
         ticker.tick(0).then(() => {
-          ticks_happened = true;
+          ticksHappened = true;
         });
       });
 
       waitsFor(() => {
-        return ticks_happened;
+        return ticksHappened;
       }, "0 ticks to complete", 50);
 
       runs(() => {
@@ -111,18 +111,18 @@ describe("an instance of Ticker()", () => {
     });
 
     it("doesn't increment during the first two ticks", () => {
-      let ticks_happened = false;
+      let ticksHappened = false;
 
       runs(() => {
         ticker.tick().then(() => {
           ticker.tick().then(() => {
-            ticks_happened = true;
+            ticksHappened = true;
           });
         });
       });
 
       waitsFor(() => {
-        return ticks_happened;
+        return ticksHappened;
       }, "2 ticks to complete", 50);
 
       runs(() => {
@@ -131,20 +131,20 @@ describe("an instance of Ticker()", () => {
     });
 
     it("increments during the third tick", () => {
-      let ticks_happened = false;
+      let ticksHappened = false;
 
       runs(() => {
         ticker.tick().then(() => {
           ticker.tick().then(() => {
             ticker.tick().then(() => {
-              ticks_happened = true;
+              ticksHappened = true;
             });
           });
         });
       });
 
       waitsFor(() => {
-        return ticks_happened;
+        return ticksHappened;
       }, "3 ticks to complete", 50);
 
       runs(() => {
@@ -153,16 +153,16 @@ describe("an instance of Ticker()", () => {
     });
 
     it("increments after tick(3)", () => {
-      let ticks_happened = false;
+      let ticksHappened = false;
 
       runs(() => {
         ticker.tick(3).then(() => {
-          ticks_happened = true;
+          ticksHappened = true;
         });
       });
 
       waitsFor(() => {
-        return ticks_happened;
+        return ticksHappened;
       }, "3 ticks to complete", 50);
 
       runs(() => {
