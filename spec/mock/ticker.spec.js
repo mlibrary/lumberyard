@@ -86,4 +86,42 @@ describe("an instance of Ticker()", () => {
       expect(n).toBe(1);
     }));
   });
+
+  it("executes two promises in order", () => {
+    let firstIsDone = false;
+    let secondIsDone = false;
+    let outOfOrder = false;
+
+    runs(() => {
+      ticker.at(1, () => new Promise(function(resolve) {
+        setTimeout(() => {
+          firstIsDone = true;
+
+          if (secondIsDone)
+            outOfOrder = true
+
+          resolve();
+        }, 1);
+      }));
+
+      ticker.at(1, () => new Promise(function(resolve) {
+        secondIsDone = true;
+
+        if (!firstIsDone)
+          outOfOrder = true;
+
+        resolve();
+      }));
+
+      ticker.tick();
+    });
+
+    waitsFor(() => {
+      return (firstIsDone && secondIsDone);
+    }, "ticks to resolve", 50);
+
+    runs(() => {
+      expect(outOfOrder).toBe(false);
+    });
+  });
 });

@@ -29,9 +29,15 @@ module.exports = function() {
   internal.counter = 0;
 
   internal.runCallbacks = function() {
+    let promise = Promise.resolve();
+
     if (internal.callbacks.has(internal.counter))
-      for (callback of internal.callbacks.get(internal.counter))
-        callback();
+      for (let callback of internal.callbacks.get(internal.counter))
+        promise = new Promise(function(done) {
+          promise.then(function() {
+            Promise.resolve(callback()).then(done);
+          });
+        });
   };
 
   return Ticker;
