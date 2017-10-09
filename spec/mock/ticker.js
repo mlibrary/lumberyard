@@ -15,9 +15,7 @@ module.exports = function() {
     for (let i = 0; i < n; i += 1) {
       internal.counter += 1;
 
-      if (internal.callbacks.has(internal.counter))
-        for (let callback of internal.callbacks.get(internal.counter))
-          promise = internal.appendPromise(promise, callback);
+      promise = internal.runScheduledCallbacks(promise);
     }
 
     promise.then(resolve);
@@ -32,6 +30,14 @@ module.exports = function() {
 
   internal.callbacks = new Map();
   internal.counter = 0;
+
+  internal.runScheduledCallbacks = function(promise) {
+    if (internal.callbacks.has(internal.counter))
+      for (let callback of internal.callbacks.get(internal.counter))
+        promise = internal.appendPromise(promise, callback);
+
+    return promise;
+  };
 
   internal.appendPromise = function(promise, callback) {
     return new Promise(function(done) {
