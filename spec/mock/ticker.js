@@ -9,9 +9,7 @@ module.exports = function() {
   Ticker.tick = () => new Promise(function(resolve, reject) {
     internal.counter += 1;
 
-    if (internal.callbacks.has(internal.counter))
-      for (callback of internal.callbacks.get(internal.counter))
-        callback();
+    internal.runCallbacks();
 
     resolve();
   });
@@ -25,6 +23,12 @@ module.exports = function() {
 
   internal.callbacks = new Map();
   internal.counter = 0;
+
+  internal.runCallbacks = function() {
+    if (internal.callbacks.has(internal.counter))
+      for (callback of internal.callbacks.get(internal.counter))
+        callback();
+  };
 
   return Ticker;
 };
