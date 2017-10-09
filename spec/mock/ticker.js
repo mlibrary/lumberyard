@@ -7,18 +7,24 @@ module.exports = function() {
   internal = {};
 
   Ticker.tick = () => new Promise(function(resolve, reject) {
-    for (callback of internal.callbacks)
-      callback();
+    internal.counter += 1;
+
+    if (internal.callbacks.has(internal.counter))
+      for (callback of internal.callbacks.get(internal.counter))
+        callback();
 
     resolve();
   });
 
   Ticker.at = function(n, callback) {
-    if (n == 1)
-      internal.callbacks.push(callback);
+    if (!internal.callbacks.has(n))
+      internal.callbacks.set(n, []);
+
+    internal.callbacks.get(n).push(callback);
   };
 
-  internal.callbacks = [];
+  internal.callbacks = new Map();
+  internal.counter = 0;
 
   return Ticker;
 };
