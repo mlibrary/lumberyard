@@ -7,19 +7,20 @@ module.exports = function() {
   internal = {};
 
   Ticker.tick = n => new Promise(function(resolve, reject) {
+    let promise = Promise.resolve();
+
     if (typeof n === "undefined")
       n = 1;
 
     for (let i = 0; i < n; i += 1) {
       internal.counter += 1;
-      let promise = Promise.resolve();
 
       if (internal.callbacks.has(internal.counter))
         for (let callback of internal.callbacks.get(internal.counter))
           promise = internal.appendPromise(promise, callback);
     }
 
-    resolve();
+    promise.then(resolve);
   });
 
   Ticker.at = function(n, callback) {
