@@ -4,7 +4,7 @@
 
 const Ticker = require("./ticker");
 
-let ticker;
+let ticker, ticksHappened;
 
 describe("an instance of Ticker()", () => {
   beforeEach(() => {
@@ -40,9 +40,9 @@ describe("an instance of Ticker()", () => {
     });
 
     it("can be given a task", () => {
-      let ticksHappened = false;
-
       runs(() => {
+        ticksHappened = false;
+
         ticker.tick().then(() => {
           ticksHappened = true;
         });
@@ -58,10 +58,11 @@ describe("an instance of Ticker()", () => {
     });
 
     it("can queue multiple tasks", () => {
-      let ticksHappened = false;
       let m = 0;
 
       runs(() => {
+        ticksHappened = false;
+
         ticker.at(1, () => {
           m += 1;
         });
@@ -82,9 +83,9 @@ describe("an instance of Ticker()", () => {
     });
 
     it("does nothing on tick(0)", () => {
-      let ticksHappened = false;
-
       runs(() => {
+        ticksHappened = false;
+
         ticker.tick(0).then(() => {
           ticksHappened = true;
         });
@@ -111,9 +112,9 @@ describe("an instance of Ticker()", () => {
     });
 
     it("doesn't increment during the first two ticks", () => {
-      let ticksHappened = false;
-
       runs(() => {
+        ticksHappened = false;
+
         ticker.tick().then(() => {
           ticker.tick().then(() => {
             ticksHappened = true;
@@ -131,9 +132,9 @@ describe("an instance of Ticker()", () => {
     });
 
     it("increments during the third tick", () => {
-      let ticksHappened = false;
-
       runs(() => {
+        ticksHappened = false;
+
         ticker.tick().then(() => {
           ticker.tick().then(() => {
             ticker.tick().then(() => {
@@ -153,9 +154,9 @@ describe("an instance of Ticker()", () => {
     });
 
     it("increments after tick(3)", () => {
-      let ticksHappened = false;
-
       runs(() => {
+        ticksHappened = false;
+
         ticker.tick(3).then(() => {
           ticksHappened = true;
         });
