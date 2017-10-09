@@ -14,7 +14,6 @@ module.exports = function() {
 
     for (let i = 0; i < n; i += 1) {
       internal.counter += 1;
-
       promise = internal.runScheduledCallbacks(promise);
     }
 
@@ -42,7 +41,12 @@ module.exports = function() {
   internal.appendPromise = function(promise, callback) {
     return new Promise(function(done) {
       promise.then(function() {
-        Promise.resolve(callback()).then(done);
+        try {
+          Promise.resolve(callback()).then(done);
+
+        } catch(error) {
+          done();
+        }
       });
     });
   };

@@ -124,4 +124,32 @@ describe("an instance of Ticker()", () => {
       expect(outOfOrder).toBe(false);
     });
   });
+
+  it("rejects on thrown exception", () => {
+    let ticksHappened = false;
+    let itResolved = false;
+    let rejectObject = undefined;
+
+    runs(() => {
+      ticker.at(1, () => {
+        throw "hi, matt!";
+      });
+
+      ticker.tick().then(() => {
+        ticksHappened = true;
+        itResolved = true;
+
+      }, error => {
+        ticksHappened = true;
+        rejectObject = error;
+      });
+    });
+
+    waitsFor(() => {
+      return ticksHappened;
+    }, "ticks to resolve", 50);
+
+    runs(() => {
+    });
+  });
 });
