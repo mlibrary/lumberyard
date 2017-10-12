@@ -45,7 +45,7 @@ module.exports = function() {
           Promise.resolve(callback()).then(resolve, reject);
 
         } catch(error) {
-          reject();
+          reject(error);
         }
       });
     });

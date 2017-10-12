@@ -151,6 +151,7 @@ describe("an instance of Ticker()", () => {
 
     runs(() => {
       expect(itResolved).toBe(false);
+      expect(rejectObject).toBe("hi, matt!");
     });
   });
 });
