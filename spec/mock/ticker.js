@@ -17,7 +17,7 @@ module.exports = function() {
       promise = internal.runScheduledCallbacks(promise);
     }
 
-    promise.then(resolve);
+    promise.then(resolve, reject);
   });
 
   Ticker.at = function(n, callback) {
@@ -39,13 +39,13 @@ module.exports = function() {
   };
 
   internal.appendPromise = function(promise, callback) {
-    return new Promise(function(done) {
+    return new Promise(function(resolve, reject) {
       promise.then(function() {
         try {
-          Promise.resolve(callback()).then(done);
+          Promise.resolve(callback()).then(resolve, reject);
 
         } catch(error) {
-          done();
+          reject();
         }
       });
     });
