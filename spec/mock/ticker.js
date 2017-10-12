@@ -32,7 +32,7 @@ module.exports = function() {
 
   internal.runScheduledCallbacks = function(promise) {
     if (internal.weHaveSomethingToDo())
-      for (let callback of internal.callbacks.get(internal.counter))
+      for (let callback of internal.getCallbacks())
         promise = internal.appendPromise(promise, callback);
 
     return promise;
@@ -40,6 +40,10 @@ module.exports = function() {
 
   internal.weHaveSomethingToDo = function() {
     return internal.callbacks.has(internal.counter);
+  };
+
+  internal.getCallbacks = function() {
+    return internal.callbacks.get(internal.counter);
   };
 
   internal.appendPromise = function(promise, callback) {
