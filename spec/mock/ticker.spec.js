@@ -213,6 +213,8 @@ describe("an instance of Ticker()", () => {
     }, "ticks to resolve", 50);
 
     runs(() => {
+      expect(itResolved).toBe(false);
+      expect(rejectObject).toBe("the first one fails");
     });
   });
 });
