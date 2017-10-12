@@ -31,11 +31,15 @@ module.exports = function() {
   internal.counter = 0;
 
   internal.runScheduledCallbacks = function(promise) {
-    if (internal.callbacks.has(internal.counter))
+    if (internal.weHaveSomethingToDo())
       for (let callback of internal.callbacks.get(internal.counter))
         promise = internal.appendPromise(promise, callback);
 
     return promise;
+  };
+
+  internal.weHaveSomethingToDo = function() {
+    return internal.callbacks.has(internal.counter);
   };
 
   internal.appendPromise = function(promise, callback) {
