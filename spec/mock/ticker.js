@@ -17,7 +17,7 @@ module.exports = function() {
       promise = internal.runScheduledCallbacks(promise);
     }
 
-    promise.then(resolve);
+    promise.then(resolve, reject);
   });
 
   Ticker.at = function(n, callback) {
@@ -31,23 +31,31 @@ module.exports = function() {
   internal.counter = 0;
 
   internal.runScheduledCallbacks = function(promise) {
-    if (internal.callbacks.has(internal.counter))
-      for (let callback of internal.callbacks.get(internal.counter))
+    if (internal.weHaveSomethingToDo())
+      for (let callback of internal.getCallbacks())
         promise = internal.appendPromise(promise, callback);
 
     return promise;
   };
 
+  internal.weHaveSomethingToDo = function() {
+    return internal.callbacks.has(internal.counter);
+  };
+
+  internal.getCallbacks = function() {
+    return internal.callbacks.get(internal.counter);
+  };
+
   internal.appendPromise = function(promise, callback) {
-    return new Promise(function(done) {
+    return new Promise(function(resolve, reject) {
       promise.then(function() {
         try {
-          Promise.resolve(callback()).then(done);
+          Promise.resolve(callback()).then(resolve, reject);
 
         } catch(error) {
-          done();
+          reject(error);
         }
-      });
+      }, reject);
     });
   };
 

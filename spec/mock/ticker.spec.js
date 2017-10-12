@@ -150,6 +150,71 @@ describe("an instance of Ticker()", () => {
     }, "ticks to resolve", 50);
 
     runs(() => {
+      expect(itResolved).toBe(false);
+      expect(rejectObject).toBe("hi, matt!");
+    });
+  });
+
+  it("rejects on promise rejection", () => {
+    let ticksHappened = false;
+    let itResolved = false;
+    let rejectObject = undefined;
+
+    runs(() => {
+      ticker.at(1, () => new Promise(function(resolve, reject) {
+        reject("uh oh");
+      }));
+
+      ticker.tick().then(() => {
+        ticksHappened = true;
+        itResolved = true;
+
+      }, error => {
+        ticksHappened = true;
+        rejectObject = error;
+      });
+    });
+
+    waitsFor(() => {
+      return ticksHappened;
+    }, "ticks to resolve", 50);
+
+    runs(() => {
+      expect(itResolved).toBe(false);
+      expect(rejectObject).toBe("uh oh");
+    });
+  });
+
+  it("rejects when one of many promises rejects", () => {
+    let ticksHappened = false;
+    let itResolved = false;
+    let rejectObject = undefined;
+
+    runs(() => {
+      ticker.at(1, () => new Promise(function(resolve, reject) {
+        reject("the first one fails");
+      }));
+
+      ticker.at(1, () => {});
+      ticker.at(1, () => {});
+
+      ticker.tick().then(() => {
+        ticksHappened = true;
+        itResolved = true;
+
+      }, error => {
+        ticksHappened = true;
+        rejectObject = error;
+      });
+    });
+
+    waitsFor(() => {
+      return ticksHappened;
+    }, "ticks to resolve", 50);
+
+    runs(() => {
+      expect(itResolved).toBe(false);
+      expect(rejectObject).toBe("the first one fails");
     });
   });
 });
