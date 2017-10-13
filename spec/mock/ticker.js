@@ -58,10 +58,13 @@ module.exports = function() {
   };
 
   internal.insertCallback = function(n, callback) {
+    internal.assertListExists(n);
+    internal.callbacks.get(n).push(callback);
+  };
+
+  internal.assertListExists = function(n) {
     if (!internal.callbacks.has(n))
       internal.callbacks.set(n, []);
-
-    internal.callbacks.get(n).push(callback);
   };
 
   return Ticker;
