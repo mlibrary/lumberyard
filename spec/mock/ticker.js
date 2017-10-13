@@ -40,15 +40,11 @@ module.exports = function() {
   };
 
   internal.getCallbacks = function() {
-    if (internal.weHaveSomethingToDo())
+    if (internal.callbacks.has(internal.counter))
       return internal.callbacks.get(internal.counter);
 
     else
       return [];
-  };
-
-  internal.weHaveSomethingToDo = function() {
-    return internal.callbacks.has(internal.counter);
   };
 
   internal.appendPromise = function(promise, callback) {
