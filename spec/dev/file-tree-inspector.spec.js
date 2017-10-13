@@ -56,7 +56,11 @@ describe("an instance of FileTreeInspector()", () => {
       };
 
       mkdir("fstest").then(() => {
-        writeFile("fstest/a.txt", "Hey there").then(() => {
+        let files = [];
+
+        files.push(writeFile("fstest/a.txt", "Hey there"));
+
+        Promise.all(files).then(() => {
           done();
 
         }, reject);
