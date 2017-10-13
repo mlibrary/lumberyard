@@ -59,6 +59,7 @@ describe("an instance of FileTreeInspector()", () => {
         let files = [];
 
         files.push(writeFile("fstest/a.txt", "Hey there"));
+        files.push(writeFile("fstest/b.txt", "Sup Matt"));
 
         Promise.all(files).then(() => {
           done();
@@ -78,13 +79,29 @@ describe("an instance of FileTreeInspector()", () => {
       });
     });
 
+    it("can find b.txt", done => {
+      inspector.getSizesUnder("fstest").then(value => {
+        expect(value.get("fstest/b.txt")).toBe(8);
+        done();
+
+      }, err => {
+        expect(err).toBe("not an error");
+        done();
+      });
+    });
+
     afterEach(done => {
       let reject = err => {
         expect(err).toBe("not an error");
         done();
       };
 
-      rm("fstest/a.txt").then(() => {
+      let files = [];
+
+      files.push(rm("fstest/a.txt"));
+      files.push(rm("fstest/b.txt"));
+
+      Promise.all(files).then(() => {
         rmdir("fstest").then(() => {
           done();
 
