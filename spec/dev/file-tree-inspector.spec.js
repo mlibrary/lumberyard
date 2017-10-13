@@ -63,7 +63,16 @@ describe("an instance of FileTreeInspector()", () => {
       }, reject);
     });
 
-    it("can be created", () => {});
+    it("can find a.txt", done => {
+      inspector.getSizesUnder("fstest").then(value => {
+        expect(value.length).toBe(1);
+        done();
+
+      }, err => {
+        expect(err).toBe("not an error");
+        done();
+      });
+    });
 
     afterEach(done => {
       let reject = err => {
