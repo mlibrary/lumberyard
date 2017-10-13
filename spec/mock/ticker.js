@@ -7,8 +7,17 @@ module.exports = function() {
   internal = {};
 
   Ticker.tick = n => new Promise(function(resolve, reject) {
-    let promise = Promise.resolve();
+    internal.tick(n, Promise.resolve()).then(resolve, reject);
+  });
 
+  Ticker.at = function(n, callback) {
+    internal.insertCallback(n, callback);
+  };
+
+  internal.callbacks = new Map();
+  internal.counter = 0;
+
+  internal.tick = function(n, promise) {
     if (typeof n === "undefined")
       n = 1;
 
@@ -17,33 +26,22 @@ module.exports = function() {
       promise = internal.runScheduledCallbacks(promise);
     }
 
-    promise.then(resolve, reject);
-  });
-
-  Ticker.at = function(n, callback) {
-    if (!internal.callbacks.has(n))
-      internal.callbacks.set(n, []);
-
-    internal.callbacks.get(n).push(callback);
+    return promise;
   };
 
-  internal.callbacks = new Map();
-  internal.counter = 0;
-
   internal.runScheduledCallbacks = function(promise) {
-    if (internal.weHaveSomethingToDo())
-      for (let callback of internal.getCallbacks())
-        promise = internal.appendPromise(promise, callback);
+    for (let callback of internal.getCallbacks())
+      promise = internal.appendPromise(promise, callback);
 
     return promise;
   };
 
-  internal.weHaveSomethingToDo = function() {
-    return internal.callbacks.has(internal.counter);
-  };
-
   internal.getCallbacks = function() {
-    return internal.callbacks.get(internal.counter);
+    if (internal.callbacks.has(internal.counter))
+      return internal.callbacks.get(internal.counter);
+
+    else
+      return [];
   };
 
   internal.appendPromise = function(promise, callback) {
@@ -57,6 +55,16 @@ module.exports = function() {
         }
       }, reject);
     });
+  };
+
+  internal.insertCallback = function(n, callback) {
+    internal.assertListExists(n);
+    internal.callbacks.get(n).push(callback);
+  };
+
+  internal.assertListExists = function(n) {
+    if (!internal.callbacks.has(n))
+      internal.callbacks.set(n, []);
   };
 
   return Ticker;
