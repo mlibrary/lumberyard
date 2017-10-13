@@ -7,17 +7,7 @@ module.exports = function() {
   internal = {};
 
   Ticker.tick = n => new Promise(function(resolve, reject) {
-    let promise = Promise.resolve();
-
-    if (typeof n === "undefined")
-      n = 1;
-
-    for (let i = 0; i < n; i += 1) {
-      internal.counter += 1;
-      promise = internal.runScheduledCallbacks(promise);
-    }
-
-    promise.then(resolve, reject);
+    internal.tick(n, Promise.resolve()).then(resolve, reject);
   });
 
   Ticker.at = function(n, callback) {
@@ -29,6 +19,18 @@ module.exports = function() {
 
   internal.callbacks = new Map();
   internal.counter = 0;
+
+  internal.tick = function(n, promise) {
+    if (typeof n === "undefined")
+      n = 1;
+
+    for (let i = 0; i < n; i += 1) {
+      internal.counter += 1;
+      promise = internal.runScheduledCallbacks(promise);
+    }
+
+    return promise;
+  };
 
   internal.runScheduledCallbacks = function(promise) {
     for (let callback of internal.getCallbacks())
