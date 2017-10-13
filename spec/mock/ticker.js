@@ -11,10 +11,7 @@ module.exports = function() {
   });
 
   Ticker.at = function(n, callback) {
-    if (!internal.callbacks.has(n))
-      internal.callbacks.set(n, []);
-
-    internal.callbacks.get(n).push(callback);
+    internal.insertCallback(n, callback);
   };
 
   internal.callbacks = new Map();
@@ -58,6 +55,13 @@ module.exports = function() {
         }
       }, reject);
     });
+  };
+
+  internal.insertCallback = function(n, callback) {
+    if (!internal.callbacks.has(n))
+      internal.callbacks.set(n, []);
+
+    internal.callbacks.get(n).push(callback);
   };
 
   return Ticker;
