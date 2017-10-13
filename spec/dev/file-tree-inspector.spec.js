@@ -67,6 +67,7 @@ describe("an instance of FileTreeInspector()", () => {
       inspector.getSizesUnder("fstest").then(value => {
         expect(value.size).toBe(1);
         expect(value.has("fstest/a.txt")).toBe(true);
+        expect(value.get("fstest/a.txt")).toBe(9);
         done();
 
       }, err => {
