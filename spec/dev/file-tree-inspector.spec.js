@@ -49,6 +49,13 @@ describe("an instance of FileTreeInspector()", () => {
   });
 
   describe("given a tree of files and directories", () => {
+    // ./fstest/
+    // |-- subdir/
+    // |   |-- a.txt
+    // |   |-- b.txt
+    // |   \-- c.txt
+    // |-- a.txt
+    // \-- b.txt
     beforeEach(done => {
       let reject = err => {
         expect(err).toBe("not an error");
