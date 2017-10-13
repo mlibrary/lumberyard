@@ -60,10 +60,47 @@ describe("an instance of FileTreeInspector()", () => {
 
         files.push(writeFile("fstest/a.txt", "Hey there"));
         files.push(writeFile("fstest/b.txt", "Sup Matt"));
+        files.push(mkdir("fstest/subdir"));
 
         Promise.all(files).then(() => {
-          done();
+          let subfiles = [];
 
+          subfiles.push(writeFile("fstest/subdir/a.txt", "AAAAA"));
+          subfiles.push(writeFile("fstest/subdir/b.txt", "BbBbB"));
+          subfiles.push(writeFile("fstest/subdir/c.txt", "The Sea"));
+
+          Promise.all(subfiles).then(() => {
+            done();
+
+          }, reject);
+        }, reject);
+      }, reject);
+    });
+
+    afterEach(done => {
+      let reject = err => {
+        expect(err).toBe("not an error");
+        done();
+      };
+
+      let subfiles = [];
+
+      subfiles.push(rm("fstest/subdir/a.txt"));
+      subfiles.push(rm("fstest/subdir/b.txt"));
+      subfiles.push(rm("fstest/subdir/c.txt"));
+
+      Promise.all(subfiles).then(() => {
+        let files = [];
+
+        files.push(rm("fstest/a.txt"));
+        files.push(rm("fstest/b.txt"));
+        files.push(rmdir("fstest/subdir"));
+
+        Promise.all(files).then(() => {
+          rmdir("fstest").then(() => {
+            done();
+
+          }, reject);
         }, reject);
       }, reject);
     });
@@ -88,25 +125,6 @@ describe("an instance of FileTreeInspector()", () => {
         expect(err).toBe("not an error");
         done();
       });
-    });
-
-    afterEach(done => {
-      let reject = err => {
-        expect(err).toBe("not an error");
-        done();
-      };
-
-      let files = [];
-
-      files.push(rm("fstest/a.txt"));
-      files.push(rm("fstest/b.txt"));
-
-      Promise.all(files).then(() => {
-        rmdir("fstest").then(() => {
-          done();
-
-        }, reject);
-      }, reject);
     });
   });
 });
