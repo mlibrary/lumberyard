@@ -3,9 +3,14 @@
 // BSD License. See LICENSE.txt for details.
 
 const FileTreeInspector = require("../../lib/file-tree-inspector");
+const crypto = require("crypto");
 const fs = require("fs");
 
 let inspector = null;
+
+let md5sum = data => {
+  return crypto.createHash("md5").update(data).digest("latin1");
+};
 
 let writeFile = (path, data) => new Promise(function(resolve, reject) {
   fs.writeFile(path, data, function(err) {
@@ -148,6 +153,17 @@ describe("an instance of FileTreeInspector()", () => {
     it("can find subdir/c.txt", done => {
       inspector.getSizesUnder("fstest").then(value => {
         expect(value.get("fstest/subdir/c.txt")).toBe(7);
+        done();
+
+      }, err => {
+        expect(err).toBe("not an error");
+        done();
+      });
+    });
+
+    it("gives the right checksum for a.txt", done => {
+      inspector.getChecksum("fstest/a.txt").then(value => {
+        expect(value).toBe(md5sum("Hey there"));
         done();
 
       }, err => {
