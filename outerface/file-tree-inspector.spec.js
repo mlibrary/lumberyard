@@ -2,7 +2,7 @@
 // All Rights Reserved. Licensed according to the terms of the Revised
 // BSD License. See LICENSE.txt for details.
 
-const FileTreeInspector = require("../../lib/file-tree-inspector");
+const FileTreeInspector = require("../lib/file-tree-inspector");
 const crypto = require("crypto");
 const fs = require("fs");
 
