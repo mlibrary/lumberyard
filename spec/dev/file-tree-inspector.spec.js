@@ -144,5 +144,16 @@ describe("an instance of FileTreeInspector()", () => {
         done();
       });
     });
+
+    it("can find subdir/c.txt", done => {
+      inspector.getSizesUnder("fstest").then(value => {
+        expect(value.get("fstest/subdir/c.txt")).toBe(7);
+        done();
+
+      }, err => {
+        expect(err).toBe("not an error");
+        done();
+      });
+    });
   });
 });
