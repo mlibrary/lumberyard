@@ -30,4 +30,8 @@ describe("an instance of MockInspector()", () => {
       done();
     });
   });
+
+  it("can set a file", () => {
+    fakeFS.set("a.txt", "Holler!");
+  });
 });

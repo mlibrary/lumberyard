@@ -4,13 +4,14 @@
 
 module.exports = function() {
   inspector = {};
+  fakeFS = new Map();
 
   inspector.getSizesUnder = () => new Promise(function(resolve, reject) {
     resolve(new Map());
   });
 
   return {
-    "fs": null,
+    "fs": fakeFS,
     "inspector": inspector
   };
 };
