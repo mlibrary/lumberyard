@@ -181,5 +181,16 @@ describe("an instance of FileTreeInspector()", () => {
         done();
       });
     });
+
+    it("yields an empty size mapping for nonexistent paths", done => {
+      inspector.getSizesUnder("fstest/not-a-dir").then(value => {
+        expect(value.size).toBe(0);
+        done();
+
+      }, err => {
+        expect(err).toBe("not an error");
+        done();
+      });
+    });
   });
 });
