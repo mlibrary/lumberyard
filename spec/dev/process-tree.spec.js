@@ -22,10 +22,12 @@ let treeSpy = function(logTree) {
 };
 
 let spy;
-let spyOnTree = async function(done, setup) {
-  spy = await processTree(treeSpy, setup)
-  done();
-};
+let spyOnTree = (done, setup) => new Promise(function(resolve, reject) {
+  processTree(treeSpy, setup).then(value => {
+    spy = value;
+    done();
+  }, reject);
+});
 
 describe("a processTree with no children", () => {
   beforeEach(done => {
