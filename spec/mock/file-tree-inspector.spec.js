@@ -18,6 +18,7 @@ describe("an instance of MockInspector()", () => {
 
   it("returns an empty mapping on getSizesUnder()", done => {
     inspector.getSizesUnder("nothing-is-here").then(value => {
+      expect(value.size).toBe(0);
       done();
 
     }, error => {

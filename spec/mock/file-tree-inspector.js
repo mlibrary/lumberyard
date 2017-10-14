@@ -6,7 +6,7 @@ module.exports = function() {
   fsMock = {};
 
   fsMock.getSizesUnder = () => new Promise(function(resolve, reject) {
-    resolve();
+    resolve(new Map());
   });
 
   return fsMock;
