@@ -192,5 +192,16 @@ describe("an instance of FileTreeInspector()", () => {
         done();
       });
     });
+
+    it("doesn't look at files not under the requested path", done => {
+      inspector.getSizesUnder("fstest/subdir").then(value => {
+        expect(value.has("fstest/a.txt")).toBe(false);
+        done();
+
+      }, err => {
+        expect(err).toBe("not an error");
+        done();
+      });
+    });
   });
 });
