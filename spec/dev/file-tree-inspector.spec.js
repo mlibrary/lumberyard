@@ -171,5 +171,15 @@ describe("an instance of FileTreeInspector()", () => {
         done();
       });
     });
+
+    it("can't find a checksum for a nonexistent file", done => {
+      inspector.getChecksum("fstest/not-a-file.txt").then(value => {
+        expect(value).toBe("an error instead of a checksum");
+        done();
+
+      }, err => {
+        done();
+      });
+    });
   });
 });
