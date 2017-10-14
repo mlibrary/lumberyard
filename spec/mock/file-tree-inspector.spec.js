@@ -6,6 +6,7 @@ const MockInspector = require("./file-tree-inspector");
 const crypto = require("crypto");
 
 let inspector = null;
+let fakeFS = null;
 
 let md5sum = data => {
   return crypto.createHash("md5").update(data).digest("latin1");
@@ -13,7 +14,10 @@ let md5sum = data => {
 
 describe("an instance of MockInspector()", () => {
   beforeEach(() => {
-    inspector = MockInspector();
+    let mock = MockInspector();
+
+    inspector = mock.inspector;
+    fakeFS = mock.fs;
   });
 
   it("returns an empty mapping on getSizesUnder()", done => {
