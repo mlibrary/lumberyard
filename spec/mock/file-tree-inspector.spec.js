@@ -46,5 +46,16 @@ describe("an instance of MockInspector()", () => {
         done();
       });
     });
+
+    it("doesn't find dir/a.txt on getSizesUnder('other')", done => {
+      inspector.getSizesUnder("other").then(value => {
+        expect(value.has("dir/a.txt")).toBe(false);
+        done();
+
+      }, error => {
+        expect(error).toBe("not an error");
+        done();
+      });
+    });
   });
 });

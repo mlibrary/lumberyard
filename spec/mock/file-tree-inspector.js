@@ -6,11 +6,12 @@ module.exports = function() {
   inspector = {};
   fakeFS = new Map();
 
-  inspector.getSizesUnder = () => new Promise(function(resolve, reject) {
+  inspector.getSizesUnder = path => new Promise(function(resolve, reject) {
     let sizes = new Map();
 
-    fakeFS.forEach((data, path) => {
-      sizes.set(path, data.length);
+    fakeFS.forEach((data, filePath) => {
+      if (filePath.startsWith(path))
+        sizes.set(filePath, data.length);
     });
 
     resolve(sizes);
