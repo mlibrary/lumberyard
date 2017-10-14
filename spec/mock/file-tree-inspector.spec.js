@@ -12,7 +12,17 @@ let md5sum = data => {
 };
 
 describe("an instance of MockInspector()", () => {
-  it("can be created", () => {
+  beforeEach(() => {
     inspector = MockInspector();
+  });
+
+  it("returns an empty mapping on getSizesUnder()", done => {
+    inspector.getSizesUnder("nothing-is-here").then(value => {
+      done();
+
+    }, error => {
+      expect(error).toBe("not an error");
+      done();
+    });
   });
 });

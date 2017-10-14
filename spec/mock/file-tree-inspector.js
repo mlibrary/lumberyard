@@ -3,4 +3,11 @@
 // BSD License. See LICENSE.txt for details.
 
 module.exports = function() {
+  fsMock = {};
+
+  fsMock.getSizesUnder = () => new Promise(function(resolve, reject) {
+    resolve();
+  });
+
+  return fsMock;
 };
