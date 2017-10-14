@@ -7,7 +7,13 @@ module.exports = function() {
   fakeFS = new Map();
 
   inspector.getSizesUnder = () => new Promise(function(resolve, reject) {
-    resolve(new Map());
+    let sizes = new Map();
+
+    fakeFS.forEach((data, path) => {
+      sizes.set(path, data.length);
+    });
+
+    resolve(sizes);
   });
 
   return {

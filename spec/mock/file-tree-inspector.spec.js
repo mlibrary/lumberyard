@@ -31,7 +31,20 @@ describe("an instance of MockInspector()", () => {
     });
   });
 
-  it("can set a file", () => {
-    fakeFS.set("a.txt", "Holler!");
+  describe("given dir/a.txt is 'Holler!'", () => {
+    beforeEach(() => {
+      fakeFS.set("dir/a.txt", "Holler!");
+    });
+
+    it("finds dir/a.txt on getSizesUnder('dir')", done => {
+      inspector.getSizesUnder("dir").then(value => {
+        expect(value.get("dir/a.txt")).toBe(7);
+        done();
+
+      }, error => {
+        expect(error).toBe("not an error");
+        done();
+      });
+    });
   });
 });
