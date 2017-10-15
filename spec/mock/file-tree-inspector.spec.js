@@ -12,6 +12,36 @@ let md5sum = data => {
   return crypto.createHash("md5").update(data).digest("latin1");
 };
 
+let it_finally = function(description, toDo, onResolve, onReject) {
+  it(description, done => {
+    toDo().then(value => {
+      if (typeof onResolve === "undefined")
+        expect(value).toBe("an error");
+
+      else
+        onResolve(value);
+
+      done();
+
+    }, error => {
+      if (typeof onReject === "undefined")
+        expect(error).toBe("not an error");
+
+      else
+        onReject(error);
+
+      done();
+    });
+  });
+};
+
+let it_finally_errors = function(description, toDo, onReject) {
+  if (typeof onReject === "undefined")
+    onReject = () => {};
+
+  it_finally("errors " + description, toDo, undefined, onReject);
+};
+
 describe("an instance of MockInspector()", () => {
   beforeEach(() => {
     let mock = MockInspector();
@@ -20,63 +50,32 @@ describe("an instance of MockInspector()", () => {
     fakeFS = mock.fs;
   });
 
-  it("returns an empty mapping on getSizesUnder()", done => {
-    inspector.getSizesUnder("nothing-is-here").then(value => {
+  it_finally("returns an empty mapping on getSizesUnder()",
+    () => inspector.getSizesUnder("nothing-is-here"), value => {
       expect(value.size).toBe(0);
-      done();
-
-    }, error => {
-      expect(error).toBe("not an error");
-      done();
     });
-  });
 
-  it("rejects on getChecksum()", done => {
-    inspector.getChecksum("not-a-file").then(value => {
-      expect(value).toBe("an error");
-      done();
-
-    }, error => {
-      done();
-    });
-  });
+  it_finally_errors("on any getChecksum()",
+    () => inspector.getChecksum("not-a-file"));
 
   describe("given dir/a.txt is 'Holler!'", () => {
     beforeEach(() => {
       fakeFS.set("dir/a.txt", "Holler!");
     });
 
-    it("finds dir/a.txt on getSizesUnder('dir')", done => {
-      inspector.getSizesUnder("dir").then(value => {
+    it_finally("finds dir/a.txt on getSizesUnder('dir')",
+      () => inspector.getSizesUnder("dir"), value => {
         expect(value.get("dir/a.txt")).toBe(7);
-        done();
-
-      }, error => {
-        expect(error).toBe("not an error");
-        done();
       });
-    });
 
-    it("returns the expected getChecksum('dir/a.txt')", done => {
-      inspector.getChecksum("dir/a.txt").then(value => {
+    it_finally("returns the expected getChecksum('dir/a.txt')",
+      () => inspector.getChecksum("dir/a.txt"), value => {
         expect(value).toBe(md5sum("Holler!"));
-        done();
-
-      }, error => {
-        expect(error).toBe("not an error");
-        done();
       });
-    });
 
-    it("doesn't find dir/a.txt on getSizesUnder('other')", done => {
-      inspector.getSizesUnder("other").then(value => {
+    it_finally("doesn't find dir/a.txt on getSizesUnder('other')",
+      () => inspector.getSizesUnder("other"), value => {
         expect(value.has("dir/a.txt")).toBe(false);
-        done();
-
-      }, error => {
-        expect(error).toBe("not an error");
-        done();
       });
-    });
   });
 });
