@@ -2,6 +2,8 @@
 // All Rights Reserved. Licensed according to the terms of the Revised
 // BSD License. See LICENSE.txt for details.
 
+const crypto = require("crypto");
+
 module.exports = function() {
   inspector = {};
   fakeFS = new Map();
@@ -19,7 +21,9 @@ module.exports = function() {
 
   inspector.getChecksum = path => new Promise(function(resolve, reject) {
     if (fakeFS.has(path))
-      resolve();
+      resolve(crypto.createHash("md5")
+                    .update(fakeFS.get(path))
+                    .digest("latin1"));
 
     else
       reject();

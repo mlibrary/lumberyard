@@ -59,7 +59,7 @@ describe("an instance of MockInspector()", () => {
 
     it("returns the expected getChecksum('dir/a.txt')", done => {
       inspector.getChecksum("dir/a.txt").then(value => {
-        //expect(value).toBe(md5sum("Holler!"));
+        expect(value).toBe(md5sum("Holler!"));
         done();
 
       }, error => {
