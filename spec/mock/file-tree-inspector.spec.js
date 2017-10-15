@@ -31,6 +31,16 @@ describe("an instance of MockInspector()", () => {
     });
   });
 
+  it("rejects on getChecksum()", done => {
+    inspector.getChecksum("not-a-file").then(value => {
+      expect(value).toBe("an error");
+      done();
+
+    }, error => {
+      done();
+    });
+  });
+
   describe("given dir/a.txt is 'Holler!'", () => {
     beforeEach(() => {
       fakeFS.set("dir/a.txt", "Holler!");

@@ -17,6 +17,10 @@ module.exports = function() {
     resolve(sizes);
   });
 
+  inspector.getChecksum = path => new Promise(function(resolve, reject) {
+    reject();
+  });
+
   return {
     "fs": fakeFS,
     "inspector": inspector
