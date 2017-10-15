@@ -48,6 +48,36 @@ let rmdir = path => new Promise(function(resolve, reject) {
   });
 });
 
+let it_finally = function(description, toDo, onResolve, onReject) {
+  it(description, done => {
+    toDo().then(value => {
+      if (typeof onResolve === "undefined")
+        expect(value).toBe("an error");
+
+      else
+        onResolve(value);
+
+      done();
+
+    }, error => {
+      if (typeof onReject === "undefined")
+        expect(error).toBe("not an error");
+
+      else
+        onReject(error);
+
+      done();
+    });
+  });
+};
+
+let it_finally_errors = function(description, toDo, onReject) {
+  if (typeof onReject === "undefined")
+    onReject = () => {};
+
+  it_finally("errors " + description, toDo, undefined, onReject);
+};
+
 describe("an instance of FileTreeInspector()", () => {
   beforeEach(() => {
     inspector = FileTreeInspector();
@@ -117,91 +147,42 @@ describe("an instance of FileTreeInspector()", () => {
       }, reject);
     });
 
-    it("can find a.txt", done => {
-      inspector.getSizesUnder("fstest").then(value => {
+    it_finally("can find a.txt",
+      () => inspector.getSizesUnder("fstest"), value => {
         expect(value.get("fstest/a.txt")).toBe(9);
-        done();
-
-      }, err => {
-        expect(err).toBe("not an error");
-        done();
       });
-    });
 
-    it("can find b.txt", done => {
-      inspector.getSizesUnder("fstest").then(value => {
+    it_finally("can find b.txt",
+      () => inspector.getSizesUnder("fstest"), value => {
         expect(value.get("fstest/b.txt")).toBe(8);
-        done();
-
-      }, err => {
-        expect(err).toBe("not an error");
-        done();
       });
-    });
 
-    it("can find subdir/a.txt", done => {
-      inspector.getSizesUnder("fstest").then(value => {
+    it_finally("can find subdir/a.txt",
+      () => inspector.getSizesUnder("fstest"), value => {
         expect(value.get("fstest/subdir/a.txt")).toBe(5);
-        done();
-
-      }, err => {
-        expect(err).toBe("not an error");
-        done();
       });
-    });
 
-    it("can find subdir/c.txt", done => {
-      inspector.getSizesUnder("fstest").then(value => {
+    it_finally("can find subdir/c.txt",
+      () => inspector.getSizesUnder("fstest"), value => {
         expect(value.get("fstest/subdir/c.txt")).toBe(7);
-        done();
-
-      }, err => {
-        expect(err).toBe("not an error");
-        done();
       });
-    });
 
-    it("gives the right checksum for a.txt", done => {
-      inspector.getChecksum("fstest/a.txt").then(value => {
+    it_finally("gives the right checksum for a.txt",
+      () => inspector.getChecksum("fstest/a.txt"), value => {
         expect(value).toBe(md5sum("Hey there"));
-        done();
-
-      }, err => {
-        expect(err).toBe("not an error");
-        done();
       });
-    });
 
-    it("can't find a checksum for a nonexistent file", done => {
-      inspector.getChecksum("fstest/not-a-file.txt").then(value => {
-        expect(value).toBe("an error instead of a checksum");
-        done();
+    it_finally_errors("when told to checksum a nonexistent file",
+      () => inspector.getChecksum("fstest/not-a-file.txt"))
 
-      }, err => {
-        done();
-      });
-    });
-
-    it("yields an empty size mapping for nonexistent paths", done => {
-      inspector.getSizesUnder("fstest/not-a-dir").then(value => {
+    it_finally("yields an empty size mapping for nonexistent paths",
+      () => inspector.getSizesUnder("fstest/not-a-dir"), value => {
         expect(value.size).toBe(0);
-        done();
-
-      }, err => {
-        expect(err).toBe("not an error");
-        done();
       });
-    });
 
-    it("doesn't look at files not under the requested path", done => {
-      inspector.getSizesUnder("fstest/subdir").then(value => {
+    it_finally("doesn't look at files not under the requested path",
+      () => inspector.getSizesUnder("fstest/subdir"), value => {
         expect(value.has("fstest/a.txt")).toBe(false);
-        done();
-
-      }, err => {
-        expect(err).toBe("not an error");
-        done();
       });
-    });
   });
 });
