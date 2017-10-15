@@ -57,6 +57,17 @@ describe("an instance of MockInspector()", () => {
       });
     });
 
+    it("returns the expected getChecksum('dir/a.txt')", done => {
+      inspector.getChecksum("dir/a.txt").then(value => {
+        //expect(value).toBe(md5sum("Holler!"));
+        done();
+
+      }, error => {
+        expect(error).toBe("not an error");
+        done();
+      });
+    });
+
     it("doesn't find dir/a.txt on getSizesUnder('other')", done => {
       inspector.getSizesUnder("other").then(value => {
         expect(value.has("dir/a.txt")).toBe(false);
