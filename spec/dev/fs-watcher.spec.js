@@ -55,5 +55,6 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
 
   it_finally("returns an empty array",
     () => watcher(findFiles), value => {
+      expect(value).toEqual([]);
     });
 });
