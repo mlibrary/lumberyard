@@ -10,6 +10,15 @@ let watcher = null;
 let fakeFS = null;
 let ticker = null;
 
+let findFiles = () => new Promise(function(resolve, reject) {
+  let bases = new Set();
+
+  for (let path of fakeFS.keys())
+    bases.add(path.replace(/\/.*$/, ""));
+
+  resolve([...bases]);
+});
+
 describe("an fsWatcher() instance in an empty filesystem", () => {
   beforeEach(() => {
     let mockObj = MockInspector();
