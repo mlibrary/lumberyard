@@ -19,6 +19,29 @@ let findFiles = () => new Promise(function(resolve, reject) {
   resolve([...bases]);
 });
 
+let it_finally = function(description, toDo, onResolve, onReject) {
+  it(description, done => {
+    toDo().then(value => {
+      if (typeof onResolve === "undefined")
+        expect(value).toBe("an error");
+
+      else
+        onResolve(value);
+
+      done();
+
+    }, error => {
+      if (typeof onReject === "undefined")
+        expect(error).toBe("not an error");
+
+      else
+        onReject(error);
+
+      done();
+    });
+  });
+};
+
 describe("an fsWatcher() instance in an empty filesystem", () => {
   beforeEach(() => {
     let mockObj = MockInspector();
@@ -30,5 +53,7 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
                          "inspector": mockObj.inspector});
   });
 
-  it("can exist", () => {});
+  it_finally("returns an empty array",
+    () => watcher(findFiles), value => {
+    });
 });
