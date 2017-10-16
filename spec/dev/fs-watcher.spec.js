@@ -53,8 +53,19 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
                          "inspector": mockObj.inspector});
   });
 
-  it_finally("returns an empty array",
+  it_finally("resolves with an empty array",
     () => watcher(findFiles), value => {
       expect(value).toEqual([]);
     });
+
+  describe("given a.txt is 'hello'", () => {
+    beforeEach(() => {
+      fakeFS.set("a.txt", "hello");
+    });
+
+    it_finally("resolves with ['a.txt']",
+      () => watcher(findFiles), value => {
+        expect(value).toEqual(["a.txt"]);
+      });
+  });
 });
