@@ -68,4 +68,16 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
         expect(value).toEqual(["a.txt"]);
       });
   });
+
+  describe("given subdir/a.txt and subdir/b.txt exist", () => {
+    beforeEach(() => {
+      fakeFS.set("subdir/a.txt", "hey");
+      fakeFS.set("subdir/b.txt", "ho");
+    });
+
+    it_finally("resolves with ['subdir']",
+      () => watcher(findFiles), value => {
+        expect(value).toEqual(["subdir"]);
+      });
+  });
 });
