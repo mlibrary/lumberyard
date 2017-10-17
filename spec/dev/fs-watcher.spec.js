@@ -67,6 +67,24 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
       () => watcher(findFiles), value => {
         expect(value).toEqual(["a.txt"]);
       });
+
+    describe("and b.txt is created a second later", () => {
+      beforeEach(() => {
+        ticker.at(1, () => {
+          fakeFS.set("b.txt", "holler");
+        });
+      });
+
+      it_finally("resolves to contain a.txt",
+        () => watcher(findFiles), value => {
+          expect(value).toContain("a.txt");
+        });
+
+      it_finally("resolves to contain b.txt",
+        () => watcher(findFiles), value => {
+          expect(value).toContain("b.txt");
+        });
+    });
   });
 
   describe("given subdir/a.txt and subdir/b.txt exist", () => {
