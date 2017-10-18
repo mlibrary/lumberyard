@@ -98,4 +98,35 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
         expect(value).toEqual(["subdir"]);
       });
   });
+
+  describe("given twenty files are created over 20 seconds", () => {
+    beforeEach(() => {
+      fakeFS.set("01.txt", "first");
+
+      ticker.at( 1, () => { fakeFS.set("02.txt", "second"); });
+      ticker.at( 2, () => { fakeFS.set("03.txt", "third"); });
+      ticker.at( 3, () => { fakeFS.set("04.txt", "fourth"); });
+      ticker.at( 4, () => { fakeFS.set("05.txt", "fifth"); });
+      ticker.at( 5, () => { fakeFS.set("06.txt", "sixth"); });
+      ticker.at( 6, () => { fakeFS.set("07.txt", "seventh"); });
+      ticker.at( 7, () => { fakeFS.set("08.txt", "eighth"); });
+      ticker.at( 8, () => { fakeFS.set("09.txt", "ninth"); });
+      ticker.at( 9, () => { fakeFS.set("10.txt", "tenth"); });
+      ticker.at(10, () => { fakeFS.set("11.txt", "eleventh"); });
+      ticker.at(11, () => { fakeFS.set("12.txt", "twelfth"); });
+      ticker.at(12, () => { fakeFS.set("13.txt", "thirteenth"); });
+      ticker.at(13, () => { fakeFS.set("14.txt", "fourteenth"); });
+      ticker.at(14, () => { fakeFS.set("15.txt", "fifteenth"); });
+      ticker.at(15, () => { fakeFS.set("16.txt", "sixteenth"); });
+      ticker.at(16, () => { fakeFS.set("17.txt", "seventeenth"); });
+      ticker.at(17, () => { fakeFS.set("18.txt", "eighteenth"); });
+      ticker.at(18, () => { fakeFS.set("19.txt", "nineteenth"); });
+      ticker.at(19, () => { fakeFS.set("20.txt", "twentieth"); });
+    });
+
+    it_finally("resolves to contain 20.txt",
+      () => watcher(findFiles), value => {
+        expect(value).toContain("20.txt");
+      });
+  });
 });
