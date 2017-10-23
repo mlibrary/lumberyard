@@ -98,6 +98,23 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
           expect(value).toNotContain("b.txt");
         });
     });
+
+    describe("and a.txt becomes 'abcde' after 1 seconds", () => {
+      beforeEach(() => {
+        ticker.at(1, () => { fakeFS.set("a.txt", "abcde"); });
+      });
+
+      describe("and b.txt is 'yooo' at 2 seconds", () => {
+        beforeEach(() => {
+          ticker.at(2, () => { fakeFS.set("b.txt", "yooo"); });
+        });
+
+        it_finally("resolves to contain b.txt",
+          () => watcher(findFiles), value => {
+            expect(value).toContain("b.txt");
+          });
+      });
+    });
   });
 
   describe("given subdir/a.txt and subdir/b.txt exist", () => {
