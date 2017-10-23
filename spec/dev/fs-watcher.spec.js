@@ -115,6 +115,17 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
           });
       });
     });
+
+    describe("and a.txt becomes 'abcde' after 30 seconds", () => {
+      beforeEach(() => {
+        ticker.at(30, () => { fakeFS.set("a.txt", "abcde"); });
+      });
+
+      it_finally("resolves after a.txt changes",
+        () => watcher(findFiles), value => {
+          expect(fakeFS.get("a.txt")).toBe("abcde");
+        });
+    });
   });
 
   describe("given subdir/a.txt and subdir/b.txt exist", () => {
