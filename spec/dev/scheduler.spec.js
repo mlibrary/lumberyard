@@ -23,5 +23,13 @@ describe("in a mocked environment", () => {
                              "inspector": mockObj.inspector})});
   });
 
-  it("a scheduler can exist", () => {});
+  it("does nothing when given nothing", done => {
+    scheduler({}).then(() => {
+      done();
+
+    }, error => {
+      expect(error).toBe("not an error");
+      done();
+    });
+  });
 });
