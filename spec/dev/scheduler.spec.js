@@ -3,3 +3,13 @@
 // BSD License. See LICENSE.txt for details.
 
 const Scheduler = require("../../lib/scheduler");
+
+let scheduler = null;
+
+describe("a scheduler with no tasks", () => {
+  beforeEach(() => {
+    scheduler = Scheduler();
+  });
+
+  it("can exist", () => {});
+});
