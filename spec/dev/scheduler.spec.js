@@ -3,13 +3,25 @@
 // BSD License. See LICENSE.txt for details.
 
 const Scheduler = require("../../lib/scheduler");
+const fsWatcher = require("../../lib/fs-watcher");
+const MockInspector = require("../mock/file-tree-inspector");
+const Ticker = require("../mock/ticker");
 
 let scheduler = null;
+let ticker = null;
+let fakeFS = null;
 
-describe("a scheduler with no tasks", () => {
+describe("in a mocked environment", () => {
   beforeEach(() => {
-    scheduler = Scheduler();
+    let mockObj = MockInspector();
+
+    ticker = Ticker();
+    fakeFS = mockObj.fs;
+
+    scheduler = Scheduler(
+      {"watcher": fsWatcher({"tick": ticker.tick,
+                             "inspector": mockObj.inspector})});
   });
 
-  it("can exist", () => {});
+  it("a scheduler can exist", () => {});
 });
