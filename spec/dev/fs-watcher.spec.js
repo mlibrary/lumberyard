@@ -6,9 +6,9 @@ const fsWatcher = require("../../lib/fs-watcher");
 const MockInspector = require("../mock/file-tree-inspector");
 const Ticker = require("../mock/ticker");
 
-let watcher = null;
-let fakeFS = null;
-let ticker = null;
+const later = require("../helpers/later")(it);
+
+let watcher, fakeFS, ticker;
 
 let findFiles = () => new Promise(function(resolve, reject) {
   let bases = new Set();
@@ -18,29 +18,6 @@ let findFiles = () => new Promise(function(resolve, reject) {
 
   resolve([...bases]);
 });
-
-let it_finally = function(description, toDo, onResolve, onReject) {
-  it(description, done => {
-    toDo().then(value => {
-      if (typeof onResolve === "undefined")
-        expect(value).toBe("an error");
-
-      else
-        onResolve(value);
-
-      done();
-
-    }, error => {
-      if (typeof onReject === "undefined")
-        expect(error).toBe("not an error");
-
-      else
-        onReject(error);
-
-      done();
-    });
-  });
-};
 
 describe("an fsWatcher() instance in an empty filesystem", () => {
   beforeEach(() => {
@@ -53,7 +30,7 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
                          "inspector": mockObj.inspector});
   });
 
-  it_finally("resolves with an empty array",
+  later.it("resolves with an empty array",
     () => watcher(findFiles), value => {
       expect(value).toEqual([]);
     });
@@ -63,7 +40,7 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
       fakeFS.set("a.txt", "hello");
     });
 
-    it_finally("resolves with ['a.txt']",
+    later.it("resolves with ['a.txt']",
       () => watcher(findFiles), value => {
         expect(value).toEqual(["a.txt"]);
       });
@@ -75,12 +52,12 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
         });
       });
 
-      it_finally("resolves to contain a.txt",
+      later.it("resolves to contain a.txt",
         () => watcher(findFiles), value => {
           expect(value).toContain("a.txt");
         });
 
-      it_finally("resolves to contain b.txt",
+      later.it("resolves to contain b.txt",
         () => watcher(findFiles), value => {
           expect(value).toContain("b.txt");
         });
@@ -93,7 +70,7 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
         });
       });
 
-      it_finally("resolves without b.txt",
+      later.it("resolves without b.txt",
         () => watcher(findFiles), value => {
           expect(value).toNotContain("b.txt");
         });
@@ -109,7 +86,7 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
           ticker.at(2, () => { fakeFS.set("b.txt", "yooo"); });
         });
 
-        it_finally("resolves to contain b.txt",
+        later.it("resolves to contain b.txt",
           () => watcher(findFiles), value => {
             expect(value).toContain("b.txt");
           });
@@ -121,7 +98,7 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
         ticker.at(30, () => { fakeFS.set("a.txt", "abcde"); });
       });
 
-      it_finally("resolves after a.txt changes",
+      later.it("resolves after a.txt changes",
         () => watcher(findFiles), value => {
           expect(fakeFS.get("a.txt")).toBe("abcde");
         });
@@ -134,7 +111,7 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
       fakeFS.set("subdir/b.txt", "ho");
     });
 
-    it_finally("resolves with ['subdir']",
+    later.it("resolves with ['subdir']",
       () => watcher(findFiles), value => {
         expect(value).toEqual(["subdir"]);
       });
@@ -165,7 +142,7 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
       ticker.at(19, () => { fakeFS.set("20.txt", "twentieth"); });
     });
 
-    it_finally("resolves to contain 20.txt",
+    later.it("resolves to contain 20.txt",
       () => watcher(findFiles), value => {
         expect(value).toContain("20.txt");
       });
@@ -196,12 +173,12 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
       ticker.at(19, () => { fakeFS.set("s/20.txt", "twentieth"); });
     });
 
-    it_finally("resolves to contain only 's'",
+    later.it("resolves to contain only 's'",
       () => watcher(findFiles), value => {
         expect(value).toEqual(["s"]);
       });
 
-    it_finally("resolves with an fs containing s/20.txt",
+    later.it("resolves with an fs containing s/20.txt",
       () => watcher(findFiles), value => {
         expect(fakeFS.has("s/20.txt")).toBe(true);
       });
