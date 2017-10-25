@@ -7,7 +7,10 @@ const fsWatcher = require("../../lib/fs-watcher");
 const MockInspector = require("../mock/file-tree-inspector");
 const Ticker = require("../mock/ticker");
 
+const later = require("../helpers/later")(it);
+
 let scheduler, ticker, fakeFS, tasks;
+let theScheduler = later.customIt(() => scheduler(tasks));
 
 let TaskSpy = function(find) {
   let task = {};
@@ -46,31 +49,16 @@ describe("in a mocked environment", () => {
                              "inspector": mockObj.inspector})});
   });
 
-  it("does nothing when given nothing", done => {
-    scheduler(tasks).then(() => {
-      done();
-
-    }, error => {
-      expect(error).toBe("not an error");
-      done();
-    });
-  });
+  theScheduler("runs to completion", () => {});
 
   describe("given a task which always finds no files", () => {
     beforeEach(() => {
       tasks.alwaysEmpty = TaskSpy(() => []);
     });
 
-    it("runs task.find()", done => {
-      scheduler(tasks).then(() => {
-        expect(tasks.alwaysEmpty.log.length).toBeGreaterThan(0);
-        expect(tasks.alwaysEmpty.log[0][0]).toBe("find");
-        done();
-
-      }, error => {
-        expect(error).toBe("not an error");
-        done();
-      });
+    theScheduler("runs task.find()", () => {
+      expect(tasks.alwaysEmpty.log.length).toBeGreaterThan(0);
+      expect(tasks.alwaysEmpty.log[0][0]).toBe("find");
     });
   });
 });
