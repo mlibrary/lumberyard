@@ -11,6 +11,27 @@ let scheduler = null;
 let ticker = null;
 let fakeFS = null;
 
+let taskSpy = function(find) {
+  let task = {};
+
+  task.pwd = "";
+  task.events = [];
+
+  task.find = () => new Promise(function(resolve, reject) {
+    resolve(find());
+  });
+
+  task.move = files => new Promise(function(resolve, reject) {
+    task.events.push(["move", files]);
+  });
+
+  task.run = wd => new Promise(function(resolve, reject) {
+    task.events.push(["run", wd]);
+  });
+
+  return task;
+};
+
 describe("in a mocked environment", () => {
   beforeEach(() => {
     let mockObj = MockInspector();
