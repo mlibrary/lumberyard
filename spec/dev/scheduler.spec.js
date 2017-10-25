@@ -58,7 +58,11 @@ describe("in a mocked environment", () => {
 
     theScheduler("runs task.find()", () => {
       expect(tasks.alwaysEmpty.log.length).toBeGreaterThan(0);
-      expect(tasks.alwaysEmpty.log[0][0]).toBe("find");
+    });
+
+    theScheduler("doesn't run task.move() or task.run()", () => {
+      for (let line of tasks.alwaysEmpty.log)
+        expect(line[0]).toBe("find");
     });
   });
 });
