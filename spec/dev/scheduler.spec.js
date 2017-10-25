@@ -7,26 +7,27 @@ const fsWatcher = require("../../lib/fs-watcher");
 const MockInspector = require("../mock/file-tree-inspector");
 const Ticker = require("../mock/ticker");
 
-let scheduler = null;
-let ticker = null;
-let fakeFS = null;
+let scheduler, ticker, fakeFS, tasks;
 
-let taskSpy = function(find) {
+let TaskSpy = function(find) {
   let task = {};
 
   task.pwd = "";
-  task.events = [];
+  task.log = [];
 
   task.find = () => new Promise(function(resolve, reject) {
+    task.log.push(["find", null]);
     resolve(find());
   });
 
   task.move = files => new Promise(function(resolve, reject) {
-    task.events.push(["move", files]);
+    task.log.push(["move", files]);
+    resolve(task.pwd);
   });
 
   task.run = wd => new Promise(function(resolve, reject) {
-    task.events.push(["run", wd]);
+    task.log.push(["run", wd]);
+    resolve();
   });
 
   return task;
@@ -36,6 +37,7 @@ describe("in a mocked environment", () => {
   beforeEach(() => {
     let mockObj = MockInspector();
 
+    tasks = {};
     ticker = Ticker();
     fakeFS = mockObj.fs;
 
@@ -45,12 +47,29 @@ describe("in a mocked environment", () => {
   });
 
   it("does nothing when given nothing", done => {
-    scheduler({}).then(() => {
+    scheduler(tasks).then(() => {
       done();
 
     }, error => {
       expect(error).toBe("not an error");
       done();
+    });
+  });
+
+  describe("given a task which always finds no files", () => {
+    beforeEach(() => {
+      tasks.alwaysEmpty = TaskSpy(() => []);
+    });
+
+    it("runs task.find()", done => {
+      scheduler(tasks).then(() => {
+        expect(tasks.alwaysEmpty.log.length).toBeGreaterThan(0);
+        done();
+
+      }, error => {
+        expect(error).toBe("not an error");
+        done();
+      });
     });
   });
 });
