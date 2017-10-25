@@ -64,6 +64,7 @@ describe("in a mocked environment", () => {
     it("runs task.find()", done => {
       scheduler(tasks).then(() => {
         expect(tasks.alwaysEmpty.log.length).toBeGreaterThan(0);
+        expect(tasks.alwaysEmpty.log[0][0]).toBe("find");
         done();
 
       }, error => {
