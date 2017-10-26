@@ -46,7 +46,8 @@ describe("in a mocked environment", () => {
 
     scheduler = Scheduler(
       {"watcher": fsWatcher({"tick": ticker.tick,
-                             "inspector": mockObj.inspector})});
+                             "inspector": mockObj.inspector}),
+       "tick": ticker.tick});
   });
 
   theScheduler("runs to completion", () => {});
@@ -63,6 +64,17 @@ describe("in a mocked environment", () => {
     theScheduler("doesn't run task.move() or task.run()", () => {
       for (let line of tasks.alwaysEmpty.log)
         expect(line[0]).toBe("find");
+    });
+  });
+
+  describe("with a.txt and a task which finds it", () => {
+    beforeEach(() => {
+      fakeFS.set("a.txt", "hello");
+      tasks.atxt = TaskSpy(() => ["a.txt"]);
+    });
+
+    theScheduler("runs task.move(['a.txt'])", () => {
+      expect(tasks.atxt.log).toContain(["move", ["a.txt"]]);
     });
   });
 });
