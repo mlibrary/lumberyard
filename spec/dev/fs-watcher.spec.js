@@ -19,6 +19,8 @@ let findFiles = () => new Promise(function(resolve, reject) {
   resolve([...bases]);
 });
 
+let theWatcher = later.customIt(() => watcher(findFiles));
+
 describe("an fsWatcher() instance in an empty filesystem", () => {
   beforeEach(() => {
     let mockObj = MockInspector();
@@ -30,20 +32,18 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
                          "inspector": mockObj.inspector});
   });
 
-  later.it("resolves with an empty array",
-    () => watcher(findFiles), value => {
-      expect(value).toEqual([]);
-    });
+  theWatcher("resolves with an empty array", value => {
+    expect(value).toEqual([]);
+  });
 
   describe("given a.txt is 'hello'", () => {
     beforeEach(() => {
       fakeFS.set("a.txt", "hello");
     });
 
-    later.it("resolves with ['a.txt']",
-      () => watcher(findFiles), value => {
-        expect(value).toEqual(["a.txt"]);
-      });
+    theWatcher("resolves with ['a.txt']", value => {
+      expect(value).toEqual(["a.txt"]);
+    });
 
     describe("and b.txt is created a second later", () => {
       beforeEach(() => {
@@ -52,15 +52,13 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
         });
       });
 
-      later.it("resolves to contain a.txt",
-        () => watcher(findFiles), value => {
-          expect(value).toContain("a.txt");
-        });
+      theWatcher("resolves to contain a.txt", value => {
+        expect(value).toContain("a.txt");
+      });
 
-      later.it("resolves to contain b.txt",
-        () => watcher(findFiles), value => {
-          expect(value).toContain("b.txt");
-        });
+      theWatcher("resolves to contain b.txt", value => {
+        expect(value).toContain("b.txt");
+      });
     });
 
     describe("and b.txt is created ten minutes later", () => {
@@ -70,10 +68,9 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
         });
       });
 
-      later.it("resolves without b.txt",
-        () => watcher(findFiles), value => {
-          expect(value).toNotContain("b.txt");
-        });
+      theWatcher("resolves without b.txt", value => {
+        expect(value).toNotContain("b.txt");
+      });
     });
 
     describe("and a.txt becomes 'abcde' after 1 seconds", () => {
@@ -86,10 +83,9 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
           ticker.at(2, () => { fakeFS.set("b.txt", "yooo"); });
         });
 
-        later.it("resolves to contain b.txt",
-          () => watcher(findFiles), value => {
-            expect(value).toContain("b.txt");
-          });
+        theWatcher("resolves to contain b.txt", value => {
+          expect(value).toContain("b.txt");
+        });
       });
     });
 
@@ -98,10 +94,9 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
         ticker.at(30, () => { fakeFS.set("a.txt", "abcde"); });
       });
 
-      later.it("resolves after a.txt changes",
-        () => watcher(findFiles), value => {
-          expect(fakeFS.get("a.txt")).toBe("abcde");
-        });
+      theWatcher("resolves after a.txt changes", value => {
+        expect(fakeFS.get("a.txt")).toBe("abcde");
+      });
     });
   });
 
@@ -111,10 +106,9 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
       fakeFS.set("subdir/b.txt", "ho");
     });
 
-    later.it("resolves with ['subdir']",
-      () => watcher(findFiles), value => {
-        expect(value).toEqual(["subdir"]);
-      });
+    theWatcher("resolves with ['subdir']", value => {
+      expect(value).toEqual(["subdir"]);
+    });
   });
 
   describe("given twenty files are created over 20 seconds", () => {
@@ -142,10 +136,9 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
       ticker.at(19, () => { fakeFS.set("20.txt", "twentieth"); });
     });
 
-    later.it("resolves to contain 20.txt",
-      () => watcher(findFiles), value => {
-        expect(value).toContain("20.txt");
-      });
+    theWatcher("resolves to contain 20.txt", value => {
+      expect(value).toContain("20.txt");
+    });
   });
 
   describe("given twenty subdir files are created over 20 seconds", () => {
@@ -173,14 +166,12 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
       ticker.at(19, () => { fakeFS.set("s/20.txt", "twentieth"); });
     });
 
-    later.it("resolves to contain only 's'",
-      () => watcher(findFiles), value => {
-        expect(value).toEqual(["s"]);
-      });
+    theWatcher("resolves to contain only 's'", value => {
+      expect(value).toEqual(["s"]);
+    });
 
-    later.it("resolves with an fs containing s/20.txt",
-      () => watcher(findFiles), value => {
-        expect(fakeFS.has("s/20.txt")).toBe(true);
-      });
+    theWatcher("resolves with an fs containing s/20.txt", value => {
+      expect(fakeFS.has("s/20.txt")).toBe(true);
+    });
   });
 });

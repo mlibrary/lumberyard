@@ -7,7 +7,10 @@ const fsWatcher = require("../../lib/fs-watcher");
 const MockInspector = require("../mock/file-tree-inspector");
 const Ticker = require("../mock/ticker");
 
+const later = require("../helpers/later")(it);
+
 let scheduler, ticker, fakeFS, tasks;
+let theScheduler = later.customIt(() => scheduler(tasks));
 
 let TaskSpy = function(find) {
   let task = {};
@@ -22,6 +25,14 @@ let TaskSpy = function(find) {
 
   task.move = files => new Promise(function(resolve, reject) {
     task.log.push(["move", files]);
+
+    for (let file of files)
+      for (let key of fakeFS.keys())
+        if (key.startsWith(file))
+          fakeFS.delete(key);
+
+    find = () => [];
+
     resolve(task.pwd);
   });
 
@@ -43,34 +54,80 @@ describe("in a mocked environment", () => {
 
     scheduler = Scheduler(
       {"watcher": fsWatcher({"tick": ticker.tick,
-                             "inspector": mockObj.inspector})});
+                             "inspector": mockObj.inspector}),
+       "tick": ticker.tick});
   });
 
-  it("does nothing when given nothing", done => {
-    scheduler(tasks).then(() => {
-      done();
-
-    }, error => {
-      expect(error).toBe("not an error");
-      done();
-    });
-  });
+  theScheduler("runs to completion", () => {});
 
   describe("given a task which always finds no files", () => {
     beforeEach(() => {
       tasks.alwaysEmpty = TaskSpy(() => []);
     });
 
-    it("runs task.find()", done => {
-      scheduler(tasks).then(() => {
-        expect(tasks.alwaysEmpty.log.length).toBeGreaterThan(0);
-        expect(tasks.alwaysEmpty.log[0][0]).toBe("find");
-        done();
+    theScheduler("runs task.find()", () => {
+      expect(tasks.alwaysEmpty.log.length).toBeGreaterThan(0);
+    });
 
-      }, error => {
-        expect(error).toBe("not an error");
-        done();
+    theScheduler("doesn't run task.move() or task.run()", () => {
+      for (let line of tasks.alwaysEmpty.log)
+        expect(line[0]).toBe("find");
+    });
+  });
+
+  describe("with a.txt and a task which finds it", () => {
+    beforeEach(() => {
+      fakeFS.set("a.txt", "hello");
+      tasks.atxt = TaskSpy(() => ["a.txt"]);
+      tasks.atxt.pwd = "atxt_autodir";
+    });
+
+    theScheduler("runs task.move(['a.txt'])", () => {
+      expect(tasks.atxt.log).toContain(["move", ["a.txt"]]);
+    });
+
+    theScheduler("runs task.run('atxt_autodir')", () => {
+      expect(tasks.atxt.log).toContain(["run", "atxt_autodir"]);
+    });
+
+    describe("with b.txt in 10 seconds and a task for it", () => {
+      beforeEach(() => {
+        ticker.at(10, () => { fakeFS.set("b.txt", "ayyy"); });
+        tasks.btxt = TaskSpy(() => {
+          if (fakeFS.has("b.txt"))
+            return ["b.txt"];
+
+          else
+            return [];
+        });
+
+        tasks.btxt.pwd = "btxt_autodir";
       });
+
+      theScheduler("runs task.move() for b.txt", () => {
+        expect(tasks.btxt.log).toContain(["move", ["b.txt"]]);
+      });
+
+      theScheduler("runs task.run() for b.txt", () => {
+        expect(tasks.btxt.log).toContain(["run", "btxt_autodir"]);
+      });
+    });
+  });
+
+  describe("with a.txt in 10 seconds and a task for it", () => {
+    beforeEach(() => {
+      ticker.at(10, () => { fakeFS.set("a.txt", "ayyy"); });
+      tasks.atxt = TaskSpy(() => {
+        if (fakeFS.has("a.txt"))
+          return ["a.txt"];
+
+        else
+          return [];
+      });
+    });
+
+    theScheduler("exits before a.txt exists", () => {
+      expect(tasks.atxt.log).toEqual([["find", null]]);
     });
   });
 });

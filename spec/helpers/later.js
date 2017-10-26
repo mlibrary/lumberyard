@@ -38,5 +38,11 @@ module.exports = function(it) {
   later.xit = () => {};
   later.xitErrors = () => {};
 
+  later.customIt = function(toDo) {
+    return function(description, onResolve, onReject) {
+      later.it(description, toDo, onResolve, onReject);
+    };
+  };
+
   return later;
 };
