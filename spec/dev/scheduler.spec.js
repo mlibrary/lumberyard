@@ -107,6 +107,27 @@ describe("in a mocked environment", () => {
       theScheduler("runs task.move() for b.txt", () => {
         expect(tasks.btxt.log).toContain(["move", ["b.txt"]]);
       });
+
+      theScheduler("runs task.run() for b.txt", () => {
+        expect(tasks.btxt.log).toContain(["run", "btxt_autodir"]);
+      });
+    });
+  });
+
+  describe("with a.txt in 10 seconds and a task for it", () => {
+    beforeEach(() => {
+      ticker.at(10, () => { fakeFS.set("a.txt", "ayyy"); });
+      tasks.atxt = TaskSpy(() => {
+        if (fakeFS.has("a.txt"))
+          return ["a.txt"];
+
+        else
+          return [];
+      });
+    });
+
+    theScheduler("exits before a.txt exists", () => {
+      expect(tasks.atxt.log).toEqual([["find", null]]);
     });
   });
 });
