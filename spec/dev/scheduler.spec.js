@@ -79,10 +79,15 @@ describe("in a mocked environment", () => {
     beforeEach(() => {
       fakeFS.set("a.txt", "hello");
       tasks.atxt = TaskSpy(() => ["a.txt"]);
+      tasks.atxt.pwd = "atxt_autodir";
     });
 
     theScheduler("runs task.move(['a.txt'])", () => {
       expect(tasks.atxt.log).toContain(["move", ["a.txt"]]);
+    });
+
+    theScheduler("runs task.run('atxt_autodir')", () => {
+      expect(tasks.atxt.log).toContain(["run", "atxt_autodir"]);
     });
 
     describe("with b.txt in 10 seconds and a task for it", () => {
@@ -95,6 +100,8 @@ describe("in a mocked environment", () => {
           else
             return [];
         });
+
+        tasks.btxt.pwd = "btxt_autodir";
       });
 
       theScheduler("runs task.move() for b.txt", () => {
