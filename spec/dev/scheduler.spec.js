@@ -25,6 +25,14 @@ let TaskSpy = function(find) {
 
   task.move = files => new Promise(function(resolve, reject) {
     task.log.push(["move", files]);
+
+    for (let file of files)
+      for (let key of fakeFS.keys())
+        if (key.startsWith(file))
+          fakeFS.delete(key);
+
+    find = () => [];
+
     resolve(task.pwd);
   });
 
