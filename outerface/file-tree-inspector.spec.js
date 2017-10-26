@@ -6,6 +6,8 @@ const FileTreeInspector = require("../lib/file-tree-inspector");
 const crypto = require("crypto");
 const fs = require("fs");
 
+const later = require("../spec/helpers/later")(it);
+
 let inspector = null;
 
 let md5sum = data => {
@@ -13,69 +15,26 @@ let md5sum = data => {
 };
 
 let writeFile = (path, data) => new Promise(function(resolve, reject) {
-  fs.writeFile(path, data, function(err) {
-    if (err)
-      reject(err);
-    else
-      resolve(path);
-  });
+  fs.writeFile(path, data, handleErr(path, resolve, reject));
 });
 
 let rm = path => new Promise(function(resolve, reject) {
-  fs.unlink(path, function(err) {
-    if (err)
-      reject(err);
-    else
-      resolve(path);
-  });
+  fs.unlink(path, handleErr(path, resolve, reject));
 });
 
 let mkdir = path => new Promise(function(resolve, reject) {
-  fs.mkdir(path, function(err) {
-    if (err)
-      reject(err);
-    else
-      resolve(path);
-  });
+  fs.mkdir(path, handleErr(path, resolve, reject));
 });
 
 let rmdir = path => new Promise(function(resolve, reject) {
-  fs.rmdir(path, function(err) {
-    if (err)
-      reject(err);
-    else
-      resolve(path);
-  });
+  fs.rmdir(path, handleErr(path, resolve, reject));
 });
 
-let it_finally = function(description, toDo, onResolve, onReject) {
-  it(description, done => {
-    toDo().then(value => {
-      if (typeof onResolve === "undefined")
-        expect(value).toBe("an error");
-
-      else
-        onResolve(value);
-
-      done();
-
-    }, error => {
-      if (typeof onReject === "undefined")
-        expect(error).toBe("not an error");
-
-      else
-        onReject(error);
-
-      done();
-    });
-  });
-};
-
-let it_finally_errors = function(description, toDo, onReject) {
-  if (typeof onReject === "undefined")
-    onReject = () => {};
-
-  it_finally("errors " + description, toDo, undefined, onReject);
+let handleErr = (output, resolve, reject) => function(err) {
+  if (err)
+    reject(err);
+  else
+    resolve(output);
 };
 
 describe("an instance of FileTreeInspector()", () => {
@@ -147,40 +106,40 @@ describe("an instance of FileTreeInspector()", () => {
       }, reject);
     });
 
-    it_finally("can find a.txt",
+    later.it("can find a.txt",
       () => inspector.getSizesUnder("fstest"), value => {
         expect(value.get("fstest/a.txt")).toBe(9);
       });
 
-    it_finally("can find b.txt",
+    later.it("can find b.txt",
       () => inspector.getSizesUnder("fstest"), value => {
         expect(value.get("fstest/b.txt")).toBe(8);
       });
 
-    it_finally("can find subdir/a.txt",
+    later.it("can find subdir/a.txt",
       () => inspector.getSizesUnder("fstest"), value => {
         expect(value.get("fstest/subdir/a.txt")).toBe(5);
       });
 
-    it_finally("can find subdir/c.txt",
+    later.it("can find subdir/c.txt",
       () => inspector.getSizesUnder("fstest"), value => {
         expect(value.get("fstest/subdir/c.txt")).toBe(7);
       });
 
-    it_finally("gives the right checksum for a.txt",
+    later.it("gives the right checksum for a.txt",
       () => inspector.getChecksum("fstest/a.txt"), value => {
         expect(value).toBe(md5sum("Hey there"));
       });
 
-    it_finally_errors("when told to checksum a nonexistent file",
+    later.itErrors("when told to checksum a nonexistent file",
       () => inspector.getChecksum("fstest/not-a-file.txt"))
 
-    it_finally("yields an empty size mapping for nonexistent paths",
+    later.it("yields an empty size mapping for nonexistent paths",
       () => inspector.getSizesUnder("fstest/not-a-dir"), value => {
         expect(value.size).toBe(0);
       });
 
-    it_finally("doesn't look at files not under the requested path",
+    later.it("doesn't look at files not under the requested path",
       () => inspector.getSizesUnder("fstest/subdir"), value => {
         expect(value.has("fstest/a.txt")).toBe(false);
       });
