@@ -84,5 +84,22 @@ describe("in a mocked environment", () => {
     theScheduler("runs task.move(['a.txt'])", () => {
       expect(tasks.atxt.log).toContain(["move", ["a.txt"]]);
     });
+
+    describe("with b.txt in 10 seconds and a task for it", () => {
+      beforeEach(() => {
+        ticker.at(10, () => { fakeFS.set("b.txt", "ayyy"); });
+        tasks.btxt = TaskSpy(() => {
+          if (fakeFS.has("b.txt"))
+            return ["b.txt"];
+
+          else
+            return [];
+        });
+      });
+
+      theScheduler("runs task.move() for b.txt", () => {
+        expect(tasks.btxt.log).toContain(["move", ["b.txt"]]);
+      });
+    });
   });
 });
