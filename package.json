@@ -1,7 +1,7 @@
 {
   "name": "lumberyard",
   "version": "1.0.0",
-  "description": "sorry",
+  "description": "sanely log process trees as they appear",
   "main": "index.js",
   "scripts": {
     "test": "jasmine-node spec"
