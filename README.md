@@ -1,6 +1,13 @@
 Lumberyard [![Build Status][status-image]][travis]
 ==========
 
+You can clone this repository and use relative `require` statements, or
+you can just install it through npm:
+
+```bash session
+$ npm install lumberyard
+```
+
 ```javascript
 const Lumberyard = require("lumberyard");
 ```
@@ -71,39 +78,41 @@ doing any actual processing.
 
 Here's a file tree example:
 
-    ./
-    |-- Shipment_1234567/
-    |   |-- Volume_001/
-    |   |   |-- 00000001.tif
-    |   |   |-- 00000002.tif
-    |   |   |-- 00000003.tif
-    |   |   \-- 00000004.tif
-    |   |-- Volume_002/
-    |   |   |-- 00000001.tif
-    |   |   |-- 00000002.tif
-    |   |   |-- 00000003.tif
-    |   |   \-- 00000004.tif
-    |   \-- Volume_003/
-    |       |-- 00000001.tif
-    |       |-- 00000002.tif
-    |       |-- 00000003.tif
-    |       \-- 00000004.tif
-    \-- Shipment_1234568/
-        |-- Volume_004/
-        |   |-- 00000001.tif
-        |   |-- 00000002.tif
-        |   |-- 00000003.tif
-        |   \-- 00000004.tif
-        |-- Volume_005/
-        |   |-- 00000001.tif
-        |   |-- 00000002.tif
-        |   |-- 00000003.tif
-        |   \-- 00000004.tif
-        \-- Volume_006/
-            |-- 00000001.tif
-            |-- 00000002.tif
-            |-- 00000003.tif
-            \-- 00000004.tif
+```
+./
+|-- Shipment_1234567/
+|   |-- Volume_001/
+|   |   |-- 00000001.tif
+|   |   |-- 00000002.tif
+|   |   |-- 00000003.tif
+|   |   \-- 00000004.tif
+|   |-- Volume_002/
+|   |   |-- 00000001.tif
+|   |   |-- 00000002.tif
+|   |   |-- 00000003.tif
+|   |   \-- 00000004.tif
+|   \-- Volume_003/
+|       |-- 00000001.tif
+|       |-- 00000002.tif
+|       |-- 00000003.tif
+|       \-- 00000004.tif
+\-- Shipment_1234568/
+    |-- Volume_004/
+    |   |-- 00000001.tif
+    |   |-- 00000002.tif
+    |   |-- 00000003.tif
+    |   \-- 00000004.tif
+    |-- Volume_005/
+    |   |-- 00000001.tif
+    |   |-- 00000002.tif
+    |   |-- 00000003.tif
+    |   \-- 00000004.tif
+    \-- Volume_006/
+        |-- 00000001.tif
+        |-- 00000002.tif
+        |-- 00000003.tif
+        \-- 00000004.tif
+```
 
 To deal with this, you'd use ProcessTree like this:
 
