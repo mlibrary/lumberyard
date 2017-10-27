@@ -1,5 +1,5 @@
 {
-  "name": "awful-mess",
+  "name": "lumberyard",
   "version": "1.0.0",
   "description": "sorry",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/daaang/awful-mess.git"
+    "url": "git+https://github.com/mlibrary/lumberyard.git"
   },
-  "author": "Matthew Alexander LaChance",
+  "author": "Matt LaChance",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/daaang/awful-mess/issues"
+    "url": "https://github.com/mlibrary/lumberyard/issues"
   },
-  "homepage": "https://github.com/daaang/awful-mess#readme",
+  "homepage": "https://github.com/mlibrary/lumberyard#readme",
   "dependencies": {
     "executive": "^1.5.11",
     "tail": "^1.2.2"
