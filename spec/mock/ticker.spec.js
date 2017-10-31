@@ -14,13 +14,10 @@ let aroundTick = function(tickCount, before, after) {
   if (typeof after === "undefined")
     after = () => {};
 
-  return function(done) {
+  return function() {
     this.timeout(50);
     before();
-    ticker.tick(tickCount).then(() => {
-      after();
-      done();
-    }, done);
+    return ticker.tick(tickCount).then(after);
   };
 };
 
@@ -81,7 +78,7 @@ describe("an instance of Ticker()", () => {
     }));
   });
 
-  it("executes two promises in order", function(done) {
+  it("executes two promises in order", function() {
     this.timeout(50);
 
     let firstIsDone = false;
@@ -108,45 +105,42 @@ describe("an instance of Ticker()", () => {
       resolve();
     }));
 
-    ticker.tick().then(() => {
+    return ticker.tick().then(() => {
       expect(outOfOrder).to.equal(false);
-      done();
-    }, done);
+    });
   });
 
-  it("rejects on thrown exception", function(done) {
+  it("rejects on thrown exception", function() {
     this.timeout(50);
 
     ticker.at(1, () => {
       throw "hi, matt!";
     });
 
-    ticker.tick().then(() => {
-      done("expected a rejection");
+    return ticker.tick().then(() => {
+      throw "expected a rejection";
 
     }, error => {
       expect(error).to.equal("hi, matt!");
-      done();
     });
   });
 
-  it("rejects on promise rejection", function(done) {
+  it("rejects on promise rejection", function() {
     this.timeout(50);
 
     ticker.at(1, () => new Promise(function(resolve, reject) {
       reject("uh oh");
     }));
 
-    ticker.tick().then(() => {
-      done("expected a rejection");
+    return ticker.tick().then(() => {
+      throw "expected a rejection";
 
     }, error => {
       expect(error).to.equal("uh oh");
-      done();
     });
   });
 
-  it("rejects when one of many promises rejects", function(done) {
+  it("rejects when one of many promises rejects", function() {
     this.timeout(50);
 
     ticker.at(1, () => new Promise(function(resolve, reject) {
@@ -156,12 +150,11 @@ describe("an instance of Ticker()", () => {
     ticker.at(1, () => {});
     ticker.at(1, () => {});
 
-    ticker.tick().then(() => {
-      done("expected a rejection");
+    return ticker.tick().then(() => {
+      throw "expected a rejection";
 
     }, error => {
       expect(error).to.equal("the first one fails");
-      done();
     });
   });
 });

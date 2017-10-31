@@ -8,15 +8,13 @@ module.exports = function(it) {
   let later = {};
 
   later.it = function(description, toDo, onResolve, onReject) {
-    it(description, function(done) {
-      toDo().then(value => {
+    it(description, function() {
+      return toDo().then(value => {
         if (typeof onResolve === "undefined")
           expect(value).toBe("an error");
 
         else
           onResolve(value);
-
-        done();
 
       }, error => {
         if (typeof onReject === "undefined")
@@ -24,8 +22,6 @@ module.exports = function(it) {
 
         else
           onReject(error);
-
-        done();
       });
     });
   };
