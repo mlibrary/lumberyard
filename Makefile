@@ -1,8 +1,7 @@
-MOCHA = ./node_modules/mocha/bin/mocha
 .PHONY: spec test
 
 spec:
-	$(MOCHA) --recursive spec outerface
+	npm test
 
 test:
-	$(MOCHA) --recursive --reporter nyan spec
+	npm run-script test:fast
