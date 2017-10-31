@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "sanely log process trees as they appear",
   "main": "index.js",
+  "bin": {
+    "watchlog": "./bin/watchlog"
+  },
   "scripts": {
     "test": "make"
   },
