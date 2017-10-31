@@ -2,31 +2,25 @@
 // All Rights Reserved. Licensed according to the terms of the Revised
 // BSD License. See LICENSE.txt for details.
 
+const expect = require("chai").expect;
 const Ticker = require("./ticker");
 
 let ticker;
 
 let aroundTick = function(tickCount, before, after) {
-  return function() {
-    let ticksHappened = false;
+  if (typeof before === "undefined")
+    before = () => {};
 
-    runs(() => {
-      if (typeof before !== "undefined")
-        before();
+  if (typeof after === "undefined")
+    after = () => {};
 
-      ticker.tick(tickCount).then(() => {
-        ticksHappened = true;
-      });
-    });
-
-    waitsFor(() => {
-      return ticksHappened;
-    }, "ticks to resolve", 50);
-
-    runs(() => {
-      if (typeof after !== "undefined")
-        after();
-    });
+  return function(done) {
+    this.timeout(50);
+    before();
+    ticker.tick(tickCount).then(() => {
+      after();
+      done();
+    }, done);
   };
 };
 
@@ -46,7 +40,7 @@ describe("an instance of Ticker()", () => {
     });
 
     it("can be given a task", aroundTick(undefined, undefined, () => {
-      expect(n).toBe(1);
+      expect(n).to.equal(1);
     }));
 
     it("can queue multiple tasks", aroundTick(undefined, () => {
@@ -57,12 +51,12 @@ describe("an instance of Ticker()", () => {
       });
 
     }, () => {
-      expect(n).toBe(1);
-      expect(m).toBe(1);
+      expect(n).to.equal(1);
+      expect(m).to.equal(1);
     }));
 
     it("does nothing on tick(0)", aroundTick(0, undefined, () => {
-      expect(n).toBe(0);
+      expect(n).to.equal(0);
     }));
   });
 
@@ -78,143 +72,96 @@ describe("an instance of Ticker()", () => {
 
     it("doesn't increment during the first two ticks",
         aroundTick(2, undefined, () => {
-      expect(n).toBe(0);
+      expect(n).to.equal(0);
     }));
 
     it("increments during the third tick",
         aroundTick(3, undefined, () => {
-      expect(n).toBe(1);
+      expect(n).to.equal(1);
     }));
   });
 
-  it("executes two promises in order", () => {
+  it("executes two promises in order", function(done) {
+    this.timeout(50);
+
     let firstIsDone = false;
     let secondIsDone = false;
     let outOfOrder = false;
 
-    runs(() => {
-      ticker.at(1, () => new Promise(function(resolve) {
-        setTimeout(() => {
-          firstIsDone = true;
+    ticker.at(1, () => new Promise(function(resolve) {
+      setTimeout(() => {
+        firstIsDone = true;
 
-          if (secondIsDone)
-            outOfOrder = true
-
-          resolve();
-        }, 1);
-      }));
-
-      ticker.at(1, () => new Promise(function(resolve) {
-        secondIsDone = true;
-
-        if (!firstIsDone)
+        if (secondIsDone)
           outOfOrder = true;
 
         resolve();
-      }));
+      }, 1);
+    }));
 
-      ticker.tick();
+    ticker.at(1, () => new Promise(function(resolve) {
+      secondIsDone = true;
+
+      if (!firstIsDone)
+        outOfOrder = true;
+
+      resolve();
+    }));
+
+    ticker.tick().then(() => {
+      expect(outOfOrder).to.equal(false);
+      done();
+    }, done);
+  });
+
+  it("rejects on thrown exception", function(done) {
+    this.timeout(50);
+
+    ticker.at(1, () => {
+      throw "hi, matt!";
     });
 
-    waitsFor(() => {
-      return (firstIsDone && secondIsDone);
-    }, "ticks to resolve", 50);
+    ticker.tick().then(() => {
+      done("expected a rejection");
 
-    runs(() => {
-      expect(outOfOrder).toBe(false);
+    }, error => {
+      expect(error).to.equal("hi, matt!");
+      done();
     });
   });
 
-  it("rejects on thrown exception", () => {
-    let ticksHappened = false;
-    let itResolved = false;
-    let rejectObject = undefined;
+  it("rejects on promise rejection", function(done) {
+    this.timeout(50);
 
-    runs(() => {
-      ticker.at(1, () => {
-        throw "hi, matt!";
-      });
+    ticker.at(1, () => new Promise(function(resolve, reject) {
+      reject("uh oh");
+    }));
 
-      ticker.tick().then(() => {
-        ticksHappened = true;
-        itResolved = true;
+    ticker.tick().then(() => {
+      done("expected a rejection");
 
-      }, error => {
-        ticksHappened = true;
-        rejectObject = error;
-      });
-    });
-
-    waitsFor(() => {
-      return ticksHappened;
-    }, "ticks to resolve", 50);
-
-    runs(() => {
-      expect(itResolved).toBe(false);
-      expect(rejectObject).toBe("hi, matt!");
+    }, error => {
+      expect(error).to.equal("uh oh");
+      done();
     });
   });
 
-  it("rejects on promise rejection", () => {
-    let ticksHappened = false;
-    let itResolved = false;
-    let rejectObject = undefined;
+  it("rejects when one of many promises rejects", function(done) {
+    this.timeout(50);
 
-    runs(() => {
-      ticker.at(1, () => new Promise(function(resolve, reject) {
-        reject("uh oh");
-      }));
+    ticker.at(1, () => new Promise(function(resolve, reject) {
+      reject("the first one fails");
+    }));
 
-      ticker.tick().then(() => {
-        ticksHappened = true;
-        itResolved = true;
+    ticker.at(1, () => {});
+    ticker.at(1, () => {});
 
-      }, error => {
-        ticksHappened = true;
-        rejectObject = error;
-      });
-    });
+    ticker.tick().then(() => {
+      done("expected a rejection");
 
-    waitsFor(() => {
-      return ticksHappened;
-    }, "ticks to resolve", 50);
-
-    runs(() => {
-      expect(itResolved).toBe(false);
-      expect(rejectObject).toBe("uh oh");
-    });
-  });
-
-  it("rejects when one of many promises rejects", () => {
-    let ticksHappened = false;
-    let itResolved = false;
-    let rejectObject = undefined;
-
-    runs(() => {
-      ticker.at(1, () => new Promise(function(resolve, reject) {
-        reject("the first one fails");
-      }));
-
-      ticker.at(1, () => {});
-      ticker.at(1, () => {});
-
-      ticker.tick().then(() => {
-        ticksHappened = true;
-        itResolved = true;
-
-      }, error => {
-        ticksHappened = true;
-        rejectObject = error;
-      });
-    });
-
-    waitsFor(() => {
-      return ticksHappened;
-    }, "ticks to resolve", 50);
-
-    runs(() => {
-      expect(itResolved).toBe(false);
-      expect(rejectObject).toBe("the first one fails");
+    }, error => {
+      expect(error).to.equal("the first one fails");
+      done();
     });
   });
 });

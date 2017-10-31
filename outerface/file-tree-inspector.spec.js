@@ -6,6 +6,7 @@ const FileTreeInspector = require("../lib/file-tree-inspector");
 const crypto = require("crypto");
 const fs = require("fs");
 
+const expect = require("chai").expect;
 const later = require("../spec/helpers/later")(it);
 
 let inspector = null;
@@ -52,7 +53,7 @@ describe("an instance of FileTreeInspector()", () => {
     // \-- b.txt
     beforeEach(done => {
       let reject = err => {
-        expect(err).toBe("not an error");
+        expect(err).to.equal("not an error");
         done();
       };
 
@@ -80,7 +81,7 @@ describe("an instance of FileTreeInspector()", () => {
 
     afterEach(done => {
       let reject = err => {
-        expect(err).toBe("not an error");
+        expect(err).to.equal("not an error");
         done();
       };
 
@@ -108,27 +109,27 @@ describe("an instance of FileTreeInspector()", () => {
 
     later.it("can find a.txt",
       () => inspector.getSizesUnder("fstest"), value => {
-        expect(value.get("fstest/a.txt")).toBe(9);
+        expect(value.get("fstest/a.txt")).to.equal(9);
       });
 
     later.it("can find b.txt",
       () => inspector.getSizesUnder("fstest"), value => {
-        expect(value.get("fstest/b.txt")).toBe(8);
+        expect(value.get("fstest/b.txt")).to.equal(8);
       });
 
     later.it("can find subdir/a.txt",
       () => inspector.getSizesUnder("fstest"), value => {
-        expect(value.get("fstest/subdir/a.txt")).toBe(5);
+        expect(value.get("fstest/subdir/a.txt")).to.equal(5);
       });
 
     later.it("can find subdir/c.txt",
       () => inspector.getSizesUnder("fstest"), value => {
-        expect(value.get("fstest/subdir/c.txt")).toBe(7);
+        expect(value.get("fstest/subdir/c.txt")).to.equal(7);
       });
 
     later.it("gives the right checksum for a.txt",
       () => inspector.getChecksum("fstest/a.txt"), value => {
-        expect(value).toBe(md5sum("Hey there"));
+        expect(value).to.equal(md5sum("Hey there"));
       });
 
     later.itErrors("when told to checksum a nonexistent file",
@@ -136,12 +137,12 @@ describe("an instance of FileTreeInspector()", () => {
 
     later.it("yields an empty size mapping for nonexistent paths",
       () => inspector.getSizesUnder("fstest/not-a-dir"), value => {
-        expect(value.size).toBe(0);
+        expect(value.size).to.equal(0);
       });
 
     later.it("doesn't look at files not under the requested path",
       () => inspector.getSizesUnder("fstest/subdir"), value => {
-        expect(value.has("fstest/a.txt")).toBe(false);
+        expect(value.has("fstest/a.txt")).to.equal(false);
       });
   });
 });

@@ -1,7 +1,8 @@
+MOCHA = ./node_modules/mocha/bin/mocha
 .PHONY: spec test
 
 spec:
-	jasmine-node --verbose .
+	$(MOCHA) --recursive spec outerface
 
 test:
-	npm test
+	$(MOCHA) --recursive --reporter nyan spec

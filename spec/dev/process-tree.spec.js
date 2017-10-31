@@ -2,6 +2,7 @@
 // All Rights Reserved. Licensed according to the terms of the Revised
 // BSD License. See LICENSE.txt for details.
 
+const expect = require("chai").expect;
 const processTree = require("../../lib/process-tree");
 
 let treeSpy = function(logTree) {
@@ -35,19 +36,19 @@ describe("a processTree with no children", () => {
   });
 
   it("returns a spy", () => {
-    expect(spy.tree).toBeDefined();
+    expect(spy.tree).to.exist;
   });
 
   it("logs two messages once finished running", done => {
     spy.process.then(value => {
-      expect(spy.messages.length).toBe(2);
+      expect(spy.messages.length).to.equal(2);
 
       done();
     });
   });
 
   it("has no description", () => {
-    expect(spy.tree.d || "").toBe("");
+    expect(spy.tree.d || "").to.equal("");
   });
 });
 
@@ -61,12 +62,12 @@ describe("a lone processTree with some setup time", () => {
   });
 
   it("doesn't log both messages right away", () => {
-    expect(spy.messages.length).toBeLessThan(2);
+    expect(spy.messages.length).to.be.below(2);
   });
 
   it("logs both messages in the end", done => {
     spy.process.then(value => {
-      expect(spy.messages.length).toBe(2);
+      expect(spy.messages.length).to.equal(2);
 
       done();
     });
@@ -107,35 +108,35 @@ describe("a processTree with one child and some delays", () => {
     });
 
     it("has 7 messages", () => {
-      expect(spy.messages.length).toBe(7);
+      expect(spy.messages.length).to.equal(7);
     });
 
     it("starts with a 'begin' message", () => {
-      expect(spy.messages[0][1]).toBe("begin");
+      expect(spy.messages[0][1]).to.equal("begin");
     });
 
     it("runs runBefore() first", () => {
-      expect(spy.messages[1][2]).toBe("run before");
+      expect(spy.messages[1][2]).to.equal("run before");
     });
 
     it("runs run() after runBefore()", () => {
-      expect(spy.messages[2][2]).toBe("run");
+      expect(spy.messages[2][2]).to.equal("run");
     });
 
     it("logs a second 'begin' after run()", () => {
-      expect(spy.messages[3][1]).toBe("begin");
+      expect(spy.messages[3][1]).to.equal("begin");
     });
 
     it("logs a 'done' right after the second 'begin'", () => {
-      expect(spy.messages[4][1]).toBe("done");
+      expect(spy.messages[4][1]).to.equal("done");
     });
 
     it("runs runAfter() after children are done", () => {
-      expect(spy.messages[5][2]).toBe("run after");
+      expect(spy.messages[5][2]).to.equal("run after");
     });
 
     it("finishes with a final 'done'", () => {
-      expect(spy.messages[6][1]).toBe("done");
+      expect(spy.messages[6][1]).to.equal("done");
     });
   });
 });
@@ -157,15 +158,15 @@ describe("a binary processTree with four grandchildren", () => {
 
   describe("its logTree", () => {
     it("has two children", () => {
-      expect(spy.tree.c.length).toBe(2);
+      expect(spy.tree.c.length).to.equal(2);
     });
 
     it("has two grandchildren under its first child", () => {
-      expect(spy.tree.c[0].c.length).toBe(2);
+      expect(spy.tree.c[0].c.length).to.equal(2);
     });
 
     it("has two grandchildren under its second child", () => {
-      expect(spy.tree.c[1].c.length).toBe(2);
+      expect(spy.tree.c[1].c.length).to.equal(2);
     });
   });
 
@@ -175,26 +176,26 @@ describe("a binary processTree with four grandchildren", () => {
     });
 
     it("has 14 messages", () => {
-      expect(spy.messages.length).toBe(14);
+      expect(spy.messages.length).to.equal(14);
     });
 
     describe("its first message", () => {
       it("has a 'begin' code", () => {
-        expect(spy.messages[0][1]).toBe("begin");
+        expect(spy.messages[0][1]).to.equal("begin");
       });
 
       it("has an empty message", () => {
-        expect(spy.messages[0][2]).toBe("");
+        expect(spy.messages[0][2]).to.equal("");
       });
     });
 
     describe("its second message", () => {
       it("has a 'begin' code", () => {
-        expect(spy.messages[1][1]).toBe("begin");
+        expect(spy.messages[1][1]).to.equal("begin");
       });
 
       it("has an address of [0]", () => {
-        expect(spy.messages[1][2]).toBe(0);
+        expect(spy.messages[1][2]).to.equal(0);
       });
     });
 
@@ -204,7 +205,7 @@ describe("a binary processTree with four grandchildren", () => {
         if (msg[1] === "begin" && msg.length === 4 && msg[2] === 1)
           found_it = true;
 
-      expect(found_it).toBe(true);
+      expect(found_it).to.equal(true);
     });
 
     it("contains a begin [1, 0] message", () => {
@@ -214,7 +215,7 @@ describe("a binary processTree with four grandchildren", () => {
             && msg[2] === 1 && msg[3] === 0)
           found_it = true;
 
-      expect(found_it).toBe(true);
+      expect(found_it).to.equal(true);
     });
   });
 });
@@ -227,11 +228,11 @@ describe("a processTree with a description and no children", () => {
   });
 
   it("remembers its description", () => {
-    expect(spy.tree.d).toBe("the lone root");
+    expect(spy.tree.d).to.equal("the lone root");
   });
 
   it("stores no children", () => {
-    expect(spy.tree.c || []).toEqual([]);
+    expect(spy.tree.c || []).to.deep.equal([]);
   });
 });
 
@@ -247,15 +248,15 @@ describe("a two-node processTree with descriptions", () => {
   });
 
   it("remembers its root description", () => {
-    expect(spy.tree.d).toBe("the root");
+    expect(spy.tree.d).to.equal("the root");
   });
 
   it("stores one child", () => {
-    expect(spy.tree.c.length).toBe(1);
+    expect(spy.tree.c.length).to.equal(1);
   });
 
   it("remembers its leaf description", () => {
-    expect(spy.tree.c[0].d).toBe("the leaf");
+    expect(spy.tree.c[0].d).to.equal("the leaf");
   });
 });
 
@@ -317,20 +318,20 @@ describe("a tree with two failing nodes", () => {
   });
 
   it("raises an error", () => {
-    expect(error).toBeDefined();
+    expect(error).to.exist;
   });
 
   describe("the exception object", () => {
     it("has a description of 'the root'", () => {
-      expect(error.description).toBe("the root");
+      expect(error.description).to.equal("the root");
     });
 
     it("has no error messages", () => {
-      expect(error.messages).toEqual([]);
+      expect(error.messages).to.deep.equal([]);
     });
 
     it("has two child exceptions", () => {
-      expect(error.children.length).toBe(2);
+      expect(error.children.length).to.equal(2);
     });
 
     describe("its first child", () => {
@@ -340,15 +341,15 @@ describe("a tree with two failing nodes", () => {
       });
 
       it("has a description of 'node 2'", () => {
-        expect(first_child.description).toBe("node 2");
+        expect(first_child.description).to.equal("node 2");
       });
 
       it("has no error messages", () => {
-        expect(first_child.messages).toEqual([]);
+        expect(first_child.messages).to.deep.equal([]);
       });
 
       it("has one child exception", () => {
-        expect(first_child.children.length).toBe(1);
+        expect(first_child.children.length).to.equal(1);
       });
 
       describe("its only child (aka the grandchild)", () => {
@@ -358,15 +359,15 @@ describe("a tree with two failing nodes", () => {
         });
 
         it("has a description of 'node 2b'", () => {
-          expect(grandchild.description).toBe("node 2b");
+          expect(grandchild.description).to.equal("node 2b");
         });
 
         it("has no child exceptions", () => {
-          expect(grandchild.children).toEqual([]);
+          expect(grandchild.children).to.deep.equal([]);
         });
 
         it("has the right error message", () => {
-          expect(grandchild.messages).toEqual(
+          expect(grandchild.messages).to.deep.equal(
             ["bad problem with node 2b"]);
         });
       });
@@ -379,15 +380,15 @@ describe("a tree with two failing nodes", () => {
       });
 
       it("has a description of 'node 3'", () => {
-        expect(second_child.description).toBe("node 3");
+        expect(second_child.description).to.equal("node 3");
       });
 
       it("has no child exceptions", () => {
-        expect(second_child.children).toEqual([]);
+        expect(second_child.children).to.deep.equal([]);
       });
 
       it("has the right error message", () => {
-        expect(second_child.messages).toEqual(
+        expect(second_child.messages).to.deep.equal(
           ["bad problem with node 3"]);
       });
     });
@@ -446,28 +447,28 @@ describe("a tree that fails while running", () => {
   });
 
   it("validates without any errors", () => {
-    expect(validationError).not.toBeDefined();
+    expect(validationError).not.to.exist;
   });
 
   it("receives a runtime error", () => {
-    expect(runError).toBeDefined();
+    expect(runError).to.exist;
   });
 
   it("doesn't receive a result", () => {
-    expect(runResult).not.toBeDefined();
+    expect(runResult).not.to.exist;
   });
 
   describe("its runtime error", () => {
     it("has a description of 'root'", () => {
-      expect(runError.description).toBe("root");
+      expect(runError.description).to.equal("root");
     });
 
     it("has two children", () => {
-      expect(runError.children.length).toBe(2);
+      expect(runError.children.length).to.equal(2);
     });
 
     it("has no error messages of its own", () => {
-      expect(runError.messages.length).toBe(0);
+      expect(runError.messages.length).to.equal(0);
     });
 
     describe("its first child", () => {
@@ -477,7 +478,7 @@ describe("a tree that fails while running", () => {
       });
 
       it("has a description of 'first child'", () => {
-        expect(first_child.description).toBe("first child");
+        expect(first_child.description).to.equal("first child");
       });
     });
   });

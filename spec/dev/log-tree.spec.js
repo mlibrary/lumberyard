@@ -2,6 +2,7 @@
 // All Rights Reserved. Licensed according to the terms of the Revised
 // BSD License. See LICENSE.txt for details.
 
+const expect = require("chai").expect;
 const logTree = require("../../lib/log-tree");
 let tree, description;
 
@@ -11,23 +12,23 @@ describe("a logTree with no description and no children", () => {
   });
 
   it("has a description of ''", () => {
-    expect(tree.description).toBe("");
+    expect(tree.description).to.equal("");
   });
 
   it("has a denominator of 1", () => {
-    expect(tree.den()).toBe(1);
+    expect(tree.den()).to.equal(1);
   });
 
   it("has a numerator of 0", () => {
-    expect(tree.num()).toBe(0);
+    expect(tree.num()).to.equal(0);
   });
 
   it("has a length of 0", () => {
-    expect(tree.length).toBe(0);
+    expect(tree.length).to.equal(0);
   });
 
   it("expands into an empty array", () => {
-    expect([...tree]).toEqual([]);
+    expect([...tree]).to.deep.equal([]);
   });
 
   describe("when told that [] is complete", () => {
@@ -36,11 +37,11 @@ describe("a logTree with no description and no children", () => {
     });
 
     it("has a numerator of 1", () => {
-      expect(tree.num()).toBe(1);
+      expect(tree.num()).to.equal(1);
     });
 
     it("returns the empty description", () => {
-      expect(description).toBe("Finished");
+      expect(description).to.equal("Finished");
     });
   });
 });
@@ -51,15 +52,15 @@ describe("a logTree with two children", () => {
   });
 
   it("has a denominator of 3", () => {
-    expect(tree.den()).toBe(3);
+    expect(tree.den()).to.equal(3);
   });
 
   it("has a length of 2", () => {
-    expect(tree.length).toBe(2);
+    expect(tree.length).to.equal(2);
   });
 
   it("expands into a two-item array", () => {
-    expect([...tree].length).toBe(2);
+    expect([...tree].length).to.equal(2);
   });
 });
 
@@ -69,23 +70,23 @@ describe("a logTree with two children and a grandchild", () => {
   });
 
   it("has a denominator of 4", () => {
-    expect(tree.den()).toBe(4);
+    expect(tree.den()).to.equal(4);
   });
 
   it("has a length of 2", () => {
-    expect(tree.length).toBe(2);
+    expect(tree.length).to.equal(2);
   });
 
   it("expands into a two-item array", () => {
-    expect([...tree].length).toBe(2);
+    expect([...tree].length).to.equal(2);
   });
 
   it("can reach its grandchild", () => {
-    expect([...[...tree][1]].length).toBe(1);
+    expect([...[...tree][1]].length).to.equal(1);
   });
 
   it("has a numerator of 0", () => {
-    expect(tree.num()).toBe(0);
+    expect(tree.num()).to.equal(0);
   });
 
   describe("when told that [0] is complete", () => {
@@ -98,15 +99,15 @@ describe("a logTree with two children and a grandchild", () => {
     });
 
     it("has a numerator of 1", () => {
-      expect(tree.num()).toBe(1);
+      expect(tree.num()).to.equal(1);
     });
 
     it("has a first child with a numerator of 1", () => {
-      expect(children[0].num()).toBe(1);
+      expect(children[0].num()).to.equal(1);
     });
 
     it("returns an empty description", () => {
-      expect(description).toBe("Finished");
+      expect(description).to.equal("Finished");
     });
   });
 });
@@ -117,21 +118,21 @@ describe("a logTree with a description and no children", () => {
   });
 
   it("stores its description", () => {
-    expect(tree.description).toBe("specification process");
+    expect(tree.description).to.equal("specification process");
   });
 
   it("returns its description when completed", () => {
-    expect(tree.complete([1234, "done", ""])).toBe(
+    expect(tree.complete([1234, "done", ""])).to.equal(
       "Finished specification process");
   });
 
   it("returns a 'started' message when started", () => {
-    expect(tree.complete([1234, "begin", ""])).toBe(
+    expect(tree.complete([1234, "begin", ""])).to.equal(
       "Started specification process");
   });
 
   it("returns 'info' messages as written", () => {
-    expect(tree.complete([1234, "info", "wow very informative"])).toBe(
+    expect(tree.complete([1234, "info", "wow very informative"])).to.equal(
       "wow very informative");
   });
 });
@@ -199,19 +200,19 @@ describe("a complicated logTree with great-grandchildren", () => {
   });
 
   it("has a denominator of 20", () => {
-    expect(tree.den()).toBe(20);
+    expect(tree.den()).to.equal(20);
   });
 
   it("has a length of 2", () => {
-    expect(tree.length).toBe(2);
+    expect(tree.length).to.equal(2);
   });
 
   it("starts with a numerator of 0", () => {
-    expect(tree.num()).toBe(0);
+    expect(tree.num()).to.equal(0);
   });
 
   it("has no description", () => {
-    expect(tree.description).toBe("");
+    expect(tree.description).to.equal("");
   });
 
   describe("the tree's first child", () => {
@@ -222,11 +223,11 @@ describe("a complicated logTree with great-grandchildren", () => {
     });
 
     it("has a description of Shipment_2017123", () => {
-      expect(child.description).toBe("Shipment_2017123");
+      expect(child.description).to.equal("Shipment_2017123");
     });
 
     it("has a denominator of 11", () => {
-      expect(child.den()).toBe(11);
+      expect(child.den()).to.equal(11);
     });
   });
 
@@ -239,7 +240,7 @@ describe("a complicated logTree with great-grandchildren", () => {
     });
 
     it("still has a numerator of 0", () => {
-      expect(tree.num()).toBe(0);
+      expect(tree.num()).to.equal(0);
     });
   });
 
@@ -250,11 +251,11 @@ describe("a complicated logTree with great-grandchildren", () => {
     });
 
     it("has a numerator of 1", () => {
-      expect(tree.num()).toBe(1);
+      expect(tree.num()).to.equal(1);
     });
 
     it("returns that page's description", () => {
-      expect(description).toBe("Finished 00000001.tif");
+      expect(description).to.equal("Finished 00000001.tif");
     });
   });
 });

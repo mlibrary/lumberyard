@@ -4,7 +4,7 @@
   "description": "sanely log process trees as they appear",
   "main": "index.js",
   "scripts": {
-    "test": "jasmine-node spec"
+    "test": "make"
   },
   "repository": {
     "type": "git",
@@ -16,6 +16,11 @@
     "url": "https://github.com/mlibrary/lumberyard/issues"
   },
   "homepage": "https://github.com/mlibrary/lumberyard#readme",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^4.0.1"
+  },
   "dependencies": {
     "executive": "^1.5.11",
     "tail": "^1.2.2"

@@ -7,6 +7,7 @@ const fsWatcher = require("../../lib/fs-watcher");
 const MockInspector = require("../mock/file-tree-inspector");
 const Ticker = require("../mock/ticker");
 
+const expect = require("chai").expect;
 const later = require("../helpers/later")(it);
 
 let scheduler, ticker, fakeFS, tasks;
@@ -66,12 +67,12 @@ describe("in a mocked environment", () => {
     });
 
     theScheduler("runs task.find()", () => {
-      expect(tasks.alwaysEmpty.log.length).toBeGreaterThan(0);
+      expect(tasks.alwaysEmpty.log.length).to.be.above(0);
     });
 
     theScheduler("doesn't run task.move() or task.run()", () => {
       for (let line of tasks.alwaysEmpty.log)
-        expect(line[0]).toBe("find");
+        expect(line[0]).to.equal("find");
     });
   });
 
@@ -83,11 +84,11 @@ describe("in a mocked environment", () => {
     });
 
     theScheduler("runs task.move(['a.txt'])", () => {
-      expect(tasks.atxt.log).toContain(["move", ["a.txt"]]);
+      expect(tasks.atxt.log).to.deep.include(["move", ["a.txt"]]);
     });
 
     theScheduler("runs task.run('atxt_autodir')", () => {
-      expect(tasks.atxt.log).toContain(["run", "atxt_autodir"]);
+      expect(tasks.atxt.log).to.deep.include(["run", "atxt_autodir"]);
     });
 
     describe("with b.txt in 10 seconds and a task for it", () => {
@@ -105,11 +106,11 @@ describe("in a mocked environment", () => {
       });
 
       theScheduler("runs task.move() for b.txt", () => {
-        expect(tasks.btxt.log).toContain(["move", ["b.txt"]]);
+        expect(tasks.btxt.log).to.deep.include(["move", ["b.txt"]]);
       });
 
       theScheduler("runs task.run() for b.txt", () => {
-        expect(tasks.btxt.log).toContain(["run", "btxt_autodir"]);
+        expect(tasks.btxt.log).to.deep.include(["run", "btxt_autodir"]);
       });
     });
   });
@@ -127,7 +128,7 @@ describe("in a mocked environment", () => {
     });
 
     theScheduler("exits before a.txt exists", () => {
-      expect(tasks.atxt.log).toEqual([["find", null]]);
+      expect(tasks.atxt.log).to.deep.equal([["find", null]]);
     });
   });
 });

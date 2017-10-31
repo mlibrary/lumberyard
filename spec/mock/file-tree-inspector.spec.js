@@ -5,6 +5,7 @@
 const MockInspector = require("./file-tree-inspector");
 const crypto = require("crypto");
 
+const expect = require("chai").expect;
 const later = require("../helpers/later")(it);
 
 let inspector = null;
@@ -24,7 +25,7 @@ describe("an instance of MockInspector()", () => {
 
   later.it("returns an empty mapping on getSizesUnder()",
     () => inspector.getSizesUnder("nothing-is-here"), value => {
-      expect(value.size).toBe(0);
+      expect(value.size).to.equal(0);
     });
 
   later.itErrors("on any getChecksum()",
@@ -37,17 +38,17 @@ describe("an instance of MockInspector()", () => {
 
     later.it("finds dir/a.txt on getSizesUnder('dir')",
       () => inspector.getSizesUnder("dir"), value => {
-        expect(value.get("dir/a.txt")).toBe(7);
+        expect(value.get("dir/a.txt")).to.equal(7);
       });
 
     later.it("returns the expected getChecksum('dir/a.txt')",
       () => inspector.getChecksum("dir/a.txt"), value => {
-        expect(value).toBe(md5sum("Holler!"));
+        expect(value).to.equal(md5sum("Holler!"));
       });
 
     later.it("doesn't find dir/a.txt on getSizesUnder('other')",
       () => inspector.getSizesUnder("other"), value => {
-        expect(value.has("dir/a.txt")).toBe(false);
+        expect(value.has("dir/a.txt")).to.equal(false);
       });
   });
 });

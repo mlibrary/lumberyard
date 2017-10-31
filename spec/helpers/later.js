@@ -2,11 +2,13 @@
 // All Rights Reserved. Licensed according to the terms of the Revised
 // BSD License. See LICENSE.txt for details.
 
+const expect = require("chai").expect;
+
 module.exports = function(it) {
   let later = {};
 
   later.it = function(description, toDo, onResolve, onReject) {
-    it(description, done => {
+    it(description, function(done) {
       toDo().then(value => {
         if (typeof onResolve === "undefined")
           expect(value).toBe("an error");
