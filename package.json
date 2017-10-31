@@ -1,6 +1,6 @@
 {
   "name": "lumberyard",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "sanely log process trees as they appear",
   "main": "index.js",
   "bin": {
