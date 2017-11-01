@@ -1,5 +1,9 @@
-Lumberyard [![NPM Version][npm-image]][npm] [![Build Status][status-image]][travis]
+Lumberyard
 ==========
+
+[![NPM Version][npm-image]][npm]
+[![Build Status][status-image]][travis]
+[![Test Coverage][cover-image]][coverage]
 
 You can clone this repository and use relative `require` statements, or
 you can just install it through npm:
@@ -215,3 +219,5 @@ Lumberyard.ProcessTree(payload => {
 [status-image]: https://travis-ci.org/mlibrary/lumberyard.svg?branch=master
 [npm]:          https://www.npmjs.com/package/lumberyard
 [npm-image]:    https://img.shields.io/npm/v/lumberyard.svg
+[coverage]:     https://coveralls.io/github/mlibrary/lumberyard
+[cover-image]:  https://coveralls.io/repos/github/mlibrary/lumberyard/badge.svg?branch=master
