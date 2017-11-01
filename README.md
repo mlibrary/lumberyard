@@ -1,4 +1,4 @@
-Lumberyard [![Build Status][status-image]][travis]
+Lumberyard [![NPM Version][npm-image]][npm] [![Build Status][status-image]][travis]
 ==========
 
 You can clone this repository and use relative `require` statements, or
@@ -211,5 +211,7 @@ Lumberyard.ProcessTree(payload => {
 });
 ```
 
-[travis]: https://travis-ci.org/mlibrary/lumberyard
+[travis]:       https://travis-ci.org/mlibrary/lumberyard
 [status-image]: https://travis-ci.org/mlibrary/lumberyard.svg?branch=master
+[npm]:          https://www.npmjs.com/package/lumberyard
+[npm-image]:    https://img.shields.io/npm/v/lumberyard.svg
