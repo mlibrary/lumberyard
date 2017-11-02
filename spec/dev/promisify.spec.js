@@ -37,4 +37,18 @@ describe("my own homescripted promisify() function", () => {
       });
     });
   });
+
+  describe("when given a function with a return value", () => {
+    beforeEach(() => {
+      promisedFunction = promisify(callback => {
+        callback(undefined, "return value");
+      });
+    });
+
+    it("returns a function that resolves with the value", () => {
+      return promisedFunction().then(value => {
+        expect(value).to.equal("return value");
+      })
+    });
+  });
 });
