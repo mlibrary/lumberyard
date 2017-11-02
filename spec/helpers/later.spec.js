@@ -38,3 +38,17 @@ describe("later.it", () => {
     });;
   });
 });
+
+describe("later.itErrors", () => {
+  it("errors on Promise.resolve()", () => {
+    later.itErrors("", () => Promise.resolve());
+
+    let error = undefined;
+
+    return lastIt.callback().catch(e => {
+      error = e;
+    }).then(() => {
+      expect(error).to.be.an.instanceof(Error);
+    });;
+  });
+});
