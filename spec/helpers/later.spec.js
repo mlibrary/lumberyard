@@ -54,9 +54,18 @@ describe("later.itErrors", () => {
 
   it("succeeds on Promise.reject()", () => {
     later.itErrors("", () => Promise.reject());
-
-    let error = undefined;
-
     return lastIt.callback();
+  });
+
+  it("accepts a post-rejection callback", () => {
+    let x = 0;
+
+    later.itErrors("", () => Promise.reject(), () => {
+      x += 1;
+    });
+
+    return lastIt.callback().then(() => {
+      expect(x).to.equal(1);
+    });
   });
 });
