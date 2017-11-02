@@ -32,6 +32,8 @@ describe("my own homescripted promisify() function", () => {
     it("returns a rejecting function", () => {
       return new Promise((resolve, reject) => {
         promisedFunction().then(reject, resolve);
+      }).then(error => {
+        expect(error).to.equal("bad error");
       });
     });
   });
