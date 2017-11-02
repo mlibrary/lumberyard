@@ -51,4 +51,17 @@ describe("my own homescripted promisify() function", () => {
       })
     });
   });
+
+  describe("when given a function with another argument", () => {
+    beforeEach(() => {
+      promisedFunction = promisify((arg, callback) => {
+        callback(undefined, arg);
+      });
+    });
+
+    it("passes on the argument", () => {
+      return promisedFunction("hey").then(value => {
+      });
+    });
+  });
 });
