@@ -4,7 +4,7 @@
 
 const expect = require("chai").expect;
 
-const tick = require("../../lib/tick.js");
+const tick = require("../lib/tick.js");
 
 describe("the default tick() method", () => {
   it("takes one second to resolve", () => {
@@ -12,7 +12,7 @@ describe("the default tick() method", () => {
 
     return tick().then(() => {
       expect(Date.now()).to.be.above(timestamp + 999);
-      expect(Date.now()).to.be.below(timestamp + 1200);
+      expect(Date.now()).to.be.below(timestamp + 1010);
     });
   });
 
@@ -21,7 +21,7 @@ describe("the default tick() method", () => {
 
     return tick(0.01).then(() => {
       expect(Date.now()).to.be.above(timestamp + 9);
-      expect(Date.now()).to.be.below(timestamp + 50);
+      expect(Date.now()).to.be.below(timestamp + 20);
     });
   });
 });
