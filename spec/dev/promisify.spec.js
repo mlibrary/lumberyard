@@ -61,6 +61,7 @@ describe("my own homescripted promisify() function", () => {
 
     it("passes on the argument", () => {
       return promisedFunction("hey").then(value => {
+        expect(value).to.equal("hey");
       });
     });
   });
