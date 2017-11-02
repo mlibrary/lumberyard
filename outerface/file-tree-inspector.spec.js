@@ -34,60 +34,46 @@ describe("an instance of FileTreeInspector()", () => {
     // |   \-- c.txt
     // |-- a.txt
     // \-- b.txt
-    beforeEach(done => {
-      let reject = err => {
-        expect(err).to.equal("not an error");
-        done();
-      };
-
-      mkdir("fstest").then(() => {
+    beforeEach(() => {
+      return mkdir("fstest").then(() => {
         let files = [];
 
         files.push(writeFile("fstest/a.txt", "Hey there"));
         files.push(writeFile("fstest/b.txt", "Sup Matt"));
         files.push(mkdir("fstest/subdir"));
 
-        Promise.all(files).then(() => {
-          let subfiles = [];
+        return Promise.all(files);
 
-          subfiles.push(writeFile("fstest/subdir/a.txt", "AAAAA"));
-          subfiles.push(writeFile("fstest/subdir/b.txt", "BbBbB"));
-          subfiles.push(writeFile("fstest/subdir/c.txt", "The Sea"));
+      }).then(() => {
+        let subfiles = [];
 
-          Promise.all(subfiles).then(() => {
-            done();
+        subfiles.push(writeFile("fstest/subdir/a.txt", "AAAAA"));
+        subfiles.push(writeFile("fstest/subdir/b.txt", "BbBbB"));
+        subfiles.push(writeFile("fstest/subdir/c.txt", "The Sea"));
 
-          }, reject);
-        }, reject);
-      }, reject);
+        return Promise.all(subfiles);
+      });
     });
 
-    afterEach(done => {
-      let reject = err => {
-        expect(err).to.equal("not an error");
-        done();
-      };
-
+    afterEach(() => {
       let subfiles = [];
 
       subfiles.push(rm("fstest/subdir/a.txt"));
       subfiles.push(rm("fstest/subdir/b.txt"));
       subfiles.push(rm("fstest/subdir/c.txt"));
 
-      Promise.all(subfiles).then(() => {
+      return Promise.all(subfiles).then(() => {
         let files = [];
 
         files.push(rm("fstest/a.txt"));
         files.push(rm("fstest/b.txt"));
         files.push(rmdir("fstest/subdir"));
 
-        Promise.all(files).then(() => {
-          rmdir("fstest").then(() => {
-            done();
+        return Promise.all(files);
 
-          }, reject);
-        }, reject);
-      }, reject);
+      }).then(() => {
+        return rmdir("fstest");
+      });
     });
 
     later.it("can find a.txt",
