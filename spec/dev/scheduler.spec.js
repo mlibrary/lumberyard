@@ -132,3 +132,11 @@ describe("in a mocked environment", () => {
     });
   });
 });
+
+describe("a Scheduler() given no parameters", () => {
+  beforeEach(() => {
+    scheduler = Scheduler();
+  });
+
+  it("can be created without error", () => {});
+});
