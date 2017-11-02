@@ -11,7 +11,7 @@ module.exports = function(it) {
     it(description, function() {
       return toDo().then(value => {
         if (typeof onResolve === "undefined")
-          expect(value).toBe("an error");
+          expect(value).to.equal("an error");
 
         else
           onResolve(value);
