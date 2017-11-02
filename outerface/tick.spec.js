@@ -11,7 +11,7 @@ describe("the default tick() method", () => {
     let timestamp = Date.now();
 
     return tick().then(() => {
-      expect(Date.now()).to.be.above(timestamp + 999);
+      expect(Date.now()).to.be.above(timestamp + 998);
       expect(Date.now()).to.be.below(timestamp + 1010);
     });
   });
@@ -20,7 +20,7 @@ describe("the default tick() method", () => {
     let timestamp = Date.now();
 
     return tick(0.01).then(() => {
-      expect(Date.now()).to.be.above(timestamp + 9);
+      expect(Date.now()).to.be.above(timestamp + 8);
       expect(Date.now()).to.be.below(timestamp + 20);
     });
   });
