@@ -65,4 +65,18 @@ describe("my own homescripted promisify() function", () => {
       });
     });
   });
+
+  describe("when given a function with two arguments", () => {
+    beforeEach(() => {
+      promisedFunction = promisify((first, second, callback) => {
+        callback(undefined, [first, second]);
+      });
+    });
+
+    it("passes on the arguments", () => {
+      return promisedFunction("sup", "fren").then(value => {
+        expect(value).to.deep.equal(["sup", "fren"]);
+      });
+    });
+  });
 });
