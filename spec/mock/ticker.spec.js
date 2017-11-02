@@ -11,9 +11,6 @@ let aroundTick = function(tickCount, before, after) {
   if (typeof before === "undefined")
     before = () => {};
 
-  if (typeof after === "undefined")
-    after = () => {};
-
   return function() {
     this.timeout(50);
     before();
