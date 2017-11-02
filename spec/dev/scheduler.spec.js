@@ -113,6 +113,16 @@ describe("in a mocked environment", () => {
         expect(tasks.btxt.log).to.deep.include(["run", "btxt_autodir"]);
       });
     });
+
+    describe("given the a.txt task is inherited as a prototype", () => {
+      beforeEach(() => {
+        tasks = Object.create(tasks);
+      });
+
+      theScheduler("does nothing", () => {
+        expect(tasks.atxt.log).to.deep.equal([]);
+      });
+    });
   });
 
   describe("with a.txt in 10 seconds and a task for it", () => {
@@ -130,5 +140,11 @@ describe("in a mocked environment", () => {
     theScheduler("exits before a.txt exists", () => {
       expect(tasks.atxt.log).to.deep.equal([["find", null]]);
     });
+  });
+});
+
+describe("a Scheduler() given no parameters", () => {
+  it("can be created without error", () => {
+    scheduler = Scheduler();
   });
 });

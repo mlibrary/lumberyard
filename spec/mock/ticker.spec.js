@@ -11,9 +11,6 @@ let aroundTick = function(tickCount, before, after) {
   if (typeof before === "undefined")
     before = () => {};
 
-  if (typeof after === "undefined")
-    after = () => {};
-
   return function() {
     this.timeout(50);
     before();
@@ -88,9 +85,7 @@ describe("an instance of Ticker()", () => {
     ticker.at(1, () => new Promise(function(resolve) {
       setTimeout(() => {
         firstIsDone = true;
-
-        if (secondIsDone)
-          outOfOrder = true;
+        outOfOrder = (outOfOrder || secondIsDone);
 
         resolve();
       }, 1);
@@ -98,9 +93,7 @@ describe("an instance of Ticker()", () => {
 
     ticker.at(1, () => new Promise(function(resolve) {
       secondIsDone = true;
-
-      if (!firstIsDone)
-        outOfOrder = true;
+      outOfOrder = (outOfOrder || !firstIsDone);
 
       resolve();
     }));
