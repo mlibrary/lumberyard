@@ -16,7 +16,22 @@ describe("my own homescripted promisify() function", () => {
     });
 
     it("returns a promise-based function", () => {
-      return promisedFunction().then(() => {
+      return promisedFunction().then(value => {
+        expect(value).to.equal(undefined);
+      });
+    });
+  });
+
+  describe("when given a function that errors", () => {
+    beforeEach(() => {
+      promisedFunction = promisify(callback => {
+        callback("bad error");
+      });
+    });
+
+    it("returns a rejecting function", () => {
+      return new Promise((resolve, reject) => {
+        promisedFunction().then(reject, resolve);
       });
     });
   });
