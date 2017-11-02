@@ -85,9 +85,7 @@ describe("an instance of Ticker()", () => {
     ticker.at(1, () => new Promise(function(resolve) {
       setTimeout(() => {
         firstIsDone = true;
-
-        if (secondIsDone)
-          outOfOrder = true;
+        outOfOrder = (outOfOrder || secondIsDone);
 
         resolve();
       }, 1);
@@ -95,9 +93,7 @@ describe("an instance of Ticker()", () => {
 
     ticker.at(1, () => new Promise(function(resolve) {
       secondIsDone = true;
-
-      if (!firstIsDone)
-        outOfOrder = true;
+      outOfOrder = (outOfOrder || !firstIsDone);
 
       resolve();
     }));
