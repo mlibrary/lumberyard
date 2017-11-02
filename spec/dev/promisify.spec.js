@@ -16,7 +16,8 @@ describe("my own homescripted promisify() function", () => {
     });
 
     it("returns a promise-based function", () => {
-      return promisedFunction();
+      return promisedFunction().then(() => {
+      });
     });
   });
 });
