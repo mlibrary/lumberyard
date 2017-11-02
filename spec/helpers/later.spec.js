@@ -51,4 +51,12 @@ describe("later.itErrors", () => {
       expect(error).to.be.an.instanceof(Error);
     });;
   });
+
+  it("succeeds on Promise.reject()", () => {
+    later.itErrors("", () => Promise.reject());
+
+    let error = undefined;
+
+    return lastIt.callback();
+  });
 });
