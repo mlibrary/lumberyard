@@ -18,7 +18,7 @@ module.exports = function(it) {
 
       }, error => {
         if (typeof onReject === "undefined")
-          expect(error).toBe("not an error");
+          expect(error).to.equal("not an error");
 
         else
           onReject(error);

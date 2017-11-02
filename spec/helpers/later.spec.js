@@ -25,4 +25,16 @@ describe("later.it", () => {
       expect(error).to.be.an.instanceof(Error);
     });;
   });
+
+  it("errors on Promise.reject()", () => {
+    later.it("", () => Promise.reject());
+
+    let error = undefined;
+
+    return lastIt.callback().catch(e => {
+      error = e;
+    }).then(() => {
+      expect(error).to.be.an.instanceof(Error);
+    });;
+  });
 });
