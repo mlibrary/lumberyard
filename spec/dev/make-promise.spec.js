@@ -3,14 +3,14 @@
 // BSD License. See LICENSE.txt for details.
 
 const expect = require("chai").expect;
-const promisify = require("../../lib/promisify.js");
+const makePromise = require("../../lib/make-promise.js");
 
 let promisedFunction;
 
-describe("my own homescripted promisify() function", () => {
+describe("my own homescripted util.promisify() function", () => {
   describe("when given a function taking only a callback", () => {
     beforeEach(() => {
-      promisedFunction = promisify(callback => {
+      promisedFunction = makePromise(callback => {
         callback();
       });
     });
@@ -24,7 +24,7 @@ describe("my own homescripted promisify() function", () => {
 
   describe("when given a function that errors", () => {
     beforeEach(() => {
-      promisedFunction = promisify(callback => {
+      promisedFunction = makePromise(callback => {
         callback("bad error");
       });
     });
@@ -40,7 +40,7 @@ describe("my own homescripted promisify() function", () => {
 
   describe("when given a function with a return value", () => {
     beforeEach(() => {
-      promisedFunction = promisify(callback => {
+      promisedFunction = makePromise(callback => {
         callback(undefined, "return value");
       });
     });
@@ -54,7 +54,7 @@ describe("my own homescripted promisify() function", () => {
 
   describe("when given a function with another argument", () => {
     beforeEach(() => {
-      promisedFunction = promisify((arg, callback) => {
+      promisedFunction = makePromise((arg, callback) => {
         callback(undefined, arg);
       });
     });
@@ -68,7 +68,7 @@ describe("my own homescripted promisify() function", () => {
 
   describe("when given a function with two arguments", () => {
     beforeEach(() => {
-      promisedFunction = promisify((first, second, callback) => {
+      promisedFunction = makePromise((first, second, callback) => {
         callback(undefined, [first, second]);
       });
     });

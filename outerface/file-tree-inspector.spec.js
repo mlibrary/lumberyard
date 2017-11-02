@@ -5,7 +5,7 @@
 const FileTreeInspector = require("../lib/file-tree-inspector");
 const crypto = require("crypto");
 const fs = require("fs");
-const promisify = require("../lib/promisify");
+const makePromise = require("../lib/make-promise");
 
 const expect = require("chai").expect;
 const later = require("../spec/helpers/later")(it);
@@ -16,10 +16,10 @@ let md5sum = data => {
   return crypto.createHash("md5").update(data).digest("latin1");
 };
 
-let writeFile = promisify(fs.writeFile);
-let rm = promisify(fs.unlink);
-let mkdir = promisify(fs.mkdir);
-let rmdir = promisify(fs.rmdir);
+let writeFile = makePromise(fs.writeFile);
+let rm = makePromise(fs.unlink);
+let mkdir = makePromise(fs.mkdir);
+let rmdir = makePromise(fs.rmdir);
 
 describe("an instance of FileTreeInspector()", () => {
   beforeEach(() => {
