@@ -128,13 +128,7 @@ describe("in a mocked environment", () => {
   describe("with a.txt in 10 seconds and a task for it", () => {
     beforeEach(() => {
       ticker.at(10, () => { fakeFS.set("a.txt", "ayyy"); });
-      tasks.atxt = TaskSpy(() => {
-        if (fakeFS.has("a.txt"))
-          return ["a.txt"];
-
-        else
-          return [];
-      });
+      tasks.atxt = TaskSpy(() => [...fakeFS.keys()]);
     });
 
     theScheduler("exits before a.txt exists", () => {

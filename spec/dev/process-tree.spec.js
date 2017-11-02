@@ -232,7 +232,7 @@ describe("a processTree with a description and no children", () => {
   });
 
   it("stores no children", () => {
-    expect(spy.tree.c || []).to.deep.equal([]);
+    expect(spy.tree.c).to.deep.equal([]);
   });
 });
 
@@ -263,7 +263,7 @@ describe("a two-node processTree with descriptions", () => {
 describe("a tree with two failing nodes", () => {
   let error;
 
-  beforeEach(done => {
+  beforeEach(() => {
     let addLeaf = (parentNode, id) => {
       parentNode.add(leaf => {
         leaf.description = "node " + id;
@@ -272,7 +272,7 @@ describe("a tree with two failing nodes", () => {
 
     error = undefined;
 
-    Promise.resolve(processTree(treeSpy, root => {
+    return processTree(treeSpy, root => {
       root.description = "the root";
 
       root.add(middle => {
@@ -307,13 +307,8 @@ describe("a tree with two failing nodes", () => {
         throw "bad problem with node 3";
       });
 
-    })).then(v => {
-      spy = v;
-      done();
-
-    }, e => {
+    }).catch(e => {
       error = e;
-      done();
     });
   });
 
@@ -398,12 +393,12 @@ describe("a tree with two failing nodes", () => {
 describe("a tree that fails while running", () => {
   let validationError, runError, runResult;
 
-  beforeEach(done => {
+  beforeEach(() => {
     validationError = undefined;
     runError = undefined;
     runResult = undefined;
 
-    Promise.resolve(processTree(treeSpy, root => {
+    return processTree(treeSpy, root => {
       root.description = "root";
 
       root.add(child => {
@@ -429,20 +424,20 @@ describe("a tree that fails while running", () => {
           };
         });
       });
-    })).then(result => {
-      spy = result;
-      spy.process.then(result => {
-        runResult = result;
-        done();
 
-      }, e => {
-        runError = e;
-        done();
-      });
+    }).then(result => {
+      spy = result;
+
+      return spy.process;
 
     }, e => {
       validationError = e;
-      done();
+
+    }).then(result => {
+      runResult = result;
+
+    }, e => {
+      runError = e;
     });
   });
 

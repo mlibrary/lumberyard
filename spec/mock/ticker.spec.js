@@ -3,6 +3,7 @@
 // BSD License. See LICENSE.txt for details.
 
 const expect = require("chai").expect;
+const later = require("../helpers/later")(it);
 const Ticker = require("./ticker");
 
 let ticker;
@@ -103,39 +104,29 @@ describe("an instance of Ticker()", () => {
     });
   });
 
-  it("rejects on thrown exception", function() {
-    this.timeout(50);
-
+  later.itErrors("on a thrown exception", () => {
     ticker.at(1, () => {
       throw "hi, matt!";
     });
 
-    return ticker.tick().then(() => {
-      throw "expected a rejection";
+    return ticker.tick();
 
-    }, error => {
-      expect(error).to.equal("hi, matt!");
-    });
+  }, error => {
+    expect(error).to.equal("hi, matt!");
   });
 
-  it("rejects on promise rejection", function() {
-    this.timeout(50);
-
+  later.itErrors("on promise rejection", () => {
     ticker.at(1, () => new Promise(function(resolve, reject) {
       reject("uh oh");
     }));
 
-    return ticker.tick().then(() => {
-      throw "expected a rejection";
+    return ticker.tick()
 
-    }, error => {
-      expect(error).to.equal("uh oh");
-    });
+  }, error => {
+    expect(error).to.equal("uh oh");
   });
 
-  it("rejects when one of many promises rejects", function() {
-    this.timeout(50);
-
+  later.itErrors("when one of many promises rejects", () => {
     ticker.at(1, () => new Promise(function(resolve, reject) {
       reject("the first one fails");
     }));
@@ -143,11 +134,9 @@ describe("an instance of Ticker()", () => {
     ticker.at(1, () => {});
     ticker.at(1, () => {});
 
-    return ticker.tick().then(() => {
-      throw "expected a rejection";
+    return ticker.tick();
 
-    }, error => {
-      expect(error).to.equal("the first one fails");
-    });
+  }, error => {
+    expect(error).to.equal("the first one fails");
   });
 });
