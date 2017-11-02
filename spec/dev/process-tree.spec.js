@@ -393,12 +393,12 @@ describe("a tree with two failing nodes", () => {
 describe("a tree that fails while running", () => {
   let validationError, runError, runResult;
 
-  beforeEach(done => {
+  beforeEach(() => {
     validationError = undefined;
     runError = undefined;
     runResult = undefined;
 
-    Promise.resolve(processTree(treeSpy, root => {
+    return processTree(treeSpy, root => {
       root.description = "root";
 
       root.add(child => {
@@ -424,20 +424,18 @@ describe("a tree that fails while running", () => {
           };
         });
       });
-    })).then(result => {
+
+    }).then(result => {
       spy = result;
-      spy.process.then(result => {
-        runResult = result;
-        done();
 
-      }, e => {
-        runError = e;
-        done();
-      });
-
+      return spy.process;
     }, e => {
       validationError = e;
-      done();
+    }).then(result => {
+      runResult = result;
+
+    }, e => {
+      runError = e;
     });
   });
 
