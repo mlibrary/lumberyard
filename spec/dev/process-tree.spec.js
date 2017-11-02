@@ -307,10 +307,7 @@ describe("a tree with two failing nodes", () => {
         throw "bad problem with node 3";
       });
 
-    }).then(v => {
-      spy = v;
-
-    }, e => {
+    }).catch(e => {
       error = e;
     });
   });
