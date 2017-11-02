@@ -263,7 +263,7 @@ describe("a two-node processTree with descriptions", () => {
 describe("a tree with two failing nodes", () => {
   let error;
 
-  beforeEach(done => {
+  beforeEach(() => {
     let addLeaf = (parentNode, id) => {
       parentNode.add(leaf => {
         leaf.description = "node " + id;
@@ -272,7 +272,7 @@ describe("a tree with two failing nodes", () => {
 
     error = undefined;
 
-    Promise.resolve(processTree(treeSpy, root => {
+    return processTree(treeSpy, root => {
       root.description = "the root";
 
       root.add(middle => {
@@ -307,13 +307,11 @@ describe("a tree with two failing nodes", () => {
         throw "bad problem with node 3";
       });
 
-    })).then(v => {
+    }).then(v => {
       spy = v;
-      done();
 
     }, e => {
       error = e;
-      done();
     });
   });
 
