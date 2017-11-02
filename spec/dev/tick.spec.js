@@ -15,4 +15,13 @@ describe("the default tick() method", () => {
       expect(Date.now()).to.be.below(timestamp + 1200);
     });
   });
+
+  it("can take different amounts of time with an argument", () => {
+    let timestamp = Date.now();
+
+    return tick(0.01).then(() => {
+      expect(Date.now()).to.be.above(timestamp + 9);
+      expect(Date.now()).to.be.below(timestamp + 50);
+    });
+  });
 });
