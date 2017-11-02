@@ -232,7 +232,7 @@ describe("a processTree with a description and no children", () => {
   });
 
   it("stores no children", () => {
-    expect(spy.tree.c || []).to.deep.equal([]);
+    expect(spy.tree.c).to.deep.equal([]);
   });
 });
 
