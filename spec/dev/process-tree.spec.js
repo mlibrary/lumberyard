@@ -429,8 +429,10 @@ describe("a tree that fails while running", () => {
       spy = result;
 
       return spy.process;
+
     }, e => {
       validationError = e;
+
     }).then(result => {
       runResult = result;
 
