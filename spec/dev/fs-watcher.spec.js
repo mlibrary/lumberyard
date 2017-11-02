@@ -176,3 +176,9 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
     });
   });
 });
+
+describe("an fsWatcher() given no parameters", () => {
+  it("can be created without error", () => {
+    watcher = fsWatcher();
+  });
+});
