@@ -77,4 +77,13 @@ describe("the randomString() function", () => {
   it("recognizes all of YYYYmmddHHMMSS", () => {
     expect(randomString("YYYYmmddHHMMSS")).to.match(/^[0-9]{14}$/);
   });
+
+  it("stops after dd in YYYYmmddHMMSS", () => {
+    expect(randomString("YYYYmmddHMMSS")).to.match(/^[0-9]{8}HMMSS$/);
+  });
+
+  it("reaches dd in YYYYmmHHMMSSddHH", () => {
+    expect(randomString("YYYYmmHHMMSSddHH")).to.match(
+      /^[0-9]{6}HHMMSS[0-9]{4}$/);
+  });
 });
