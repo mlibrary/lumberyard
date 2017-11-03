@@ -49,4 +49,9 @@ describe("the randomString() function", () => {
     expect(randomString("XXXX-XXXX").slice(0, 4)).not.to.equal("XXXX");
     expect(randomString("XXXX-XXXX").slice(5)).not.to.equal("XXXX");
   });
+
+  it("replaces YYYY with the year", () => {
+    expect(randomString("yyyYYYYyyy")).to.equal(
+      "yyy" + (new Date()).getFullYear() + "yyy");
+  });
 });
