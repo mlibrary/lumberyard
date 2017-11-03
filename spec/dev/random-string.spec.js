@@ -84,4 +84,13 @@ describe("the randomString() function", () => {
   it("only replaces the last YYYY in the string", () => {
     expect(randomString("YYYY-YYYY-YYYY")).to.match(/^YYYY-YYYY-/);
   });
+
+  it("looks for mm after YYYY", () => {
+    let now = new Date();
+    let yyyymm = now.getFullYear().toString();
+    yyyymm += pad(now.getMonth() + 1);
+
+    expect(randomString("hey-mm-YYYYmm-mm")).to.equal(
+      "hey-mm-" + yyyymm + "-mm");
+  });
 });
