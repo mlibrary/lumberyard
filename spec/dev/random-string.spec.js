@@ -8,6 +8,6 @@ const randomString = require("../../lib/random-string");
 
 describe("the randomString() function", () => {
   it("returns a six-character string by default", () => {
-    randomString();
+    expect(randomString()).to.have.lengthOf(6);
   });
 });
