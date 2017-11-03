@@ -28,7 +28,7 @@ describe("the randomString() function", () => {
     expect(randomString("XXXX")).to.have.lengthOf(4);
   });
 
-  xit("leaves the prefix alone when given hey-XXXX", () => {
+  it("leaves the prefix alone when given hey-XXXX", () => {
     expect(randomString("hey-XXXX")).to.match(/^hey-....$/);
   });
 });
