@@ -10,4 +10,13 @@ describe("the randomString() function", () => {
   it("returns a six-character string by default", () => {
     expect(randomString()).to.have.lengthOf(6);
   });
+
+  it("returns different strings", () => {
+    let results = new Set();
+
+    for (let i = 0; i < 100; i += 1)
+      results.add(randomString());
+
+    expect(results.size).to.be.above(1);
+  });
 });
