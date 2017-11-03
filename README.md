@@ -12,6 +12,8 @@ you can just install it through npm:
 $ npm install lumberyard
 ```
 
+And then you can use it the regular way:
+
 ```javascript
 const Lumberyard = require("lumberyard");
 ```
@@ -22,6 +24,7 @@ It's got a few things you can use.
 Lumberyard.Scheduler
 Lumberyard.ProcessTree
 Lumberyard.LogTree
+Lumberyard.tempName
 ```
 
 Scheduler
@@ -213,6 +216,33 @@ Lumberyard.ProcessTree(payload => {
   // special meaning.
   payload.flipflop = "blipblop";
 });
+```
+
+tempName
+--------
+
+This is just a function that acts a lot like `mktemp`. You pass it a
+template string, and it will convert any serieses of four or more `X`s
+into random base-58 characters. Or, if you want to use a timestamp, you
+can instead hand it `YYYYmmddHHMMSS`.
+
+
+```javascript
+Lumberyard.tempName();                      // "nSzZEw"
+Lumberyard.tempName();                      // "HRepr6"
+Lumberyard.tempName();                      // "f88ye8"
+Lumberyard.tempName("XXXXXXXX");            // "3GLvJSy2"
+Lumberyard.tempName("XXXX");                // "pNBS"
+Lumberyard.tempName("XXX");                 // "XXX"
+Lumberyard.tempName("helloXXXXbye");        // "hello4YV3bye"
+Lumberyard.tempName("aXXXXbXXXXc");         // "adSPFbx5X7c"
+
+Lumberyard.tempName("YYYY-mm-ddTHH:MM:SS")  // "2017-11-03T16:15:40"
+Lumberyard.tempName("YYYYmmddHHMMSS")       // "20171103161540"
+Lumberyard.tempName("hey-YYYYmmddHHMMSS")   // "hey-20171103161540"
+Lumberyard.tempName("hey-YYYYmmdd")         // "hey-20171103"
+
+Lumberyard.tempName("hey-YYYYmmdd-XXXX")    // "hey-YYYYmmdd-pcX8"
 ```
 
 [travis]:       https://travis-ci.org/mlibrary/lumberyard
