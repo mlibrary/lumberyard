@@ -442,15 +442,8 @@ describe("a tree that fails while running", () => {
 
       return spy.process;
 
-    }, e => {
-      results.validationError = e;
-
-    }).then(result => {
-      results.runResult = result;
-
-    }, e => {
-      results.runError = e;
-    });
+    }, results.setValidationError).then(
+      results.setResult, results.setRunError);
   });
 
   it("validates without any errors", () => {
