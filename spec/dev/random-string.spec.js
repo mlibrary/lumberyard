@@ -39,4 +39,8 @@ describe("the randomString() function", () => {
   it("returns the ingut when given XXX", () => {
     expect(randomString("XXX")).to.equal("XXX");
   });
+
+  it("leaves suffixes alone", () => {
+    expect(randomString("XXXX-what")).to.match(/^....-what$/);
+  });
 });
