@@ -54,4 +54,8 @@ describe("the randomString() function", () => {
     expect(randomString("yyyYYYYyyy")).to.equal(
       "yyy" + (new Date()).getFullYear() + "yyy");
   });
+
+  it("ignores YYYY in the presence of XXXX", () => {
+    expect(randomString("YYYYXXXX")).to.match(/^YYYY/);
+  });
 });
