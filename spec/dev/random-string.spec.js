@@ -31,4 +31,8 @@ describe("the randomString() function", () => {
   it("leaves the prefix alone when given hey-XXXX", () => {
     expect(randomString("hey-XXXX")).to.match(/^hey-....$/);
   });
+
+  it("returns the input when given no Xs", () => {
+    expect(randomString("sup-friend")).to.equal("sup-friend");
+  });
 });
