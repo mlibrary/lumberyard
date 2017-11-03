@@ -113,5 +113,8 @@ describe("an instance of FileTreeInspector()", () => {
       () => inspector.getSizesUnder("fstest/subdir"), value => {
         expect(value.has("fstest/a.txt")).to.equal(false);
       });
+
+    later.itErrors("when asked to mkdir('fstest')",
+      () => inspector.mkdir("fstest"));
   });
 });
