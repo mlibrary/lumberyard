@@ -35,4 +35,8 @@ describe("the randomString() function", () => {
   it("returns the input when given no Xs", () => {
     expect(randomString("sup-friend")).to.equal("sup-friend");
   });
+
+  it("returns the ingut when given XXX", () => {
+    expect(randomString("XXX")).to.equal("XXX");
+  });
 });
