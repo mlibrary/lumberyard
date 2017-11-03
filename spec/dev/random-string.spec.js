@@ -6,6 +6,27 @@ const expect = require("chai").expect;
 
 const randomString = require("../../lib/random-string");
 
+const pad = n => {
+  if (n < 10)
+    return "0" + n;
+  else
+    return n.toString();
+};
+
+describe("pad()", () => {
+  for (let duple of [
+    [0, "00"],
+    [1, "01"],
+    [5, "05"],
+    [9, "09"],
+    [10, "10"],
+    [99, "99"]
+  ])
+    it("converts " + duple[0] + " to '" + duple[1] + "'", () => {
+      expect(pad(duple[0])).to.equal(duple[1]);
+    });
+});
+
 describe("the randomString() function", () => {
   it("returns a six-character string by default", () => {
     expect(randomString()).to.have.lengthOf(6);
@@ -57,6 +78,7 @@ describe("the randomString() function", () => {
 
   it("ignores YYYY in the presence of XXXX", () => {
     expect(randomString("YYYYXXXX")).to.match(/^YYYY/);
+    expect(randomString("XXXXYYYY")).to.match(/YYYY$/);
   });
 
   it("only replaces the last YYYY in the string", () => {
