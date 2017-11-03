@@ -19,4 +19,8 @@ describe("the randomString() function", () => {
 
     expect(results.size).to.be.above(1);
   });
+
+  it("returns an eight-character string when given XXXXXXXX", () => {
+    expect(randomString("XXXXXXXX")).to.have.lengthOf(8);
+  });
 });
