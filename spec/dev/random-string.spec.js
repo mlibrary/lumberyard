@@ -43,4 +43,10 @@ describe("the randomString() function", () => {
   it("leaves suffixes alone", () => {
     expect(randomString("XXXX-what")).to.match(/^....-what$/);
   });
+
+  it("can fill in multiple blank areas", () => {
+    expect(randomString("XXXX-XXXX")).to.match(/^....-....$/);
+    expect(randomString("XXXX-XXXX").slice(0, 4)).not.to.equal("XXXX");
+    expect(randomString("XXXX-XXXX").slice(5)).not.to.equal("XXXX");
+  });
 });
