@@ -23,4 +23,12 @@ describe("the randomString() function", () => {
   it("returns an eight-character string when given XXXXXXXX", () => {
     expect(randomString("XXXXXXXX")).to.have.lengthOf(8);
   });
+
+  it("returns a four-character string when given XXXX", () => {
+    expect(randomString("XXXX")).to.have.lengthOf(4);
+  });
+
+  xit("leaves the prefix alone when given hey-XXXX", () => {
+    expect(randomString("hey-XXXX")).to.match(/^hey-....$/);
+  });
 });
