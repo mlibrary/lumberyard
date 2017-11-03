@@ -87,4 +87,8 @@ describe("the randomString() function", () => {
     expect(randomString("YYYYmmHHMMSSddHH")).to.match(
       /^[0-9]{6}HHMMSS[0-9]{4}$/);
   });
+
+  it("can handle YYYYmmddHHMM", () => {
+    expect(randomString("YYYYmmddHHMM")).to.match(/^[0-9]{12}$/);
+  });
 });
