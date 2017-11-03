@@ -2,13 +2,14 @@
 // All Rights Reserved. Licensed according to the terms of the Revised
 // BSD License. See LICENSE.txt for details.
 
+/* eslint-env mocha */
+const expect = require("chai").expect;
+const later = require("../spec/helpers/later")(it);
+
 const FileTreeInspector = require("../lib/file-tree-inspector");
 const crypto = require("crypto");
 const fs = require("fs");
 const makePromise = require("../lib/make-promise");
-
-const expect = require("chai").expect;
-const later = require("../spec/helpers/later")(it);
 
 let inspector = null;
 
@@ -43,7 +44,6 @@ describe("an instance of FileTreeInspector()", () => {
         files.push(mkdir("fstest/subdir"));
 
         return Promise.all(files);
-
       }).then(() => {
         let subfiles = [];
 
@@ -70,48 +70,47 @@ describe("an instance of FileTreeInspector()", () => {
         files.push(rmdir("fstest/subdir"));
 
         return Promise.all(files);
-
       }).then(() => {
         return rmdir("fstest");
       });
     });
 
     later.it("can find a.txt",
-      () => inspector.getSizesUnder("fstest"), value => {
-        expect(value.get("fstest/a.txt")).to.equal(9);
-      });
+             () => inspector.getSizesUnder("fstest"), value => {
+               expect(value.get("fstest/a.txt")).to.equal(9);
+             });
 
     later.it("can find b.txt",
-      () => inspector.getSizesUnder("fstest"), value => {
-        expect(value.get("fstest/b.txt")).to.equal(8);
-      });
+             () => inspector.getSizesUnder("fstest"), value => {
+               expect(value.get("fstest/b.txt")).to.equal(8);
+             });
 
     later.it("can find subdir/a.txt",
-      () => inspector.getSizesUnder("fstest"), value => {
-        expect(value.get("fstest/subdir/a.txt")).to.equal(5);
-      });
+             () => inspector.getSizesUnder("fstest"), value => {
+               expect(value.get("fstest/subdir/a.txt")).to.equal(5);
+             });
 
     later.it("can find subdir/c.txt",
-      () => inspector.getSizesUnder("fstest"), value => {
-        expect(value.get("fstest/subdir/c.txt")).to.equal(7);
-      });
+             () => inspector.getSizesUnder("fstest"), value => {
+               expect(value.get("fstest/subdir/c.txt")).to.equal(7);
+             });
 
     later.it("gives the right checksum for a.txt",
-      () => inspector.getChecksum("fstest/a.txt"), value => {
-        expect(value).to.equal(md5sum("Hey there"));
-      });
+             () => inspector.getChecksum("fstest/a.txt"), value => {
+               expect(value).to.equal(md5sum("Hey there"));
+             });
 
     later.itErrors("when told to checksum a nonexistent file",
-      () => inspector.getChecksum("fstest/not-a-file.txt"))
+                   () => inspector.getChecksum("fstest/not-there.txt"));
 
     later.it("yields an empty size mapping for nonexistent paths",
-      () => inspector.getSizesUnder("fstest/not-a-dir"), value => {
-        expect(value.size).to.equal(0);
-      });
+             () => inspector.getSizesUnder("fstest/fake"), value => {
+               expect(value.size).to.equal(0);
+             });
 
     later.it("doesn't look at files not under the requested path",
-      () => inspector.getSizesUnder("fstest/subdir"), value => {
-        expect(value.has("fstest/a.txt")).to.equal(false);
-      });
+             () => inspector.getSizesUnder("fstest/subdir"), value => {
+               expect(value.has("fstest/a.txt")).to.equal(false);
+             });
   });
 });

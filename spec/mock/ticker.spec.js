@@ -2,6 +2,7 @@
 // All Rights Reserved. Licensed according to the terms of the Revised
 // BSD License. See LICENSE.txt for details.
 
+/* eslint-env mocha */
 const expect = require("chai").expect;
 const later = require("../helpers/later")(it);
 const Ticker = require("./ticker");
@@ -44,7 +45,6 @@ describe("an instance of Ticker()", () => {
       ticker.at(1, () => {
         m += 1;
       });
-
     }, () => {
       expect(n).to.equal(1);
       expect(m).to.equal(1);
@@ -66,14 +66,14 @@ describe("an instance of Ticker()", () => {
     });
 
     it("doesn't increment during the first two ticks",
-        aroundTick(2, undefined, () => {
-      expect(n).to.equal(0);
-    }));
+       aroundTick(2, undefined, () => {
+         expect(n).to.equal(0);
+       }));
 
     it("increments during the third tick",
-        aroundTick(3, undefined, () => {
-      expect(n).to.equal(1);
-    }));
+       aroundTick(3, undefined, () => {
+         expect(n).to.equal(1);
+       }));
   });
 
   it("executes two promises in order", function() {
@@ -106,37 +106,34 @@ describe("an instance of Ticker()", () => {
 
   later.itErrors("on a thrown exception", () => {
     ticker.at(1, () => {
-      throw "hi, matt!";
+      throw Error("hi, matt!");
     });
 
     return ticker.tick();
-
   }, error => {
-    expect(error).to.equal("hi, matt!");
+    expect(error.message).to.equal("hi, matt!");
   });
 
   later.itErrors("on promise rejection", () => {
     ticker.at(1, () => new Promise(function(resolve, reject) {
-      reject("uh oh");
+      reject(Error("uh oh"));
     }));
 
-    return ticker.tick()
-
+    return ticker.tick();
   }, error => {
-    expect(error).to.equal("uh oh");
+    expect(error.message).to.equal("uh oh");
   });
 
   later.itErrors("when one of many promises rejects", () => {
     ticker.at(1, () => new Promise(function(resolve, reject) {
-      reject("the first one fails");
+      reject(Error("the first one fails"));
     }));
 
     ticker.at(1, () => {});
     ticker.at(1, () => {});
 
     return ticker.tick();
-
   }, error => {
-    expect(error).to.equal("the first one fails");
+    expect(error.message).to.equal("the first one fails");
   });
 });

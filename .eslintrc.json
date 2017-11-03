@@ -1,0 +1,18 @@
+{
+  "extends": "standard",
+  "rules": {
+    "curly": ["error", "multi", "consistent"],
+    "generator-star-spacing": ["error", "neither"],
+    "indent": ["error", 2, {
+      "CallExpression": {"arguments": "first"},
+      "FunctionDeclaration": {"parameters": "first"},
+      "FunctionExpression": {"parameters": "first"},
+      "ObjectExpression": "first"
+    }],
+    "operator-linebreak": ["error", "before"],
+    "quotes": ["error", "double"],
+    "semi": ["error", "always"],
+    "space-before-function-paren": ["error", "never"],
+    "yield-star-spacing": ["error", "after"]
+  }
+}
