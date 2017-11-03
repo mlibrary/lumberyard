@@ -391,12 +391,24 @@ describe("a tree with two failing nodes", () => {
 });
 
 describe("a tree that fails while running", () => {
-  let validationError, runError, runResult;
+  let results = {};
+
+  results.setValidationError = e => {
+    results.validationError = e;
+  };
+
+  results.setRunError = e => {
+    results.runError = e;
+  };
+
+  results.setResult = v => {
+    results.runResult = v;
+  };
 
   beforeEach(() => {
-    validationError = undefined;
-    runError = undefined;
-    runResult = undefined;
+    results.setValidationError(undefined);
+    results.setRunError(undefined);
+    results.setResult(undefined);
 
     return processTree(treeSpy, root => {
       root.description = "root";
@@ -430,46 +442,39 @@ describe("a tree that fails while running", () => {
 
       return spy.process;
 
-    }, e => {
-      validationError = e;
-
-    }).then(result => {
-      runResult = result;
-
-    }, e => {
-      runError = e;
-    });
+    }, results.setValidationError).then(
+      results.setResult, results.setRunError);
   });
 
   it("validates without any errors", () => {
-    expect(validationError).not.to.exist;
+    expect(results.validationError).not.to.exist;
   });
 
   it("receives a runtime error", () => {
-    expect(runError).to.exist;
+    expect(results.runError).to.exist;
   });
 
   it("doesn't receive a result", () => {
-    expect(runResult).not.to.exist;
+    expect(results.runResult).not.to.exist;
   });
 
   describe("its runtime error", () => {
     it("has a description of 'root'", () => {
-      expect(runError.description).to.equal("root");
+      expect(results.runError.description).to.equal("root");
     });
 
     it("has two children", () => {
-      expect(runError.children.length).to.equal(2);
+      expect(results.runError.children.length).to.equal(2);
     });
 
     it("has no error messages of its own", () => {
-      expect(runError.messages.length).to.equal(0);
+      expect(results.runError.messages.length).to.equal(0);
     });
 
     describe("its first child", () => {
       let first_child;
       beforeEach(() => {
-        first_child = runError.children[0];
+        first_child = results.runError.children[0];
       });
 
       it("has a description of 'first child'", () => {

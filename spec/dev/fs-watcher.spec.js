@@ -22,6 +22,12 @@ let findFiles = () => new Promise(function(resolve, reject) {
 
 let theWatcher = later.customIt(() => watcher(findFiles));
 
+let setAt = function(time, key, value) {
+  ticker.at(time, () => {
+    fakeFS.set(key, value);
+  });
+};
+
 describe("an fsWatcher() instance in an empty filesystem", () => {
   beforeEach(() => {
     let mockObj = MockInspector();
@@ -48,9 +54,7 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
 
     describe("and b.txt is created a second later", () => {
       beforeEach(() => {
-        ticker.at(1, () => {
-          fakeFS.set("b.txt", "holler");
-        });
+        setAt(1, "b.txt", "holler");
       });
 
       theWatcher("resolves to contain a.txt", value => {
@@ -64,9 +68,7 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
 
     describe("and b.txt is created ten minutes later", () => {
       beforeEach(() => {
-        ticker.at(600, () => {
-          fakeFS.set("b.txt", "holler");
-        });
+        setAt(600, "b.txt", "holler");
       });
 
       theWatcher("resolves without b.txt", value => {
@@ -76,12 +78,12 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
 
     describe("and a.txt becomes 'abcde' after 1 seconds", () => {
       beforeEach(() => {
-        ticker.at(1, () => { fakeFS.set("a.txt", "abcde"); });
+        setAt(1, "a.txt", "abcde");
       });
 
       describe("and b.txt is 'yooo' at 2 seconds", () => {
         beforeEach(() => {
-          ticker.at(2, () => { fakeFS.set("b.txt", "yooo"); });
+          setAt(2, "b.txt", "yooo");
         });
 
         theWatcher("resolves to contain b.txt", value => {
@@ -92,7 +94,7 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
 
     describe("and a.txt becomes 'abcde' after 30 seconds", () => {
       beforeEach(() => {
-        ticker.at(30, () => { fakeFS.set("a.txt", "abcde"); });
+        setAt(30, "a.txt", "abcde");
       });
 
       theWatcher("resolves after a.txt changes", value => {
@@ -116,25 +118,25 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
     beforeEach(() => {
       fakeFS.set("01.txt", "first");
 
-      ticker.at( 1, () => { fakeFS.set("02.txt", "second"); });
-      ticker.at( 2, () => { fakeFS.set("03.txt", "third"); });
-      ticker.at( 3, () => { fakeFS.set("04.txt", "fourth"); });
-      ticker.at( 4, () => { fakeFS.set("05.txt", "fifth"); });
-      ticker.at( 5, () => { fakeFS.set("06.txt", "sixth"); });
-      ticker.at( 6, () => { fakeFS.set("07.txt", "seventh"); });
-      ticker.at( 7, () => { fakeFS.set("08.txt", "eighth"); });
-      ticker.at( 8, () => { fakeFS.set("09.txt", "ninth"); });
-      ticker.at( 9, () => { fakeFS.set("10.txt", "tenth"); });
-      ticker.at(10, () => { fakeFS.set("11.txt", "eleventh"); });
-      ticker.at(11, () => { fakeFS.set("12.txt", "twelfth"); });
-      ticker.at(12, () => { fakeFS.set("13.txt", "thirteenth"); });
-      ticker.at(13, () => { fakeFS.set("14.txt", "fourteenth"); });
-      ticker.at(14, () => { fakeFS.set("15.txt", "fifteenth"); });
-      ticker.at(15, () => { fakeFS.set("16.txt", "sixteenth"); });
-      ticker.at(16, () => { fakeFS.set("17.txt", "seventeenth"); });
-      ticker.at(17, () => { fakeFS.set("18.txt", "eighteenth"); });
-      ticker.at(18, () => { fakeFS.set("19.txt", "nineteenth"); });
-      ticker.at(19, () => { fakeFS.set("20.txt", "twentieth"); });
+      setAt( 1, "02.txt", "second");
+      setAt( 2, "03.txt", "third");
+      setAt( 3, "04.txt", "fourth");
+      setAt( 4, "05.txt", "fifth");
+      setAt( 5, "06.txt", "sixth");
+      setAt( 6, "07.txt", "seventh");
+      setAt( 7, "08.txt", "eighth");
+      setAt( 8, "09.txt", "ninth");
+      setAt( 9, "10.txt", "tenth");
+      setAt(10, "11.txt", "eleventh");
+      setAt(11, "12.txt", "twelfth");
+      setAt(12, "13.txt", "thirteenth");
+      setAt(13, "14.txt", "fourteenth");
+      setAt(14, "15.txt", "fifteenth");
+      setAt(15, "16.txt", "sixteenth");
+      setAt(16, "17.txt", "seventeenth");
+      setAt(17, "18.txt", "eighteenth");
+      setAt(18, "19.txt", "nineteenth");
+      setAt(19, "20.txt", "twentieth");
     });
 
     theWatcher("resolves to contain 20.txt", value => {
@@ -146,25 +148,25 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
     beforeEach(() => {
       fakeFS.set("s/01.txt", "first");
 
-      ticker.at( 1, () => { fakeFS.set("s/02.txt", "second"); });
-      ticker.at( 2, () => { fakeFS.set("s/03.txt", "third"); });
-      ticker.at( 3, () => { fakeFS.set("s/04.txt", "fourth"); });
-      ticker.at( 4, () => { fakeFS.set("s/05.txt", "fifth"); });
-      ticker.at( 5, () => { fakeFS.set("s/06.txt", "sixth"); });
-      ticker.at( 6, () => { fakeFS.set("s/07.txt", "seventh"); });
-      ticker.at( 7, () => { fakeFS.set("s/08.txt", "eighth"); });
-      ticker.at( 8, () => { fakeFS.set("s/09.txt", "ninth"); });
-      ticker.at( 9, () => { fakeFS.set("s/10.txt", "tenth"); });
-      ticker.at(10, () => { fakeFS.set("s/11.txt", "eleventh"); });
-      ticker.at(11, () => { fakeFS.set("s/12.txt", "twelfth"); });
-      ticker.at(12, () => { fakeFS.set("s/13.txt", "thirteenth"); });
-      ticker.at(13, () => { fakeFS.set("s/14.txt", "fourteenth"); });
-      ticker.at(14, () => { fakeFS.set("s/15.txt", "fifteenth"); });
-      ticker.at(15, () => { fakeFS.set("s/16.txt", "sixteenth"); });
-      ticker.at(16, () => { fakeFS.set("s/17.txt", "seventeenth"); });
-      ticker.at(17, () => { fakeFS.set("s/18.txt", "eighteenth"); });
-      ticker.at(18, () => { fakeFS.set("s/19.txt", "nineteenth"); });
-      ticker.at(19, () => { fakeFS.set("s/20.txt", "twentieth"); });
+      setAt( 1, "s/02.txt", "second");
+      setAt( 2, "s/03.txt", "third");
+      setAt( 3, "s/04.txt", "fourth");
+      setAt( 4, "s/05.txt", "fifth");
+      setAt( 5, "s/06.txt", "sixth");
+      setAt( 6, "s/07.txt", "seventh");
+      setAt( 7, "s/08.txt", "eighth");
+      setAt( 8, "s/09.txt", "ninth");
+      setAt( 9, "s/10.txt", "tenth");
+      setAt(10, "s/11.txt", "eleventh");
+      setAt(11, "s/12.txt", "twelfth");
+      setAt(12, "s/13.txt", "thirteenth");
+      setAt(13, "s/14.txt", "fourteenth");
+      setAt(14, "s/15.txt", "fifteenth");
+      setAt(15, "s/16.txt", "sixteenth");
+      setAt(16, "s/17.txt", "seventeenth");
+      setAt(17, "s/18.txt", "eighteenth");
+      setAt(18, "s/19.txt", "nineteenth");
+      setAt(19, "s/20.txt", "twentieth");
     });
 
     theWatcher("resolves to contain only 's'", value => {
