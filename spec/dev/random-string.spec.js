@@ -73,4 +73,8 @@ describe("the randomString() function", () => {
     expect(randomString("hey-mm-YYYYmm-mm")).to.equal(
       "hey-mm-" + yyyymm + "-mm");
   });
+
+  it("recognizes all of YYYYmmddHHMMSS", () => {
+    expect(randomString("YYYYmmddHHMMSS")).to.match(/^[0-9]{14}$/);
+  });
 });
