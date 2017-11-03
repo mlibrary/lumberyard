@@ -5,27 +5,7 @@
 const expect = require("chai").expect;
 
 const randomString = require("../../lib/random-string");
-
-const pad = n => {
-  if (n < 10)
-    return "0" + n;
-  else
-    return n.toString();
-};
-
-describe("pad()", () => {
-  for (let duple of [
-    [0, "00"],
-    [1, "01"],
-    [5, "05"],
-    [9, "09"],
-    [10, "10"],
-    [99, "99"]
-  ])
-    it("converts " + duple[0] + " to '" + duple[1] + "'", () => {
-      expect(pad(duple[0])).to.equal(duple[1]);
-    });
-});
+const pad = require("../../lib/pad");
 
 describe("the randomString() function", () => {
   it("returns a six-character string by default", () => {
