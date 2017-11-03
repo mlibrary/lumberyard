@@ -58,4 +58,8 @@ describe("the randomString() function", () => {
   it("ignores YYYY in the presence of XXXX", () => {
     expect(randomString("YYYYXXXX")).to.match(/^YYYY/);
   });
+
+  it("only replaces the last YYYY in the string", () => {
+    expect(randomString("YYYY-YYYY-YYYY")).to.match(/^YYYY-YYYY-/);
+  });
 });
