@@ -2,6 +2,7 @@
 // All Rights Reserved. Licensed according to the terms of the Revised
 // BSD License. See LICENSE.txt for details.
 
+/* eslint-env mocha */
 const expect = require("chai").expect;
 
 const randomString = require("../../lib/random-string");

@@ -2,13 +2,14 @@
 // All Rights Reserved. Licensed according to the terms of the Revised
 // BSD License. See LICENSE.txt for details.
 
+/* eslint-env mocha */
+const expect = require("chai").expect;
+const later = require("../helpers/later")(it);
+
 const Scheduler = require("../../lib/scheduler");
 const fsWatcher = require("../../lib/fs-watcher");
 const MockInspector = require("../mock/file-tree-inspector");
 const Ticker = require("../mock/ticker");
-
-const expect = require("chai").expect;
-const later = require("../helpers/later")(it);
 
 let scheduler, ticker, fakeFS, tasks;
 let theScheduler = later.customIt(() => scheduler(tasks));

@@ -3,8 +3,8 @@
 // BSD License. See LICENSE.txt for details.
 
 module.exports = function() {
-  Ticker = {};
-  internal = {};
+  let Ticker = {};
+  let internal = {};
 
   Ticker.tick = n => new Promise(function(resolve, reject) {
     internal.tick(n, Promise.resolve()).then(resolve, reject);
@@ -49,8 +49,7 @@ module.exports = function() {
       promise.then(function() {
         try {
           Promise.resolve(callback()).then(resolve, reject);
-
-        } catch(error) {
+        } catch (error) {
           reject(error);
         }
       }, reject);

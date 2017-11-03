@@ -5,8 +5,8 @@
 const crypto = require("crypto");
 
 module.exports = function() {
-  inspector = {};
-  fakeFS = new Map();
+  let inspector = {};
+  let fakeFS = new Map();
 
   inspector.getSizesUnder = path => new Promise(function(resolve, reject) {
     let sizes = new Map();
@@ -21,12 +21,13 @@ module.exports = function() {
 
   inspector.getChecksum = path => new Promise(function(resolve, reject) {
     if (fakeFS.has(path))
-      resolve(crypto.createHash("md5")
-                    .update(fakeFS.get(path))
-                    .digest("latin1"));
+      resolve(crypto
+        .createHash("md5")
+        .update(fakeFS.get(path))
+        .digest("latin1"));
 
     else
-      reject();
+      reject(Error("Does not exist: " + path));
   });
 
   return {

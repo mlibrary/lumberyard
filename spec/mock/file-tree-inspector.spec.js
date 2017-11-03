@@ -2,11 +2,12 @@
 // All Rights Reserved. Licensed according to the terms of the Revised
 // BSD License. See LICENSE.txt for details.
 
-const MockInspector = require("./file-tree-inspector");
-const crypto = require("crypto");
-
+/* eslint-env mocha */
 const expect = require("chai").expect;
 const later = require("../helpers/later")(it);
+
+const MockInspector = require("./file-tree-inspector");
+const crypto = require("crypto");
 
 let inspector = null;
 let fakeFS = null;
@@ -24,12 +25,12 @@ describe("an instance of MockInspector()", () => {
   });
 
   later.it("returns an empty mapping on getSizesUnder()",
-    () => inspector.getSizesUnder("nothing-is-here"), value => {
-      expect(value.size).to.equal(0);
-    });
+           () => inspector.getSizesUnder("nothing-is-here"), value => {
+             expect(value.size).to.equal(0);
+           });
 
   later.itErrors("on any getChecksum()",
-    () => inspector.getChecksum("not-a-file"));
+                 () => inspector.getChecksum("not-a-file"));
 
   describe("given dir/a.txt is 'Holler!'", () => {
     beforeEach(() => {
@@ -37,18 +38,18 @@ describe("an instance of MockInspector()", () => {
     });
 
     later.it("finds dir/a.txt on getSizesUnder('dir')",
-      () => inspector.getSizesUnder("dir"), value => {
-        expect(value.get("dir/a.txt")).to.equal(7);
-      });
+             () => inspector.getSizesUnder("dir"), value => {
+               expect(value.get("dir/a.txt")).to.equal(7);
+             });
 
     later.it("returns the expected getChecksum('dir/a.txt')",
-      () => inspector.getChecksum("dir/a.txt"), value => {
-        expect(value).to.equal(md5sum("Holler!"));
-      });
+             () => inspector.getChecksum("dir/a.txt"), value => {
+               expect(value).to.equal(md5sum("Holler!"));
+             });
 
     later.it("doesn't find dir/a.txt on getSizesUnder('other')",
-      () => inspector.getSizesUnder("other"), value => {
-        expect(value.has("dir/a.txt")).to.equal(false);
-      });
+             () => inspector.getSizesUnder("other"), value => {
+               expect(value.has("dir/a.txt")).to.equal(false);
+             });
   });
 });

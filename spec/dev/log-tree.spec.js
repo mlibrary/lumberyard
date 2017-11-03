@@ -2,6 +2,7 @@
 // All Rights Reserved. Licensed according to the terms of the Revised
 // BSD License. See LICENSE.txt for details.
 
+/* eslint-env mocha */
 const expect = require("chai").expect;
 const logTree = require("../../lib/log-tree");
 let tree, description;
@@ -48,7 +49,7 @@ describe("a logTree with no description and no children", () => {
 
 describe("a logTree with two children", () => {
   beforeEach(() => {
-    tree = logTree({c:[{}, {}]});
+    tree = logTree({"c": [{}, {}]});
   });
 
   it("has a denominator of 3", () => {
@@ -66,7 +67,7 @@ describe("a logTree with two children", () => {
 
 describe("a logTree with two children and a grandchild", () => {
   beforeEach(() => {
-    tree = logTree({c:[{}, {c:[{}]}]});
+    tree = logTree({c: [{}, {c: [{}]}]});
   });
 
   it("has a denominator of 4", () => {
@@ -114,7 +115,7 @@ describe("a logTree with two children and a grandchild", () => {
 
 describe("a logTree with a description and no children", () => {
   beforeEach(() => {
-    tree = logTree({d:"specification process"});
+    tree = logTree({d: "specification process"});
   });
 
   it("stores its description", () => {
@@ -161,38 +162,38 @@ describe("a complicated logTree with great-grandchildren", () => {
     //         \-- 00000001.tif
     tree = logTree({
       c: [{
-        d:"Shipment_2017123",
+        d: "Shipment_2017123",
         c: [{
-          d:"39015012345677",
+          d: "39015012345677",
           c: [
-            {d:"00000001.tif"},
-            {d:"00000002.tif"},
-            {d:"00000003.tif"},
-            {d:"00000004.tif"},
-            {d:"00000005.tif"}
+            {d: "00000001.tif"},
+            {d: "00000002.tif"},
+            {d: "00000003.tif"},
+            {d: "00000004.tif"},
+            {d: "00000005.tif"}
           ]
-        },{
-          d:"39015012345685",
+        }, {
+          d: "39015012345685",
           c: [
-            {d:"00000001.tif"},
-            {d:"00000002.tif"},
-            {d:"00000003.tif"}
+            {d: "00000001.tif"},
+            {d: "00000002.tif"},
+            {d: "00000003.tif"}
           ]
         }]
-      },{
-        d:"Shipment_2017124",
+      }, {
+        d: "Shipment_2017124",
         c: [{
-          d:"39015012345693",
+          d: "39015012345693",
           c: [
-            {d:"00000001.tif"},
-            {d:"00000002.tif"},
-            {d:"00000003.tif"},
-            {d:"00000004.tif"}
+            {d: "00000001.tif"},
+            {d: "00000002.tif"},
+            {d: "00000003.tif"},
+            {d: "00000004.tif"}
           ]
-        },{
-          d:"39015012345701",
+        }, {
+          d: "39015012345701",
           c: [
-            {d:"00000001.tif"}
+            {d: "00000001.tif"}
           ]
         }]
       }]

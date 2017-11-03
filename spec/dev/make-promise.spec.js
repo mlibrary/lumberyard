@@ -2,6 +2,7 @@
 // All Rights Reserved. Licensed according to the terms of the Revised
 // BSD License. See LICENSE.txt for details.
 
+/* eslint-env mocha */
 const expect = require("chai").expect;
 const makePromise = require("../../lib/make-promise.js");
 
@@ -25,7 +26,7 @@ describe("my own homescripted util.promisify() function", () => {
   describe("when given a function that errors", () => {
     beforeEach(() => {
       promisedFunction = makePromise(callback => {
-        callback("bad error");
+        callback(Error("bad error"));
       });
     });
 
@@ -33,7 +34,7 @@ describe("my own homescripted util.promisify() function", () => {
       return new Promise((resolve, reject) => {
         promisedFunction().then(reject, resolve);
       }).then(error => {
-        expect(error).to.equal("bad error");
+        expect(error.message).to.equal("bad error");
       });
     });
   });
@@ -41,21 +42,21 @@ describe("my own homescripted util.promisify() function", () => {
   describe("when given a function with a return value", () => {
     beforeEach(() => {
       promisedFunction = makePromise(callback => {
-        callback(undefined, "return value");
+        callback(null, "return value");
       });
     });
 
     it("returns a function that resolves with the value", () => {
       return promisedFunction().then(value => {
         expect(value).to.equal("return value");
-      })
+      });
     });
   });
 
   describe("when given a function with another argument", () => {
     beforeEach(() => {
       promisedFunction = makePromise((arg, callback) => {
-        callback(undefined, arg);
+        callback(null, arg);
       });
     });
 
@@ -69,7 +70,7 @@ describe("my own homescripted util.promisify() function", () => {
   describe("when given a function with two arguments", () => {
     beforeEach(() => {
       promisedFunction = makePromise((first, second, callback) => {
-        callback(undefined, [first, second]);
+        callback(null, [first, second]);
       });
     });
 

@@ -2,6 +2,7 @@
 // All Rights Reserved. Licensed according to the terms of the Revised
 // BSD License. See LICENSE.txt for details.
 
+/* eslint-env mocha */
 const fsWatcher = require("../../lib/fs-watcher");
 const MockInspector = require("../mock/file-tree-inspector");
 const Ticker = require("../mock/ticker");
@@ -118,15 +119,15 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
     beforeEach(() => {
       fakeFS.set("01.txt", "first");
 
-      setAt( 1, "02.txt", "second");
-      setAt( 2, "03.txt", "third");
-      setAt( 3, "04.txt", "fourth");
-      setAt( 4, "05.txt", "fifth");
-      setAt( 5, "06.txt", "sixth");
-      setAt( 6, "07.txt", "seventh");
-      setAt( 7, "08.txt", "eighth");
-      setAt( 8, "09.txt", "ninth");
-      setAt( 9, "10.txt", "tenth");
+      setAt(1, "02.txt", "second");
+      setAt(2, "03.txt", "third");
+      setAt(3, "04.txt", "fourth");
+      setAt(4, "05.txt", "fifth");
+      setAt(5, "06.txt", "sixth");
+      setAt(6, "07.txt", "seventh");
+      setAt(7, "08.txt", "eighth");
+      setAt(8, "09.txt", "ninth");
+      setAt(9, "10.txt", "tenth");
       setAt(10, "11.txt", "eleventh");
       setAt(11, "12.txt", "twelfth");
       setAt(12, "13.txt", "thirteenth");
@@ -148,15 +149,15 @@ describe("an fsWatcher() instance in an empty filesystem", () => {
     beforeEach(() => {
       fakeFS.set("s/01.txt", "first");
 
-      setAt( 1, "s/02.txt", "second");
-      setAt( 2, "s/03.txt", "third");
-      setAt( 3, "s/04.txt", "fourth");
-      setAt( 4, "s/05.txt", "fifth");
-      setAt( 5, "s/06.txt", "sixth");
-      setAt( 6, "s/07.txt", "seventh");
-      setAt( 7, "s/08.txt", "eighth");
-      setAt( 8, "s/09.txt", "ninth");
-      setAt( 9, "s/10.txt", "tenth");
+      setAt(1, "s/02.txt", "second");
+      setAt(2, "s/03.txt", "third");
+      setAt(3, "s/04.txt", "fourth");
+      setAt(4, "s/05.txt", "fifth");
+      setAt(5, "s/06.txt", "sixth");
+      setAt(6, "s/07.txt", "seventh");
+      setAt(7, "s/08.txt", "eighth");
+      setAt(8, "s/09.txt", "ninth");
+      setAt(9, "s/10.txt", "tenth");
       setAt(10, "s/11.txt", "eleventh");
       setAt(11, "s/12.txt", "twelfth");
       setAt(12, "s/13.txt", "thirteenth");
