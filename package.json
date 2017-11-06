@@ -8,9 +8,8 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "test": "mocha --recursive spec outerface",
-    "test:fast": "mocha --recursive --reporter nyan spec",
-    "test:cover": "istanbul cover ./node_modules/.bin/_mocha --report lcovonly -- --recursive --reporter spec spec outerface"
+    "test": "mocha --reporter nyan --recursive spec",
+    "travis": "istanbul cover ./node_modules/.bin/_mocha --report lcovonly -- --reporter spec --recursive spec outerface"
   },
   "repository": {
     "type": "git",
