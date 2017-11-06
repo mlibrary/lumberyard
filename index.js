@@ -3,6 +3,7 @@
 // BSD License. See LICENSE.txt for details.
 
 module.exports = {
+  "FileTreeInspector": require("./lib/file-tree-inspector"),
   "LogTree": require("./lib/log-tree"),
   "ProcessTree": require("./lib/cli-logger").QuickProcess,
   "tempName": require("./lib/random-string"),
