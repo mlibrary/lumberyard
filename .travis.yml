@@ -5,4 +5,4 @@ node_js:
 - "8"
 - "7"
 - "6"
-script: make coverage
+script: npm run lint && npm run travis && cat coverage/lcov.info | ./node_modules/.bin/coveralls
