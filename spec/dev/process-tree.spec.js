@@ -486,3 +486,19 @@ describe("a tree that fails while running", () => {
     });
   });
 });
+
+describe("a processTree with asynchronous validation", () => {
+  beforeEach(done => {
+    spyOnTree(done, root => new Promise(function(resolve, reject) {
+      setTimeout(() => {
+        root.add(child => {});
+
+        resolve();
+      }, 10);
+    }));
+  });
+
+  it("stores the child", () => {
+    expect(spy.tree.c.length).to.equal(1);
+  });
+});
