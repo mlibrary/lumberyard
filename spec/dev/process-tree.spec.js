@@ -498,7 +498,7 @@ describe("a processTree with asynchronous validation", () => {
     }));
   });
 
-  xit("stores the child", () => {
+  it("stores the child", () => {
     expect(spy.tree.c.length).to.equal(1);
   });
 });
