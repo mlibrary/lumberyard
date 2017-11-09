@@ -3,7 +3,7 @@
 // All Rights Reserved. Licensed according to the terms of the Revised
 // BSD License. See LICENSE.txt for details.
 
-tree = require("../lib/cli-logger").QuickProcess;
+const tree = require("../lib/cli-logger").QuickProcess;
 
 tree(root => {
   root.description = "root";
@@ -11,7 +11,7 @@ tree(root => {
   root.add(child => {
     child.description = "child";
 
-    throw "uh oh";
+    throw Error("uh oh");
   });
 
   root.add(child => {
@@ -21,6 +21,6 @@ tree(root => {
   root.add(child => {
     child.description = "third child";
 
-    throw "oh no";
+    throw Error("oh no");
   });
 });
