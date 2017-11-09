@@ -46,6 +46,12 @@ let TaskSpy = function(find) {
   return task;
 };
 
+let setAt = function(time, key, value) {
+  ticker.at(time, () => {
+    fakeFS.set(key, value);
+  });
+};
+
 describe("in a mocked environment", () => {
   beforeEach(() => {
     let mockObj = MockInspector();
@@ -94,7 +100,7 @@ describe("in a mocked environment", () => {
 
     describe("with b.txt in 10 seconds and a task for it", () => {
       beforeEach(() => {
-        ticker.at(10, () => { fakeFS.set("b.txt", "ayyy"); });
+        setAt(10, "b.txt", "ayyy");
         tasks.btxt = TaskSpy(() => {
           if (fakeFS.has("b.txt"))
             return ["b.txt"];
@@ -128,7 +134,7 @@ describe("in a mocked environment", () => {
 
   describe("with a.txt in 10 seconds and a task for it", () => {
     beforeEach(() => {
-      ticker.at(10, () => { fakeFS.set("a.txt", "ayyy"); });
+      setAt(10, "a.txt", "ayyy");
       tasks.atxt = TaskSpy(() => [...fakeFS.keys()]);
     });
 
