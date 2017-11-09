@@ -7,7 +7,7 @@ const Tail = require("tail").Tail;
 const exec = require("executive");
 const logTools = require("../lib/cli-logger");
 
-if (process.argv.length != 3) {
+if (process.argv.length !== 3) {
   console.log("Expected a filename argument");
   process.exit(1);
 }
@@ -15,7 +15,7 @@ if (process.argv.length != 3) {
 const logFilename = process.argv[2];
 exec("touch " + logFilename);
 
-let logTail = new Tail(logFilename, {fromBeginning:true});
+let logTail = new Tail(logFilename, {"fromBeginning": true});
 
 logTools.BulletedListener().then(function(listener) {
   logTail.on("line", function(data) {

@@ -4,7 +4,7 @@
   "description": "sanely log process trees as they appear",
   "main": "index.js",
   "bin": {
-    "watchlog": "./bin/watchlog"
+    "watchlog": "./bin/watchlog.js"
   },
   "scripts": {
     "lint": "eslint .",
