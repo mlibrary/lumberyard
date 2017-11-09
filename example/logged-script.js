@@ -3,7 +3,7 @@
 // All Rights Reserved. Licensed according to the terms of the Revised
 // BSD License. See LICENSE.txt for details.
 
-tree = require("../lib/cli-logger").QuickProcess;
+const tree = require("../lib/cli-logger").QuickProcess;
 
 tree(root => {
   root.description = "showing how this works";
@@ -36,7 +36,7 @@ tree(root => {
 
       task.run = () => new Promise((resolve, reject) => {
         task.log("warn",
-          "This fourth task takes a full 1/10 second ...");
+                 "This fourth task takes a full 1/10 second ...");
         setTimeout(() => {
           resolve();
         }, 100);
