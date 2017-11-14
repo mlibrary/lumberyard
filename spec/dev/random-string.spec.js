@@ -14,7 +14,7 @@ describe("the randomString() function", () => {
   });
 
   it("returns different strings", () => {
-    let results = new Set();
+    const results = new Set();
 
     for (let i = 0; i < 100; i += 1)
       results.add(randomString());
@@ -67,7 +67,7 @@ describe("the randomString() function", () => {
   });
 
   it("looks for mm after YYYY", () => {
-    let now = new Date();
+    const now = new Date();
     let yyyymm = now.getFullYear().toString();
     yyyymm += pad(now.getMonth() + 1);
 

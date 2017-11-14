@@ -12,18 +12,18 @@ const later = require("../helpers/later")(it);
 
 let watcher, fakeFS, ticker;
 
-let findFiles = () => new Promise(function(resolve, reject) {
-  let bases = new Set();
+const findFiles = () => new Promise(function(resolve, reject) {
+  const bases = new Set();
 
-  for (let path of fakeFS.keys())
+  for (const path of fakeFS.keys())
     bases.add(path.replace(/\/.*$/, ""));
 
   resolve([...bases]);
 });
 
-let theWatcher = later.customIt(() => watcher(findFiles));
+const theWatcher = later.customIt(() => watcher(findFiles));
 
-let setAt = function(time, key, value) {
+const setAt = function(time, key, value) {
   ticker.at(time, () => {
     fakeFS.set(key, value);
   });
@@ -31,7 +31,7 @@ let setAt = function(time, key, value) {
 
 describe("an fsWatcher() instance in an empty filesystem", () => {
   beforeEach(() => {
-    let mockObj = MockInspector();
+    const mockObj = MockInspector();
 
     ticker = Ticker();
     fakeFS = mockObj.fs;

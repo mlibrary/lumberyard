@@ -15,7 +15,7 @@ if (process.argv.length !== 3) {
 const logFilename = process.argv[2];
 exec("touch " + logFilename);
 
-let logTail = new Tail(logFilename, {"fromBeginning": true});
+const logTail = new Tail(logFilename, {"fromBeginning": true});
 
 logTools.BulletedListener().then(function(listener) {
   logTail.on("line", function(data) {

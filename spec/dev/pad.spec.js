@@ -7,7 +7,7 @@ const expect = require("chai").expect;
 const pad = require("../../lib/pad");
 
 describe("pad()", () => {
-  for (let duple of [
+  for (const duple of [
     [0, "00"],
     [1, "01"],
     [5, "05"],

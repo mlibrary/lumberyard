@@ -12,13 +12,13 @@ const crypto = require("crypto");
 let inspector = null;
 let fakeFS = null;
 
-let md5sum = data => {
+const md5sum = data => {
   return crypto.createHash("md5").update(data).digest("latin1");
 };
 
 describe("an instance of MockInspector()", () => {
   beforeEach(() => {
-    let mock = MockInspector();
+    const mock = MockInspector();
 
     inspector = mock.inspector;
     fakeFS = mock.fs;

@@ -7,8 +7,8 @@
 const expect = require("chai").expect;
 const processTree = require("../../lib/process-tree");
 
-let treeSpy = function(logTree) {
-  let spy = { };
+const treeSpy = function(logTree) {
+  const spy = { };
 
   spy.tree = logTree;
 
@@ -25,7 +25,7 @@ let treeSpy = function(logTree) {
 };
 
 let spy;
-let spyOnTree = (done, setup) => new Promise(function(resolve, reject) {
+const spyOnTree = (done, setup) => new Promise(function(resolve, reject) {
   processTree(treeSpy, setup).then(value => {
     spy = value;
     done();
@@ -145,12 +145,12 @@ describe("a processTree with one child and some delays", () => {
 
 describe("a binary processTree with four grandchildren", () => {
   beforeEach(done => {
-    let addTwoLeafNodes = o => {
+    const addTwoLeafNodes = o => {
       o.add(() => {});
       o.add(() => {});
     };
 
-    let addTwoParentNodes = o => {
+    const addTwoParentNodes = o => {
       o.add(addTwoLeafNodes);
       o.add(addTwoLeafNodes);
     };
@@ -203,7 +203,7 @@ describe("a binary processTree with four grandchildren", () => {
 
     it("contains a begin [1] message", () => {
       let foundIt = false;
-      for (let msg of spy.messages)
+      for (const msg of spy.messages)
         if (msg[1] === "begin" && msg.length === 4 && msg[2] === 1)
           foundIt = true;
 
@@ -212,7 +212,7 @@ describe("a binary processTree with four grandchildren", () => {
 
     it("contains a begin [1, 0] message", () => {
       let foundIt = false;
-      for (let msg of spy.messages)
+      for (const msg of spy.messages)
         if (msg[1] === "begin"
             && msg.length === 5
             && msg[2] === 1
@@ -268,7 +268,7 @@ describe("a tree with two failing nodes", () => {
   let error;
 
   beforeEach(() => {
-    let addLeaf = (parentNode, id) => {
+    const addLeaf = (parentNode, id) => {
       parentNode.add(leaf => {
         leaf.description = "node " + id;
       });
@@ -396,7 +396,7 @@ describe("a tree with two failing nodes", () => {
 });
 
 describe("a tree that fails while running", () => {
-  let results = {};
+  const results = {};
 
   results.setValidationError = e => {
     results.validationError = e;

@@ -9,7 +9,7 @@ const tick = require("../lib/tick.js");
 
 describe("the default tick() method", () => {
   it("takes one second to resolve", () => {
-    let timestamp = Date.now();
+    const timestamp = Date.now();
 
     return tick().then(() => {
       expect(Date.now()).to.be.above(timestamp + 998);
@@ -18,7 +18,7 @@ describe("the default tick() method", () => {
   });
 
   it("can take different amounts of time with an argument", () => {
-    let timestamp = Date.now();
+    const timestamp = Date.now();
 
     return tick(0.01).then(() => {
       expect(Date.now()).to.be.above(timestamp + 8);

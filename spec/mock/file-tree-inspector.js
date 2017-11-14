@@ -5,11 +5,11 @@
 const crypto = require("crypto");
 
 module.exports = function() {
-  let inspector = {};
-  let fakeFS = new Map();
+  const inspector = {};
+  const fakeFS = new Map();
 
   inspector.getSizesUnder = path => new Promise(function(resolve, reject) {
-    let sizes = new Map();
+    const sizes = new Map();
 
     fakeFS.forEach((data, filePath) => {
       if (filePath.startsWith(path))

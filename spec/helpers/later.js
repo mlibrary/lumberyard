@@ -5,7 +5,7 @@
 const expect = require("chai").expect;
 
 module.exports = function(it) {
-  let later = {};
+  const later = {};
 
   later.it = function(description, toDo, onResolve, onReject) {
     it(description, function() {

@@ -11,16 +11,16 @@ const crypto = require("crypto");
 const fs = require("fs");
 const makePromise = require("../lib/make-promise");
 
-let inspector = null;
-
-let md5sum = data => {
+const md5sum = data => {
   return crypto.createHash("md5").update(data).digest("latin1");
 };
 
-let writeFile = makePromise(fs.writeFile);
-let rm = makePromise(fs.unlink);
-let mkdir = makePromise(fs.mkdir);
-let rmdir = makePromise(fs.rmdir);
+const writeFile = makePromise(fs.writeFile);
+const rm = makePromise(fs.unlink);
+const mkdir = makePromise(fs.mkdir);
+const rmdir = makePromise(fs.rmdir);
+
+let inspector;
 
 describe("an instance of FileTreeInspector()", () => {
   beforeEach(() => {
@@ -37,7 +37,7 @@ describe("an instance of FileTreeInspector()", () => {
     // \-- b.txt
     beforeEach(() => {
       return mkdir("fstest").then(() => {
-        let files = [];
+        const files = [];
 
         files.push(writeFile("fstest/a.txt", "Hey there"));
         files.push(writeFile("fstest/b.txt", "Sup Matt"));
@@ -45,7 +45,7 @@ describe("an instance of FileTreeInspector()", () => {
 
         return Promise.all(files);
       }).then(() => {
-        let subfiles = [];
+        const subfiles = [];
 
         subfiles.push(writeFile("fstest/subdir/a.txt", "AAAAA"));
         subfiles.push(writeFile("fstest/subdir/b.txt", "BbBbB"));
@@ -56,14 +56,14 @@ describe("an instance of FileTreeInspector()", () => {
     });
 
     afterEach(() => {
-      let subfiles = [];
+      const subfiles = [];
 
       subfiles.push(rm("fstest/subdir/a.txt"));
       subfiles.push(rm("fstest/subdir/b.txt"));
       subfiles.push(rm("fstest/subdir/c.txt"));
 
       return Promise.all(subfiles).then(() => {
-        let files = [];
+        const files = [];
 
         files.push(rm("fstest/a.txt"));
         files.push(rm("fstest/b.txt"));
