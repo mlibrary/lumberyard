@@ -47,5 +47,10 @@ describe("IOLogging.ProcessTree({log: logFn})", () => {
       expect(messages).to.contain(
         "\x1b[1;32m *\x1b[0m Finished just the one (1/1) ...");
     });
+
+    it("says 'done'", () => {
+      expect(messages).to.contain(
+        "\x1b[1;32m *\x1b[0m Done.");
+    });
   });
 });
