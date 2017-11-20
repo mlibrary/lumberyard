@@ -37,5 +37,10 @@ describe("IOLogging.ProcessTree({log: logFn})", () => {
       expect(messages).to.contain(
         "\x1b[1;32m *\x1b[0m Beginning setup and validation ...");
     });
+
+    it("says 'finished setup and validation'", () => {
+      expect(messages).to.contain(
+        "\x1b[1;32m *\x1b[0m Finished setup and validation (0/1) ...");
+    });
   });
 });
