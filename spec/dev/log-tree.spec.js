@@ -4,12 +4,12 @@
 
 /* eslint-env mocha */
 const expect = require("chai").expect;
-const logTree = require("../../lib/log-tree");
+const LogTree = require("../..").LogTree;
 let tree, description;
 
-describe("a logTree with no description and no children", () => {
+describe("a LogTree with no description and no children", () => {
   beforeEach(() => {
-    tree = logTree({});
+    tree = LogTree({});
   });
 
   it("has a description of ''", () => {
@@ -47,9 +47,9 @@ describe("a logTree with no description and no children", () => {
   });
 });
 
-describe("a logTree with two children", () => {
+describe("a LogTree with two children", () => {
   beforeEach(() => {
-    tree = logTree({"c": [{}, {}]});
+    tree = LogTree({"c": [{}, {}]});
   });
 
   it("has a denominator of 3", () => {
@@ -65,9 +65,9 @@ describe("a logTree with two children", () => {
   });
 });
 
-describe("a logTree with two children and a grandchild", () => {
+describe("a LogTree with two children and a grandchild", () => {
   beforeEach(() => {
-    tree = logTree({c: [{}, {c: [{}]}]});
+    tree = LogTree({c: [{}, {c: [{}]}]});
   });
 
   it("has a denominator of 4", () => {
@@ -113,9 +113,9 @@ describe("a logTree with two children and a grandchild", () => {
   });
 });
 
-describe("a logTree with a description and no children", () => {
+describe("a LogTree with a description and no children", () => {
   beforeEach(() => {
-    tree = logTree({d: "specification process"});
+    tree = LogTree({d: "specification process"});
   });
 
   it("stores its description", () => {
@@ -138,7 +138,7 @@ describe("a logTree with a description and no children", () => {
   });
 });
 
-describe("a complicated logTree with great-grandchildren", () => {
+describe("a complicated LogTree with great-grandchildren", () => {
   beforeEach(() => {
     // process_dir/
     // |-- Shipment_2017123/
@@ -160,7 +160,7 @@ describe("a complicated logTree with great-grandchildren", () => {
     //     |   \-- 00000004.tif
     //     \-- 39015012345701/
     //         \-- 00000001.tif
-    tree = logTree({
+    tree = LogTree({
       c: [{
         d: "Shipment_2017123",
         c: [{

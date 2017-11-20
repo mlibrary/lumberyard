@@ -6,7 +6,7 @@
 const expect = require("chai").expect;
 const later = require("../spec/helpers/later")(it);
 
-const FileTreeInspector = require("../lib/file-tree-inspector");
+const FileTreeInspector = require("..").FileTreeInspector;
 const crypto = require("crypto");
 const fs = require("fs");
 const makePromise = require("../lib/make-promise");

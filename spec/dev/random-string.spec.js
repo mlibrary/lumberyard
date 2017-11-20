@@ -5,7 +5,7 @@
 /* eslint-env mocha */
 const expect = require("chai").expect;
 
-const randomString = require("../../lib/random-string");
+const randomString = require("../..").tempName;
 const pad = require("../../lib/pad");
 
 describe("the randomString() function", () => {
