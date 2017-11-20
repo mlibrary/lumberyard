@@ -10,9 +10,9 @@ const IOLogging = require("../../lib/io-logging");
 let logSet;
 let tree;
 
-describe("IOLogging.ProcessTree({})", () => {
+describe("IOLogging.ProcessTree()", () => {
   it("returns an object", () => {
-    expect(IOLogging.ProcessTree({})).to.exist;
+    expect(IOLogging.ProcessTree()).to.exist;
   });
 });
 
