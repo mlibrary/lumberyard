@@ -3,11 +3,18 @@
 // BSD License. See LICENSE.txt for details.
 
 /* eslint-env mocha */
+/* eslint-disable no-unused-expressions */
 const expect = require("chai").expect;
 const IOLogging = require("../../lib/io-logging");
 
 describe("IOLogging", () => {
   it("is an object", () => {
     expect(IOLogging).to.be.an.instanceof(Object);
+  });
+});
+
+describe("IOLogging.ProcessTree()", () => {
+  it("returns an object", () => {
+    expect(IOLogging.ProcessTree()).to.exist;
   });
 });
