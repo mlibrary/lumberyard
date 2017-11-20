@@ -7,7 +7,7 @@
 const expect = require("chai").expect;
 const IOLogging = require("../../lib/io-logging");
 
-let logSet;
+let messages;
 let tree;
 
 describe("IOLogging.ProcessTree()", () => {
@@ -18,8 +18,8 @@ describe("IOLogging.ProcessTree()", () => {
 
 describe("IOLogging.ProcessTree({log: logFn})", () => {
   beforeEach(() => {
-    logSet = new Set();
-    tree = IOLogging.ProcessTree({"log": x => { logSet.add(x); }});
+    messages = new Set();
+    tree = IOLogging.ProcessTree({"log": x => { messages.add(x); }});
   });
 
   describe("when run with a one-node tree", () => {
@@ -30,7 +30,12 @@ describe("IOLogging.ProcessTree({log: logFn})", () => {
     });
 
     it("logs four messages", () => {
-      expect(logSet.size).to.equal(4);
+      expect(messages.size).to.equal(4);
+    });
+
+    it("says 'beginning setup and validation'", () => {
+      expect(messages).to.contain(
+        "\x1b[1;32m *\x1b[0m Beginning setup and validation ...");
     });
   });
 });
