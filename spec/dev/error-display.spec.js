@@ -23,6 +23,7 @@ describe("a single error on a single node", () => {
     });
 
     it("has 2 lines", () => {
+      expect(lines).to.have.lengthOf(2);
     });
   });
 });
