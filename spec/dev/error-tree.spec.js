@@ -4,21 +4,23 @@
 
 /* eslint-env mocha */
 const expect = require("chai").expect;
-const errorTree = require("../../lib/error-tree");
+const ErrorTree = require("../../lib/error-tree");
 
 let error, lines;
 
 describe("a single error on a single node", () => {
   beforeEach(() => {
-    error = Error();
-    error.description = "one node";
-    error.messages = [Error("uh oh")];
-    error.children = [];
+    const input = Error();
+    input.description = "one node";
+    input.messages = [Error("uh oh")];
+    input.children = [];
+
+    error = ErrorTree(input);
   });
 
   describe("its array of lines", () => {
     beforeEach(() => {
-      lines = errorTree.lines(error);
+      lines = error.getLines();
     });
 
     it("has 2 lines", () => {
