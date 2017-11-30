@@ -32,7 +32,7 @@ describe("a single error on a single node", () => {
     });
 
     it("concludes with an indented error message", () => {
-      expect(lines[1]).to.equal("  uh oh");
+      expect(lines[1]).to.equal("  Error: uh oh");
     });
   });
 
