@@ -8,6 +8,16 @@ const ErrorTree = require("../../lib/error-tree");
 
 let error, json, lines;
 
+const describeItsArrayOfLines = function(callback) {
+  describe("its array of lines", function() {
+    beforeEach(function() {
+      lines = error.getLines();
+    });
+
+    callback();
+  });
+};
+
 describe("a single error on a single node", () => {
   beforeEach(() => {
     const input = Error();
@@ -18,11 +28,7 @@ describe("a single error on a single node", () => {
     error = ErrorTree(input);
   });
 
-  describe("its array of lines", () => {
-    beforeEach(() => {
-      lines = error.getLines();
-    });
-
+  describeItsArrayOfLines(() => {
     it("has 2 lines", () => {
       expect(lines).to.have.lengthOf(2);
     });
