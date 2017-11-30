@@ -55,6 +55,10 @@ describe("a single error on a single node", () => {
       expect(json.description).to.equal("one node");
     });
 
+    it("has a one-string array of messages", () => {
+      expect(json.messages).to.have.lengthOf(1);
+    });
+
     it("has an empty array of children", () => {
       expect(json.children).to.deep.equal([]);
     });
