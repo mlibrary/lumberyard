@@ -50,5 +50,9 @@ describe("a single error on a single node", () => {
       for (const key of keys)
         expect(json).to.have.property(key);
     });
+
+    it("has a description of 'one node'", () => {
+      expect(json.description).to.equal("one node");
+    });
   });
 });
