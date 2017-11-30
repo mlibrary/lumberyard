@@ -29,5 +29,9 @@ describe("a single error on a single node", () => {
     it("starts with the node description", () => {
       expect(lines[0]).to.equal("one node:");
     });
+
+    it("concludes with an indented error message", () => {
+      expect(lines[1]).to.equal("  uh oh");
+    });
   });
 });
