@@ -193,4 +193,29 @@ describe("a complicated tree of errors", () => {
       ]);
     });
   });
+
+  describeItsJsonString(() => {
+    it("has all the right data", () => {
+      expect(json).to.deep.equal({
+        "description": "root",
+        "messages": [],
+        "children": [{
+          "description": "first child",
+          "messages": [
+            "Error: b",
+            "Error: c"
+          ],
+          "children": [{
+            "description": "grandchild",
+            "messages": ["Error: a"],
+            "children": []
+          }]
+        }, {
+          "description": "second child",
+          "messages": ["Error: d"],
+          "children": []
+        }]
+      });
+    });
+  });
 });
