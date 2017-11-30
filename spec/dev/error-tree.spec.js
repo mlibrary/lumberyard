@@ -54,5 +54,9 @@ describe("a single error on a single node", () => {
     it("has a description of 'one node'", () => {
       expect(json.description).to.equal("one node");
     });
+
+    it("has an empty array of children", () => {
+      expect(json.children).to.deep.equal([]);
+    });
   });
 });
