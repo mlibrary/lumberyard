@@ -153,3 +153,44 @@ describe("one error on a child node", () => {
     });
   });
 });
+
+describe("a complicated tree of errors", () => {
+  beforeEach(() => {
+    const grandchild = Error();
+    grandchild.description = "grandchild";
+    grandchild.messages = [Error("a")];
+    grandchild.children = [];
+
+    const child1 = Error();
+    child1.description = "first child";
+    child1.messages = [Error("b"), Error("c")];
+    child1.children = [grandchild];
+
+    const child2 = Error();
+    child2.description = "second child";
+    child2.messages = [Error("d")];
+    child2.children = [];
+
+    const root = Error();
+    root.description = "root";
+    root.messages = [];
+    root.children = [child1, child2];
+
+    error = ErrorTree(root);
+  });
+
+  describeItsArrayOfLines(() => {
+    it("outputs the right stuff in the right order", () => {
+      expect(lines).to.deep.equal([
+        "root:",
+        "  first child:",
+        "    Error: b",
+        "    Error: c",
+        "    grandchild:",
+        "      Error: a",
+        "  second child:",
+        "    Error: d"
+      ]);
+    });
+  });
+});
