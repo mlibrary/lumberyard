@@ -18,6 +18,16 @@ const describeItsArrayOfLines = function(callback) {
   });
 };
 
+const describeItsJsonString = function(callback) {
+  describe("its JSON string", () => {
+    beforeEach(() => {
+      json = JSON.parse(error.getJSON());
+    });
+
+    callback();
+  });
+};
+
 describe("a single error on a single node", () => {
   beforeEach(() => {
     const input = Error();
@@ -42,11 +52,7 @@ describe("a single error on a single node", () => {
     });
   });
 
-  describe("its JSON string", () => {
-    beforeEach(() => {
-      json = JSON.parse(error.getJSON());
-    });
-
+  describeItsJsonString(() => {
     it("has description, messages, and children", () => {
       const keys = new Set(["description", "messages", "children"]);
 
