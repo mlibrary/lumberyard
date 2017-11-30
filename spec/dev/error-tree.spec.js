@@ -24,6 +24,16 @@ const describeItsJsonString = function(callback) {
       json = JSON.parse(error.getJSON());
     });
 
+    it("has description, messages, and children", () => {
+      const keys = new Set(["description", "messages", "children"]);
+
+      for (const key in json)
+        expect(keys).to.contain(key);
+
+      for (const key of keys)
+        expect(json).to.have.property(key);
+    });
+
     callback();
   });
 };
@@ -53,16 +63,6 @@ describe("a single error on a single node", () => {
   });
 
   describeItsJsonString(() => {
-    it("has description, messages, and children", () => {
-      const keys = new Set(["description", "messages", "children"]);
-
-      for (const key in json)
-        expect(keys).to.contain(key);
-
-      for (const key of keys)
-        expect(json).to.have.property(key);
-    });
-
     it("has a description of 'one node'", () => {
       expect(json.description).to.equal("one node");
     });
