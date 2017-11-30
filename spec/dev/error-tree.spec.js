@@ -139,5 +139,9 @@ describe("one error on a child node", () => {
     it("has 3 lines", () => {
       expect(lines).to.have.lengthOf(3);
     });
+
+    it("starts with the parent description", () => {
+      expect(lines[0]).to.equal("parent:");
+    });
   });
 });
