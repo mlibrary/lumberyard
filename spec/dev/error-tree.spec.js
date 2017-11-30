@@ -92,5 +92,14 @@ describe("two errors on a single node", () => {
     it("has 3 lines", () => {
       expect(lines).to.have.lengthOf(3);
     });
+
+    it("starts with the node description", () => {
+      expect(lines[0]).to.equal("just one:");
+    });
+
+    it("concludes with both indented error messages", () => {
+      expect(lines[1]).to.equal("  Error: one");
+      expect(lines[2]).to.equal("  Error: two");
+    });
   });
 });
