@@ -119,3 +119,25 @@ describe("two errors on a single node", () => {
     });
   });
 });
+
+describe("one error on a child node", () => {
+  beforeEach(() => {
+    const child = Error();
+    child.description = "child";
+    child.messages = [Error("yikes")];
+    child.children = [];
+
+    const root = Error();
+    root.description = "parent";
+    root.messages = [];
+    root.children = [child];
+
+    error = ErrorTree(root);
+  });
+
+  describeItsArrayOfLines(() => {
+    it("has 3 lines", () => {
+      expect(lines).to.have.lengthOf(3);
+    });
+  });
+});
