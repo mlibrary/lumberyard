@@ -71,3 +71,20 @@ describe("a single error on a single node", () => {
     });
   });
 });
+
+describe("two errors on a single node", () => {
+  beforeEach(() => {
+    const input = Error();
+    input.description = "just one";
+    input.messages = [Error("one"), Error("two")];
+    input.children = [];
+
+    error = ErrorTree(input);
+  });
+
+  describeItsArrayOfLines(() => {
+    it("has 3 lines", () => {
+      expect(lines).to.have.lengthOf(3);
+    });
+  });
+});
