@@ -6,7 +6,7 @@
 const expect = require("chai").expect;
 const ErrorTree = require("../../lib/error-tree");
 
-let error, lines;
+let error, json, lines;
 
 describe("a single error on a single node", () => {
   beforeEach(() => {
@@ -38,6 +38,17 @@ describe("a single error on a single node", () => {
 
   describe("its JSON string", () => {
     beforeEach(() => {
+      json = JSON.parse(error.getJSON());
+    });
+
+    it("has description, messages, and children", () => {
+      const keys = new Set(["description", "messages", "children"]);
+
+      for (const key in json)
+        expect(keys).to.contain(key);
+
+      for (const key of keys)
+        expect(json).to.have.property(key);
     });
   });
 });
