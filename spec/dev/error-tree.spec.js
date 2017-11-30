@@ -102,4 +102,20 @@ describe("two errors on a single node", () => {
       expect(lines[2]).to.equal("  Error: two");
     });
   });
+
+  describeItsJsonString(() => {
+    it("has a description of 'just one'", () => {
+      expect(json.description).to.equal("just one");
+    });
+
+    it("has both error messages", () => {
+      expect(json.messages).to.have.lengthOf(2);
+      expect(json.messages[0]).to.equal("Error: one");
+      expect(json.messages[1]).to.equal("Error: two");
+    });
+
+    it("has an empty array of children", () => {
+      expect(json.children).to.deep.equal([]);
+    });
+  });
 });
