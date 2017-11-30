@@ -3,7 +3,6 @@
 // BSD License. See LICENSE.txt for details.
 
 /* eslint-env mocha */
-/* eslint-disable no-unused-vars */
 const expect = require("chai").expect;
 const errorDisplay = require("../../lib/error-display");
 
@@ -32,6 +31,11 @@ describe("a single error on a single node", () => {
 
     it("concludes with an indented error message", () => {
       expect(lines[1]).to.equal("  uh oh");
+    });
+  });
+
+  describe("its JSON string", () => {
+    beforeEach(() => {
     });
   });
 });
