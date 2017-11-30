@@ -147,5 +147,9 @@ describe("one error on a child node", () => {
     it("also describes the child", () => {
       expect(lines[1]).to.equal("  child:");
     });
+
+    it("outputs its child's error", () => {
+      expect(lines[2]).to.equal("    Error: yikes");
+    });
   });
 });
