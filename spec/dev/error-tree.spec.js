@@ -4,7 +4,7 @@
 
 /* eslint-env mocha */
 const expect = require("chai").expect;
-const errorDisplay = require("../../lib/error-display");
+const errorTree = require("../../lib/error-tree");
 
 let error, lines;
 
@@ -18,7 +18,7 @@ describe("a single error on a single node", () => {
 
   describe("its array of lines", () => {
     beforeEach(() => {
-      lines = errorDisplay.lines(error);
+      lines = errorTree.lines(error);
     });
 
     it("has 2 lines", () => {
