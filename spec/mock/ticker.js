@@ -3,8 +3,8 @@
 // BSD License. See LICENSE.txt for details.
 
 module.exports = function() {
-  let Ticker = {};
-  let internal = {};
+  const Ticker = {};
+  const internal = {};
 
   Ticker.tick = n => new Promise(function(resolve, reject) {
     internal.tick(n, Promise.resolve()).then(resolve, reject);
@@ -30,7 +30,7 @@ module.exports = function() {
   };
 
   internal.runScheduledCallbacks = function(promise) {
-    for (let callback of internal.getCallbacks())
+    for (const callback of internal.getCallbacks())
       promise = internal.appendPromise(promise, callback);
 
     return promise;

@@ -12,10 +12,10 @@ const MockInspector = require("../mock/file-tree-inspector");
 const Ticker = require("../mock/ticker");
 
 let scheduler, ticker, fakeFS, tasks;
-let theScheduler = later.customIt(() => scheduler(tasks));
+const theScheduler = later.customIt(() => scheduler(tasks));
 
-let TaskSpy = function(find) {
-  let task = {};
+const TaskSpy = function(find) {
+  const task = {};
 
   task.pwd = "";
   task.log = [];
@@ -28,8 +28,8 @@ let TaskSpy = function(find) {
   task.move = files => new Promise(function(resolve, reject) {
     task.log.push(["move", files]);
 
-    for (let file of files)
-      for (let key of fakeFS.keys())
+    for (const file of files)
+      for (const key of fakeFS.keys())
         if (key.startsWith(file))
           fakeFS.delete(key);
 
@@ -46,9 +46,15 @@ let TaskSpy = function(find) {
   return task;
 };
 
+const setAt = function(time, key, value) {
+  ticker.at(time, () => {
+    fakeFS.set(key, value);
+  });
+};
+
 describe("in a mocked environment", () => {
   beforeEach(() => {
-    let mockObj = MockInspector();
+    const mockObj = MockInspector();
 
     tasks = {};
     ticker = Ticker();
@@ -72,7 +78,7 @@ describe("in a mocked environment", () => {
     });
 
     theScheduler("doesn't run task.move() or task.run()", () => {
-      for (let line of tasks.alwaysEmpty.log)
+      for (const line of tasks.alwaysEmpty.log)
         expect(line[0]).to.equal("find");
     });
   });
@@ -94,7 +100,7 @@ describe("in a mocked environment", () => {
 
     describe("with b.txt in 10 seconds and a task for it", () => {
       beforeEach(() => {
-        ticker.at(10, () => { fakeFS.set("b.txt", "ayyy"); });
+        setAt(10, "b.txt", "ayyy");
         tasks.btxt = TaskSpy(() => {
           if (fakeFS.has("b.txt"))
             return ["b.txt"];
@@ -128,7 +134,7 @@ describe("in a mocked environment", () => {
 
   describe("with a.txt in 10 seconds and a task for it", () => {
     beforeEach(() => {
-      ticker.at(10, () => { fakeFS.set("a.txt", "ayyy"); });
+      setAt(10, "a.txt", "ayyy");
       tasks.atxt = TaskSpy(() => [...fakeFS.keys()]);
     });
 

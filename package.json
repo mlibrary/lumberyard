@@ -24,7 +24,7 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "coveralls": "^3.0.0",
-    "eslint": "^4.10.0",
+    "eslint": "^4.12.1",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-node": "^5.2.1",
@@ -33,8 +33,5 @@
     "istanbul": "^0.4.5",
     "mocha": "^4.0.1"
   },
-  "dependencies": {
-    "executive": "^1.5.11",
-    "tail": "^1.2.2"
-  }
+  "dependencies": {}
 }

@@ -7,9 +7,7 @@ const expect = require("chai").expect;
 const later = require("../helpers/later")(it);
 const Ticker = require("./ticker");
 
-let ticker;
-
-let aroundTick = function(tickCount, before, after) {
+const aroundTick = function(tickCount, before, after) {
   if (typeof before === "undefined")
     before = () => {};
 
@@ -19,6 +17,8 @@ let aroundTick = function(tickCount, before, after) {
     return ticker.tick(tickCount).then(after);
   };
 };
+
+let ticker;
 
 describe("an instance of Ticker()", () => {
   beforeEach(() => {

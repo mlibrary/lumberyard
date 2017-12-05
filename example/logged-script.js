@@ -3,7 +3,7 @@
 // All Rights Reserved. Licensed according to the terms of the Revised
 // BSD License. See LICENSE.txt for details.
 
-const tree = require("../lib/cli-logger").QuickProcess;
+const tree = require("..").ProcessTree;
 
 tree(root => {
   root.description = "showing how this works";

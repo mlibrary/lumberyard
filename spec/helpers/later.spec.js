@@ -6,7 +6,7 @@
 const expect = require("chai").expect;
 const Later = require("./later");
 
-let lastIt = {};
+const lastIt = {};
 const fakeIt = function(description, testCallback) {
   lastIt.description = description;
   lastIt.callback = testCallback;
