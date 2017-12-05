@@ -3,6 +3,7 @@
 // BSD License. See LICENSE.txt for details.
 
 /* eslint-env mocha */
+/* eslint-disable no-unused-expressions */
 const expect = require("chai").expect;
 const fs = require("fs");
 const makePromise = require("../lib/make-promise");
@@ -38,6 +39,21 @@ describe("makeError() helper", () => {
   });
 });
 
+const doneReceiver = function(obj) {
+  if (obj === "done")
+    return "received done";
+};
+
+describe("doneReceiver() helper", () => {
+  it("knows when it receives 'done'", () => {
+    expect(doneReceiver("done")).to.equal("received done");
+  });
+
+  it("ignores other inputs", () => {
+    expect(doneReceiver("matt")).not.to.exist;
+  });
+});
+
 describe("JsonlFollower(filename, callback)", function() {
   this.timeout(10000);
   const filename = "test-log-follow.jsonl";
@@ -55,10 +71,7 @@ describe("JsonlFollower(filename, callback)", function() {
   });
 
   it("throws an error when the file is truncated", () => {
-    follower = JsonlFollower(filename, o => {
-      if (o === "done")
-        return "received done";
-    });
+    follower = JsonlFollower(filename, doneReceiver);
 
     return new Promise((resolve, reject) => {
       appendFile(filename, "123\n").then(() => {
