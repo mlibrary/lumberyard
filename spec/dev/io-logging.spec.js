@@ -13,17 +13,17 @@ const IOLogging = require("../../lib/io-logging");
 let messages;
 let tree;
 
-describe("IOLogging.ProcessTree()", () => {
+describe("IOLogging()", () => {
   it("returns an object", () => {
-    expect(IOLogging.ProcessTree()).to.exist;
+    expect(IOLogging()).to.exist;
   });
 });
 
-describe("IOLogging.ProcessTree({log: logFn})", () => {
+describe("IOLogging({log: logFn})", () => {
   describe("with a set of messages", () => {
     beforeEach(() => {
       messages = new Set();
-      tree = IOLogging.ProcessTree({"log": x => { messages.add(x); }});
+      tree = IOLogging({"log": x => { messages.add(x); }});
     });
 
     describe("when run with a one-node tree", () => {
@@ -142,7 +142,7 @@ describe("IOLogging.ProcessTree({log: logFn})", () => {
   describe("with a string of messages", () => {
     beforeEach(() => {
       messages = "";
-      tree = IOLogging.ProcessTree({"log": x => {
+      tree = IOLogging({"log": x => {
         messages += x + "\n";
       }});
     });
@@ -224,7 +224,7 @@ describe("IOLogging.ProcessTree({log: logFn})", () => {
       });
     });
 
-    xdescribe("when given a logfile", function() {
+    describe("when given a logfile", function() {
       this.timeout(6000);
       let lines, jsons, itSucceeded;
 

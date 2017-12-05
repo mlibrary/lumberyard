@@ -5,7 +5,7 @@
 module.exports = {
   "FileTreeInspector": require("./lib/file-tree-inspector"),
   "LogTree": require("./lib/log-tree"),
-  "ProcessTree": require("./lib/cli-logger").QuickProcess,
+  "ProcessTree": require("./lib/io-logging")(),
   "tempName": require("./lib/random-string"),
   "Scheduler": require("./lib/scheduler")()
 };

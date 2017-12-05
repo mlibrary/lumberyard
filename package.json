@@ -32,9 +32,5 @@
     "eslint-plugin-standard": "^3.0.1",
     "istanbul": "^0.4.5",
     "mocha": "^4.0.1"
-  },
-  "dependencies": {
-    "executive": "^1.5.11",
-    "tail": "^1.2.2"
   }
 }
