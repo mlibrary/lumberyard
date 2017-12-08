@@ -55,7 +55,7 @@ describe("doneReceiver() helper", () => {
 });
 
 describe("JsonlFollower(filename, callback)", function() {
-  this.timeout(10000);
+  this.timeout(15000);
   const filename = "test-log-follow.jsonl";
 
   afterEach(() => {
@@ -70,7 +70,8 @@ describe("JsonlFollower(filename, callback)", function() {
     });
   });
 
-  it("throws an error when the file is truncated", () => {
+  it("throws an error when the file is truncated", function() {
+    this.slow(4100);
     follower = JsonlFollower(filename, doneReceiver);
 
     return new Promise((resolve, reject) => {
@@ -123,7 +124,9 @@ describe("JsonlFollower(filename, callback)", function() {
       return Promise.all([appendFile(filename, '"done"\n'), follower]);
     });
 
-    it("regards empty appends", () => {
+    it("regards empty appends", function() {
+      this.slow(8100);
+
       return appendFile(filename, "0\n").then(() => {
         return tick(2);
       }).then(() => {
@@ -135,7 +138,9 @@ describe("JsonlFollower(filename, callback)", function() {
       });
     });
 
-    it("notes all lines", () => {
+    it("notes all lines", function() {
+      this.slow(12100);
+
       return appendFile(filename, "2\n").then(() => {
         return tick(1);
       }).then(() => {

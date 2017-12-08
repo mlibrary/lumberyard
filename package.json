@@ -9,7 +9,7 @@
   "scripts": {
     "lint": "eslint .",
     "test": "mocha --reporter nyan --recursive spec",
-    "travis": "istanbul cover ./node_modules/.bin/_mocha --report lcovonly -- --reporter spec --recursive spec outerface"
+    "travis": "istanbul cover ./node_modules/.bin/_mocha --report lcovonly -- --slow 10 --reporter spec --recursive spec outerface"
   },
   "repository": {
     "type": "git",

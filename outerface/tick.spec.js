@@ -8,7 +8,9 @@ const expect = require("chai").expect;
 const tick = require("../lib/tick.js");
 
 describe("the default tick() method", () => {
-  it("takes one second to resolve", () => {
+  it("takes one second to resolve", function() {
+    this.slow(2100);
+
     const timestamp = Date.now();
 
     return tick().then(() => {
@@ -17,7 +19,9 @@ describe("the default tick() method", () => {
     });
   });
 
-  it("can take different amounts of time with an argument", () => {
+  it("can take different amounts of time with an argument", function() {
+    this.slow(25);
+
     const timestamp = Date.now();
 
     return tick(0.01).then(() => {
