@@ -19,7 +19,6 @@ const stat = makePromise(fs.stat);
 const writeFile = makePromise(fs.writeFile);
 
 let task;
-const doNothing = pwd => Promise.resolve();
 
 describe("in an environment with 'watch' and 'run' directories", () => {
   beforeEach(() => {
@@ -40,9 +39,9 @@ describe("in an environment with 'watch' and 'run' directories", () => {
     });
   });
 
-  describe("Task('watch', 'run/tmp', doNothing)", () => {
+  describe("Task('watch', 'run/tmp')", () => {
     beforeEach(() => {
-      task = Task("test_task/watch", "test_task/run/tmp", doNothing);
+      task = Task("test_task/watch", "test_task/run/tmp");
     });
 
     it("finds no files", () => {
