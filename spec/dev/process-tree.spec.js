@@ -54,7 +54,9 @@ describe("a processTree with no children", () => {
   });
 });
 
-describe("a lone processTree with some setup time", () => {
+describe("a lone processTree with some setup time", function() {
+  this.slow(150);
+
   beforeEach(done => {
     spyOnTree(done, o => {
       o.run = () => new Promise((resolve, reject) => {

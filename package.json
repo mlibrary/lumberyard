@@ -9,7 +9,7 @@
   "scripts": {
     "lint": "eslint .",
     "test": "mocha --reporter nyan --recursive spec",
-    "travis": "istanbul cover ./node_modules/.bin/_mocha --report lcovonly -- --reporter spec --recursive spec outerface"
+    "travis": "istanbul cover ./node_modules/.bin/_mocha --report lcovonly -- --slow 10 --reporter spec --recursive spec outerface"
   },
   "repository": {
     "type": "git",
@@ -24,14 +24,14 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "coveralls": "^3.0.0",
-    "eslint": "^4.12.1",
+    "eslint": "^4.18.1",
     "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-import": "^2.9.0",
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
     "istanbul": "^0.4.5",
-    "mocha": "^4.0.1"
+    "mocha": "^4.1.0"
   },
   "dependencies": {}
 }
