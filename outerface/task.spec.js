@@ -11,6 +11,7 @@ const makePromise = require("../lib/make-promise");
 
 const mkdir = makePromise(fs.mkdir);
 const readFile = makePromise(fs.readFile);
+const readdir = makePromise(fs.readdir);
 const rename = makePromise(fs.rename);
 const rm = makePromise(fs.unlink);
 const rmdir = makePromise(fs.rmdir);
@@ -86,6 +87,12 @@ describe("in an environment with 'watch' and 'run' directories", () => {
         it("moves file.txt into run/tmp", () => {
           return readFile("test_task/run/tmp/file.txt", contents => {
             expect(contents).to.equal("hey\n");
+          });
+        });
+
+        it("definitely isn't just copying the file", () => {
+          return readdir("test_task/watch").then(files => {
+            expect(files).to.deep.equal([]);
           });
         });
       });
