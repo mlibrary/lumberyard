@@ -19,6 +19,11 @@ const stat = makePromise(fs.stat);
 const writeFile = makePromise(fs.writeFile);
 
 let task;
+let currentPWD = "";
+const setNewPWD = pwd => new Promise(function(resolve) {
+  currentPWD = pwd;
+  resolve();
+});
 
 describe("in an environment with 'watch' and 'run' directories", () => {
   beforeEach(() => {
@@ -39,14 +44,21 @@ describe("in an environment with 'watch' and 'run' directories", () => {
     });
   });
 
-  describe("Task('watch', 'run/tmp')", () => {
+  describe("Task('watch', 'run/tmp', setNewPWD)", () => {
     beforeEach(() => {
-      task = Task("test_task/watch", "test_task/run/tmp");
+      task = Task("test_task/watch", "test_task/run/tmp", setNewPWD);
     });
 
     it("finds no files", () => {
       return task.find().then(list => {
         expect(list).to.deep.equal([]);
+      });
+    });
+
+    it("sets the pwd when it's run", () => {
+      currentPWD = "unset";
+      return task.run("new value").then(() => {
+        expect(currentPWD).to.equal("new value");
       });
     });
 
