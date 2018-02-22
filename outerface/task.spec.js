@@ -9,11 +9,13 @@ const Task = require("..").Task;
 const fs = require("fs");
 const makePromise = require("../lib/make-promise");
 
-const writeFile = makePromise(fs.writeFile);
-const rm = makePromise(fs.unlink);
 const mkdir = makePromise(fs.mkdir);
+const readFile = makePromise(fs.readFile);
+const rename = makePromise(fs.rename);
+const rm = makePromise(fs.unlink);
 const rmdir = makePromise(fs.rmdir);
 const stat = makePromise(fs.stat);
+const writeFile = makePromise(fs.writeFile);
 
 let task;
 const doNothing = pwd => Promise.resolve();
@@ -69,12 +71,21 @@ describe("in an environment with 'watch' and 'run' directories", () => {
         });
 
         afterEach(() => {
-          return rmdir("test_task/run/tmp");
+          return rename("test_task/run/tmp/file.txt",
+                        "test_task/watch/file.txt").then(() => {
+            return rmdir("test_task/run/tmp");
+          });
         });
 
         it("creates 'run/tmp'", () => {
           return stat("test_task/run/tmp").then(stats => {
             expect(stats.isDirectory()).to.equal(true);
+          });
+        });
+
+        it("moves file.txt into run/tmp", () => {
+          return readFile("test_task/run/tmp/file.txt", contents => {
+            expect(contents).to.equal("hey\n");
           });
         });
       });
