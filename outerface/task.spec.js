@@ -3,7 +3,6 @@
 // BSD License. See LICENSE.txt for details.
 
 /* eslint-env mocha */
-/* eslint-disable no-unused-vars */
 const expect = require("chai").expect;
 const Task = require("..").Task;
 
@@ -37,15 +36,31 @@ describe("in an environment with 'watch' and 'run' directories", () => {
     });
   });
 
-  describe("Task('watch', 'run', doNothing)", () => {
+  describe("Task('watch', 'run/tmp', doNothing)", () => {
     beforeEach(() => {
-      task = Task("test_task/watch", "test_task/run", doNothing);
+      task = Task("test_task/watch", "test_task/run/tmp", doNothing);
     });
 
     describe("Task#find", () => {
       it("returns an empty list", () => {
         return task.find().then(list => {
           expect(list).to.deep.equal([]);
+        });
+      });
+
+      describe("when 'file.txt' is added to 'watch'", () => {
+        beforeEach(() => {
+          return writeFile("test_task/watch/file.txt", "hey\n");
+        });
+
+        afterEach(() => {
+          return rm("test_task/watch/file.txt");
+        });
+
+        it("returns ['test_task/watch/file.txt']", () => {
+          return task.find().then(list => {
+            expect(list).to.deep.equal(["test_task/watch/file.txt"]);
+          });
         });
       });
     });
