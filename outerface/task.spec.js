@@ -42,6 +42,12 @@ describe("in an environment with 'watch' and 'run' directories", () => {
       task = Task("test_task/watch", "test_task/run", doNothing);
     });
 
-    it("can init", () => {});
+    describe("Task#find", () => {
+      it("returns an empty list", () => {
+        return task.find().then(list => {
+          expect(list).to.deep.equal([]);
+        });
+      });
+    });
   });
 });
