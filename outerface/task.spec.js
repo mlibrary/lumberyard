@@ -13,6 +13,7 @@ const writeFile = makePromise(fs.writeFile);
 const rm = makePromise(fs.unlink);
 const mkdir = makePromise(fs.mkdir);
 const rmdir = makePromise(fs.rmdir);
+const stat = makePromise(fs.stat);
 
 let task;
 const doNothing = pwd => Promise.resolve();
@@ -41,25 +42,39 @@ describe("in an environment with 'watch' and 'run' directories", () => {
       task = Task("test_task/watch", "test_task/run/tmp", doNothing);
     });
 
-    describe("Task#find", () => {
-      it("returns an empty list", () => {
+    it("finds no files", () => {
+      return task.find().then(list => {
+        expect(list).to.deep.equal([]);
+      });
+    });
+
+    describe("when 'file.txt' is added to 'watch'", () => {
+      beforeEach(() => {
+        return writeFile("test_task/watch/file.txt", "hey\n");
+      });
+
+      afterEach(() => {
+        return rm("test_task/watch/file.txt");
+      });
+
+      it("finds ['watch/file.txt']", () => {
         return task.find().then(list => {
-          expect(list).to.deep.equal([]);
+          expect(list).to.deep.equal(["test_task/watch/file.txt"]);
         });
       });
 
-      describe("when 'file.txt' is added to 'watch'", () => {
+      describe("after running task.move(['watch/file.txt'])", () => {
         beforeEach(() => {
-          return writeFile("test_task/watch/file.txt", "hey\n");
+          return task.move(["test_task/watch/file.txt"]);
         });
 
         afterEach(() => {
-          return rm("test_task/watch/file.txt");
+          return rmdir("test_task/run/tmp");
         });
 
-        it("returns ['test_task/watch/file.txt']", () => {
-          return task.find().then(list => {
-            expect(list).to.deep.equal(["test_task/watch/file.txt"]);
+        it("creates 'run/tmp'", () => {
+          return stat("test_task/run/tmp").then(stats => {
+            expect(stats.isDirectory()).to.equal(true);
           });
         });
       });
