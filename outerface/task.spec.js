@@ -107,6 +107,33 @@ describe("in an environment with 'watch' and 'run' directories", () => {
           });
         });
       });
+
+      describe("but 'run/tmp' already exists", () => {
+        beforeEach(() => {
+          return mkdir("test_task/run/tmp");
+        });
+
+        afterEach(() => {
+          return rmdir("test_task/run/tmp");
+        });
+
+        describe("after running task.move(['watch/file.txt'])", () => {
+          beforeEach(() => {
+            return task.move(["test_task/watch/file.txt"]);
+          });
+
+          afterEach(() => {
+            return rename("test_task/run/tmp/file.txt",
+                          "test_task/watch/file.txt");
+          });
+
+          it("moves file.txt into run/tmp", () => {
+            return readFile("test_task/run/tmp/file.txt", contents => {
+              expect(contents).to.equal("hey\n");
+            });
+          });
+        });
+      });
     });
   });
 });
